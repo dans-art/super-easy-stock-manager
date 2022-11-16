@@ -20,12 +20,13 @@
      */
        async load_template(template_id, file_name, path) {
         try {
-            await this.get_template(template_id, file_name, path).then(function (content) {
-                this.loaded_templates[template_id] = content;
-                return true;
+            const loaded_content = await this.get_template(template_id, file_name, path).then(function (content) {
+                return content;
             });
+            this.loaded_templates[template_id] = loaded_content;
         } catch (error) {
             console.error('failed to load template: '+file_name);
+            console.error(error);
         }
         return false;
     }
