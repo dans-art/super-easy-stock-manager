@@ -22,21 +22,18 @@
             <button id="remove_quant_btn" class="options_button">
                 <i class="fas fa-minus"></i>
             </button>
-            <input id="sesm_quant" type="text" class="sesm_input add_quantities" value="1" />
+            <input id="sesm_quant" type="text" class="sesm_input add_quantities" value="1" placeholder="<?php echo __("Enter quantity to add or remove", "sesm"); ?>"/>
             <button id="add_quant_btn" class="options_button">
                 <i class="fas fa-plus"></i>
             </button>
         </div>
-        <label for="sesm_quant" class="sesm_label add_quantities" style="display: none;"><?php echo __("Add quantity", "sesm"); ?></label>
 
         <div class="price_flex_group">
             <div>
-                <input id="sesm_price_reg" class="sesm_input update_price" style="display: none;" type="text" />
-                <label for="sesm_price_reg" class="sesm_label update_price" style="display: none;"><?php echo __("Price regular", "sesm"); ?></label>
+                <input id="sesm_price_reg" class="sesm_input update_price" style="display: none;" type="text" placeholder="<?php echo __("Price regular", "sesm"); ?>"/>
             </div>
             <div>
-                <input id="sesm_price_sale" class="sesm_input update_price sale" style="display: none;" type="text" />
-                <label for="sesm_price_sale" class="sesm_label update_price" style="display: none;"><?php echo __("Price sale", "sesm"); ?></label>
+                <input id="sesm_price_sale" class="sesm_input update_price sale" style="display: none;" type="text" placeholder="<?php echo __("Price sale", "sesm"); ?>"/>
             </div>
         </div>
 

@@ -66,7 +66,6 @@ class Super_Easy_Stock_Manager extends Super_Easy_Stock_Manager_Helper
             wp_enqueue_script('sesm-main-script', SESM_MAIN_URL . '/scripts/' . $script, ['jquery'], true);
             wp_set_script_translations('sesm-main-script', 'sesm', SESM_MAIN_DIR . "languages");
         }, 10);
-
         return $this -> template_handler -> load_template_to_var('frontend');
 
         //$tmp = $this->getTemplate('frontend');

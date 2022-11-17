@@ -155,9 +155,9 @@ class sesmMain {
                 return (value !== false) ? '' : __('Stock management got activated', 'sesm');
 
             case "to_regular":
-                return (value === 0) ? '' : '<div><span class="from_price strikethrough">' + json_data.from_regular + ' ' + json_data.currency + '</span> <span class="to_price">' + value + '' + json_data.currency + '</span></div>';
+                return (value === 0) ? '' : '<div><span class="from_price strikethrough">' + json_data.from_regular + ' ' + json_data.currency + '</span> <span class="to_price">' + value + ' ' + json_data.currency + '</span></div>';
             case "to_sale":
-                return (value === 0) ? '' : '<div><span class="from_price strikethrough">' + json_data.from_sale + ' ' + json_data.currency + '</span> <span class="to_price">' + value + '' + json_data.currency + '</span></div>';
+                return (value === 0) ? '' : '<div><span class="from_price strikethrough">' + json_data.from_sale + ' ' + json_data.currency + '</span> <span class="to_price">' + value + ' ' + json_data.currency + '</span></div>';
 
             default:
                 return value;
@@ -165,6 +165,9 @@ class sesmMain {
     }
 
     changeQuantity(s) {
+        if(this.empty(jQuery("#sesm_quant").val())){
+            jQuery("#sesm_quant").val(0);
+        }
         var e = parseInt(jQuery("#sesm_quant").val()),
             a = 0;
         (a = !0 === s ? (e + 1 == 0 ? 1 : e + 1) : e - 1 == 0 ? -1 : e - 1), jQuery("#sesm_quant").val(a), jQuery("#sesm_sku_input").focus();
