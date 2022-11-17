@@ -1,6 +1,7 @@
 class sesmMain {
 
     sesm_do = '';
+    field_names = {};
 
     construct() {
         jQuery(document).ready(async function () {
@@ -15,17 +16,29 @@ class sesmMain {
             //Load the templates
             await sesm_scripts.template.load_default_templates();
 
+            //Add the default field names
+            sesm_scripts.load_field_names();
+
             //Add event listeners
             sesm_scripts.add_event_listener();
             sesm_scripts.activate_sesm();
+
         });
+    }
+
+    load_field_names() {
+        this.field_names.price_title = __('Price', 'sesm');
+        this.field_names.weight_title = __('Weight', 'sesm');
+        this.field_names.quantity_title = __('Quantity', 'sesm');
+        this.field_names.sku_title = __('SKU', 'sesm');
+        this.field_names.iconclass = "";
     }
 
     /**
      * Adds the event listeners
      */
-    add_event_listener(){
-        jQuery("#sesm_buttons span").click(function () {
+    add_event_listener() {
+        jQuery("#sesm_buttons button").click(function () {
             (sesm_scripts.sesm_do = jQuery(this).data("do")),
                 jQuery("#sesm_input input").hide(),
                 jQuery("#sesm_input label").hide(),
@@ -35,58 +48,126 @@ class sesmMain {
                 jQuery("#sesm_sku_input").focus(),
                 jQuery(".sesm_input." + sesm_scripts.sesm_do).show(),
                 jQuery(".sesm_label." + sesm_scripts.sesm_do).show(),
-                jQuery("#sesm_buttons span.current").removeClass("current"),
-                jQuery(this).addClass("current");
+                jQuery("#sesm_buttons button.button-active").removeClass("button-active"),
+                jQuery(this).addClass("button-active");
         });
         jQuery(document).on("keyup", function (s) {
-            if(s.which == 13){
+            if (s.which == 13) {
                 sesm_scripts.ajax.do_ajax();
                 jQuery("#sesm_sku_input").val("")
             }
         }),
-        jQuery("#add_quant_btn").click(function () {
-            changeQuantity(!0);
-        }),
-        jQuery("#remove_quant_btn").click(function () {
-            changeQuantity(!1);
-        });
+            jQuery("#add_quant_btn").click(function () {
+                sesm_scripts.changeQuantity(!0);
+            }),
+            jQuery("#remove_quant_btn").click(function () {
+                sesm_scripts.changeQuantity(!1);
+            });
     }
     /**
      * Shows the buttons
      */
-    activate_sesm(){
+    activate_sesm() {
         jQuery('#sesm_buttons').show('slow');
     }
 
     addToHistory(json_data) {
-        var template = sesm_scripts.template.loaded_templates.item;
-        if(json_data.template === 'error'){
-            json_data.title = __('Error','sesm');
-            template = sesm_scripts.template.loaded_templates.error;
+        var template = this.get_template_by_state(json_data.template);
+
+        if (this.empty(template)) {
+            jQuery("#sesm_history").prepend(__(`Template "${json_data.template}" not loaded`, 'sesm'));
         }
 
-        if(this.empty(template)){
-            jQuery("#sesm_history").prepend(__(`Template "${json_data.template}" not loaded`,'sesm'));
+        this.set_icon_class(json_data.template);
+        const attr = this.format_attributes(json_data)
+        if (!this.empty(attr)) {
+            json_data.attributes = attr;
         }
 
         jQuery.each(json_data, function (key, value) {
-            value = sesm_scripts.colorValues(key, value);
+            value = sesm_scripts.format_value(key, value, json_data);
             template = template.replaceAll("{{" + key + "}}", value);
-        }),
-            jQuery("#sesm_history").addClass("active"),
-            jQuery("#sesm_history").prepend(template);
+        });
+
+        jQuery.each(this.field_names, function (key, value) {
+            value = sesm_scripts.format_value(key, value);
+            template = template.replaceAll("{{" + key + "}}", value);
+        });
+
+        jQuery("#sesm_history").addClass("active");
+        jQuery("#sesm_history").prepend(template);
     }
 
-    colorValues(template_name, value) {
+    get_template_by_state(state) {
+        switch (state) {
+            case 'error':
+                return sesm_scripts.template.loaded_templates.error;
+            case 'updateStock':
+                return sesm_scripts.template.loaded_templates.updatestock;
+            case 'updatePrice':
+                return sesm_scripts.template.loaded_templates.updateprice;
+
+            default:
+                return sesm_scripts.template.loaded_templates.item;
+                break;
+        }
+
+    }
+    set_icon_class(template) {
+        let classname = '';
+        switch (template) {
+            case 'get':
+                classname = "fas fa-question"
+                break;
+            case 'updateStock':
+                classname = "fas fa-box-open"
+                break;
+            case 'updatePrice':
+                classname = "far fa-money-bill-alt"
+                break;
+            default:
+                break;
+        }
+        this.field_names.iconclass = classname;
+    }
+
+    format_attributes(json_data) {
+        if (this.empty(json_data.attributes)) {
+            return "";
+        }
+        return json_data.attributes.replace(', ', '<br/>');
+    }
+
+    format_value(template_name, value, json_data) {
         switch (template_name) {
             case "stock_quantity":
-            case "regular_price":
-            case "sale_price":
                 var number = parseInt(value);
                 return number < 1 ? "<span class='red'>" + number + "</span>" : value;
+            case "regular_price":
+                return (!json_data.sale_price) ? value + ' ' + json_data.currency : '<span class="strikethrough">' + value + ' ' + json_data.currency + '</span>';
+
+            case "weight":
+                return value + ' kg';
+
+            case "sale_price":
+                return (!json_data.sale_price) ? "" : value + ' ' + json_data.currency;
+            case "manage_stock":
+                return (value !== false) ? '' : __('Stock management got activated', 'sesm');
+
+            case "to_regular":
+                return (value === 0) ? '' : '<div><span class="from_price strikethrough">' + json_data.from_regular + ' ' + json_data.currency + '</span> <span class="to_price">' + value + '' + json_data.currency + '</span></div>';
+            case "to_sale":
+                return (value === 0) ? '' : '<div><span class="from_price strikethrough">' + json_data.from_sale + ' ' + json_data.currency + '</span> <span class="to_price">' + value + '' + json_data.currency + '</span></div>';
+
             default:
                 return value;
         }
+    }
+
+    changeQuantity(s) {
+        var e = parseInt(jQuery("#sesm_quant").val()),
+            a = 0;
+        (a = !0 === s ? (e + 1 == 0 ? 1 : e + 1) : e - 1 == 0 ? -1 : e - 1), jQuery("#sesm_quant").val(a), jQuery("#sesm_sku_input").focus();
     }
 
     //Helper functions

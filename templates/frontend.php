@@ -1,22 +1,21 @@
 <section id="sesm_buttons" style="display: none;">
-    <span data-do="get_product">
+    <button data-do="get_product">
         <span class="sesm_icon"><i class="fas fa-question"></i></span>
         <span class="sesm_icon_line"></span>
-    </span>
-    <span data-do="add_quantities">
+    </button>
+    <button data-do="add_quantities">
         <span class="sesm_icon"><i class="fas fa-box-open"></i></span>
         <span class="sesm_icon_line"></span>
-    </span>
-    <span data-do="update_price">
+    </button>
+    <button data-do="update_price">
         <span class="sesm_icon"><i class="far fa-money-bill-alt"></i></span>
         <span class="sesm_icon_line"></span>
-    </span>
+    </button>
 </section>
 <section id="sesm_input">
     <div>
-        <input id="sesm_sku_input" style="display: none;" type="text" />
+        <input id="sesm_sku_input" style="display: none;" type="text" placeholder="<?php echo __("Scan a barcode or add a SKU number and press enter", "sesm"); ?>" />
         <div id="sesm_sku_input_loader" class="input_loading"></div>
-        <label for="sesm_sku_input" style="display: none;"><?php echo __("SKU", "sesm"); ?></label>
     </div>
     <div class="sesm_options">
         <div class="quant_flex_group sesm_input add_quantities" style="display: none;">

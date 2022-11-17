@@ -9,6 +9,8 @@
     async load_default_templates(){
         this.load_template('item','item.html','templates/frontend/');
         this.load_template('error','error.html','templates/frontend/');
+        this.load_template('updatestock','item-update-stock.html','templates/frontend/');
+        this.load_template('updateprice','item-update-price.html','templates/frontend/');
     }
 
       /**

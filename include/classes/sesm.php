@@ -102,7 +102,7 @@ class Super_Easy_Stock_Manager extends Super_Easy_Stock_Manager_Helper
 
         if (!current_user_can('edit_products')) {
 
-            echo json_encode(array('template' => 'error', 'error' => __('You are not allowed to edit products!', 'sesm')));
+            echo json_encode(array('template' => 'error', 'title' => __('Error','string'), 'error' => __('You are not allowed to edit products!', 'sesm')));
 
             exit();
         }

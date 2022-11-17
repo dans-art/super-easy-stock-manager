@@ -1,9 +1,15 @@
-<article id="item-{{sku}}" class="item">
+<article id="item-{{sku}}" class="item update">
 
     <div class="icon"><i class="{{iconclass}}"></i></div>
 
-    <div class="image-con">
-        {{image}}
+    <div class="text-con">
+        <div class="big-text">
+            {{from_quant}} <i class="fa-solid fa-arrow-right"></i> {{to_quant}}
+        </div>
+        <div class="info-text">
+            {{manage_stock}}
+        </div>
+
     </div>
 
     <div class="content">
