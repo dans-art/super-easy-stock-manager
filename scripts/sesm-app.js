@@ -23,6 +23,8 @@ class sesmMain {
             sesm_scripts.add_event_listener();
             sesm_scripts.activate_sesm();
 
+            sesm_scripts.is_mobile();
+
         });
     }
 
@@ -34,22 +36,44 @@ class sesmMain {
         this.field_names.iconclass = "";
     }
 
+    is_mobile(){
+        if(jQuery(window).width() > 500){
+            return false;
+        }
+        jQuery("#sesm_sku_input").attr('placeholder', __('Input SKU','sesm'));
+    }
+
     /**
      * Adds the event listeners
      */
     add_event_listener() {
         jQuery("#sesm_buttons button").click(function () {
-            (sesm_scripts.sesm_do = jQuery(this).data("do")),
-                jQuery("#sesm_input input").hide(),
-                jQuery("#sesm_input label").hide(),
-                jQuery("#sesm_input .quant_flex_group").hide(),
-                jQuery("#sesm_sku_input").show(),
-                jQuery("[for=sesm_sku_input]").show(),
-                jQuery("#sesm_sku_input").focus(),
-                jQuery(".sesm_input." + sesm_scripts.sesm_do).show(),
-                jQuery(".sesm_label." + sesm_scripts.sesm_do).show(),
-                jQuery("#sesm_buttons button.button-active").removeClass("button-active"),
-                jQuery(this).addClass("button-active");
+            sesm_scripts.sesm_do = jQuery(this).data("do");
+
+            //reset all
+            jQuery("#sesm_input .quant_flex_group").hide();
+            jQuery("#sesm_input .price_flex_group").hide();
+            jQuery("#sesm_buttons button.button-active").removeClass("button-active");
+
+            //Show the fields again, focus and set class
+            jQuery("#sesm_sku_input").show();
+            jQuery("#sesm_sku_input").focus();
+            jQuery(this).addClass("button-active");
+            jQuery("#sesm_buttons #selection-indicator").show();
+
+            sesm_scripts.move_selection_indicator();
+
+            switch (sesm_scripts.sesm_do) {
+                case "add_quantities":
+                    jQuery(".sesm_options .quant_flex_group").slideDown('fast');
+                    break;
+                case "update_price":
+                    jQuery(".sesm_options .price_flex_group").slideDown('fast');
+                    break;
+                case "get_product":
+                    break;
+            }
+
         });
         jQuery(document).on("keyup", function (s) {
             if (s.which == 13) {
@@ -71,6 +95,22 @@ class sesmMain {
         jQuery('#sesm_buttons').show('slow');
     }
 
+    /**
+     * Moves the indicator of the tool below the button
+     */
+    move_selection_indicator() {
+        const active_position = jQuery('#sesm_buttons .button-active').offset().left;
+        const first_button_position = jQuery('#sesm_buttons button:first-child').offset().left;
+        jQuery('#selection-indicator').animate({
+            left: active_position - first_button_position + (jQuery('#sesm_buttons .button-active').width() / 2)
+        },
+            200);
+    }
+
+    /**
+     * Adds an Item to the History
+     * @param {} json_data 
+     */
     addToHistory(json_data) {
         var template = this.get_template_by_state(json_data.template);
 
@@ -96,6 +136,7 @@ class sesmMain {
 
         jQuery("#sesm_history").addClass("active");
         jQuery("#sesm_history").prepend(template);
+        jQuery("#sesm_history article").first().animate({ opacity: 1, height: "100%" }, 500);
     }
 
     get_template_by_state(state) {
@@ -138,8 +179,21 @@ class sesmMain {
         return json_data.attributes.replace(', ', '<br/>');
     }
 
-    format_value(template_name, value, json_data) {
-        switch (template_name) {
+    /**
+     * Filters the data by field name
+     * @param {string} field_name The name of the field form the json_data
+     * @param {string} value The value of the field
+     * @param {object} json_data The whole json data as an object
+     * @returns {string} The modified string
+     */
+
+    format_value(field_name, value, json_data) {
+
+        if (field_name === 'to_regular' || field_name === 'to_sale') {
+            var price_length = (json_data.from_regular + json_data.to_regular + json_data.currency).length;
+            var price_length_sale = (json_data.from_sale + json_data.to_sale + json_data.currency).length;
+        }
+        switch (field_name) {
             case "stock_quantity":
                 var number = parseInt(value);
                 return number < 1 ? "<span class='red'>" + number + "</span>" : value;
@@ -155,9 +209,15 @@ class sesmMain {
                 return (value !== false) ? '' : __('Stock management got activated', 'sesm');
 
             case "to_regular":
-                return (value === 0) ? '' : '<div><span class="from_price strikethrough">' + json_data.from_regular + ' ' + json_data.currency + '</span> <span class="to_price">' + value + ' ' + json_data.currency + '</span></div>';
+                //Calculate the length of the string to set the font size
+                //Also, set smaller font-size on multi-line
+                const class_long_content = (price_length + price_length_sale > 7 || json_data.to_sale > 0) ? 'content-long' : '';
+                const is_single_regular_class = (json_data.to_sale === 0) ? 'single' : '';
+                return (value === 0) ? '' : '<div class="' + class_long_content + ' ' + is_single_regular_class + '"><span class="from_price strikethrough">' + json_data.from_regular + ' ' + json_data.currency + '</span><span class="to_price">' + value + ' ' + json_data.currency + '</span></div>';
             case "to_sale":
-                return (value === 0) ? '' : '<div><span class="from_price strikethrough">' + json_data.from_sale + ' ' + json_data.currency + '</span> <span class="to_price">' + value + ' ' + json_data.currency + '</span></div>';
+                const class_long_content_sale = (price_length + price_length_sale > 7 || json_data.to_regular > 0) ? 'content-long' : '';
+                const is_single_sale_class = (json_data.to_regular === 0) ? 'single' : '';
+                return (value === 0) ? '' : '<div class="' + class_long_content_sale + ' ' + is_single_sale_class + '"><span class="from_price strikethrough">' + json_data.from_sale + ' ' + json_data.currency + '</span><span class="to_price">' + value + ' ' + json_data.currency + '</span></div>';
 
             default:
                 return value;
@@ -165,7 +225,7 @@ class sesmMain {
     }
 
     changeQuantity(s) {
-        if(this.empty(jQuery("#sesm_quant").val())){
+        if (this.empty(jQuery("#sesm_quant").val())) {
             jQuery("#sesm_quant").val(0);
         }
         var e = parseInt(jQuery("#sesm_quant").val()),

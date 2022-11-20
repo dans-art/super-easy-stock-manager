@@ -4,53 +4,69 @@
 
 */
 body {
-  --sesm-button-color: var(--wp--preset--color--primary);
-  --sesm-button-text-color: var(--wp--preset--color--contrast);
+  --sesm-button-color: rgb(255, 182, 0);
+  --sesm-button-text-color: rgb(0, 0, 0);
   --sesm-button-border: rgb(0 0 0);
-  --sesm-background: var(--wp--preset--color--primary);
+  --sesm-box-border: rgb(189, 189, 189);
+  --sesm-background: rgba(255, 183, 0, 0.20);
   --sesm-border-radius: 5px;
-  --sesm-error-color: red;
+  --sesm-error-color: rgb(255, 0, 0);
 }
 
 @keyframes bounce {
   0% {
-    left: 0%;
+    width: 0%;
+    left: 0;
+  }
+  25% {
+    width: 100%;
+    left: 0;
   }
   50% {
-    left: 95%;
+    width: 0%;
+    left: 100%;
   }
-  100% {
+  75% {
+    width: 100%;
     left: 0%;
   }
+  100% {
+    width: 0%;
+    left: 0%;
+  }
+}
+
+#sesm_container {
+  padding: 1rem;
 }
 
 #sesm_buttons {
   display: grid;
-  grid-area: 1 2;
   grid-template-columns: auto auto auto;
-  column-gap: 1em;
+  column-gap: 3em;
   justify-content: center;
+  padding-bottom: 1.5rem;
 }
 
 #sesm_buttons > button {
-  font-size: 1.5rem;
-  width: 3em;
-  height: 3em;
+  font-size: 3rem;
+  width: 6.5rem;
+  height: 6.5rem;
   border-radius: 50%;
   background-color: var(--sesm-button-color);
   border: solid 1px var(--sesm-button-border);
   position: relative;
+  cursor: pointer;
 }
 
-#sesm_buttons > .button-active::after {
-  content: "";
-  display: block;
+#sesm_buttons #selection-indicator {
+  display: none;
   width: 0.2rem;
   height: 2rem;
   position: absolute;
   background-color: var(--sesm-button-border);
-  left: 2rem;
-  top: 4.2rem;
+  left: 2.9rem;
+  top: 6.2rem;
   z-index: -1;
 }
 
@@ -59,18 +75,29 @@ body {
   margin: 0 auto;
 }
 
+#sesm_input .sesm_options > div {
+  margin-bottom: 1rem;
+}
+
 #sesm_input .price_flex_group > div {
   display: flex;
   flex-direction: column;
   text-align: center;
-  margin-bottom: 0.5rem;
+  width: 50%;
+}
+
+#sesm_input .price_flex_group {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
 }
 
 #sesm_input input {
-  width: 100%;
+  width: 99%;
   height: 2rem;
   border-radius: var(--sesm-border-radius);
   text-align: center;
+  font-size: 1.2rem;
 }
 
 #sesm_input input:focus-visible {
@@ -80,26 +107,25 @@ body {
   outline-offset: -3px;
 }
 
+#sesm_input #sesm_sku_input {
+  margin-bottom: 1rem;
+}
+
 #sesm_input #sesm_sku_input_loader.active {
   display: block;
   background-color: var(--sesm-button-color);
   height: 0.5rem;
-  width: 5%;
+  width: 0%;
   left: 0%;
   position: relative;
-  top: -0.3rem;
+  top: -1.3rem;
   animation: bounce 2s;
-}
-
-#sesm_input .price_flex_group {
-  margin-top: 1rem;
 }
 
 #sesm_input .quant_flex_group {
   display: flex;
   justify-content: space-between;
   gap: 0.5rem;
-  margin-top: 1rem;
 }
 
 #sesm_input .quant_flex_group .options_button {
@@ -118,12 +144,37 @@ body {
 
 #sesm_history {
   display: grid;
-  grid-template-columns: 33.33% 33.33% 33.33%;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 1em;
+}
+
+#sesm_history dl {
+  margin: 0;
 }
 
 #sesm_history dt {
   font-weight: bold;
+}
+
+#sesm_history .content > dl:first-child() {
+  margin-bottom: 0;
+}
+
+#sesm_history .content > dl:last-child() {
+  margin-top: 0;
+}
+
+#sesm_history dd {
+  margin-left: 0;
+}
+
+#sesm_history .content .two-column-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+#sesm_history .content .two-column-grid dl:last-child {
+  text-align: right;
 }
 
 #sesm_history h2 {
@@ -144,12 +195,15 @@ body {
 
 #sesm_history h4.attr {
   font-size: 1rem;
+  min-height: 3.5rem;
 }
 
 #sesm_history article {
-  padding: 0.5rem;
+  padding: 0 1.3rem;
   max-width: 100%;
   position: relative;
+  border: 1px solid var(--sesm-box-border);
+  border-radius: var(--sesm-border-radius);
 }
 
 #sesm_history article::after {
@@ -166,6 +220,11 @@ body {
   opacity: 0.5;
 }
 
+#sesm_history article.item {
+  opacity: 0;
+  height: 0%;
+}
+
 #sesm_history article.item .image-con {
   height: 5rem;
   border-radius: var(--sesm-border-radius);
@@ -173,6 +232,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 1.3rem;
 }
 
 #sesm_history article.item .image-con img {
@@ -196,20 +256,36 @@ body {
   border-radius: var(--sesm-border-radius);
   border: 1px solid var(--sesm-button-border);
   height: 5rem;
+  margin-top: 1.3rem;
 }
 
-#sesm_history article .item.update.price .big-text {
+#sesm_history article.item.update.price .big-text {
   font-size: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+}
+
+#sesm_history article.item.update.stock .big-text {
+  font-size: 1.5rem;
+}
+
+#sesm_history article.item.update.price .big-text .content-long,
+#sesm_history article.item.update.stock .big-text .content-long {
+  font-size: 1.2rem;
+}
+
+#sesm_history article.item.update .big-text .single {
   display: flex;
   flex-direction: column;
 }
 
-#sesm_history article .item.update.stock .big-text {
-  font-size: 1.8rem;
+#sesm_history article.item.update .big-text .single .strikethrough {
+  padding-right: 0;
 }
 
 #sesm_history article.item.error .text-con {
-  width: 100%;
+  width: 90%;
   border-radius: var(--sesm-border-radius);
   border: 1px solid var(--sesm-button-border);
   height: 5rem;
@@ -217,22 +293,59 @@ body {
   justify-content: center;
   align-items: center;
   margin-bottom: 1rem;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 5%;
 }
 
 #sesm_history article.item.error .title {
   font-size: 2rem;
 }
 
+#sesm_history article .content {
+  min-height: 19rem;
+}
+
 #sesm_history .icon {
   display: flex;
   justify-content: center;
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 0.5rem;
+  top: 0.5rem;
   padding: 0.5rem;
-  height: 1rem;
-  width: 1rem;
+  height: 2rem;
+  width: 2rem;
+  font-size: 2rem;
   border-radius: var(--sesm-border-radius);
   background-color: var(--sesm-button-color);
+}
+
+@media screen and (max-width: 500px) {
+  #sesm_history {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  #sesm_buttons {
+    gap: 1.5rem;
+  }
+  #sesm_buttons > button {
+    width: 4rem;
+    height: 4rem;
+    font-size: 2rem;
+  }
+  #sesm_input .sesm_options {
+    width: 100%;
+  }
+  #sesm_buttons #selection-indicator {
+    left: 1.7rem;
+    top: 3.5rem;
+  }
+}
+
+@media screen and (min-width: 501px) and (max-width: 850px) {
+  #sesm_history {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
 }
 /*# sourceMappingURL=sesm-main.css.map */

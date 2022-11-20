@@ -7,22 +7,30 @@
     </div>
 
     <div class="content">
-
         <h3 class="type">{{post_type}}</h3>
         <h2 class="title">{{title}}</h2>
         <h4 class="attr">{{attributes}}</h4>
-        <h4 class="type">{{description}}</h4>
-
-        <dl class="metadata">
-            <dt>{{price_title}}</dt>
-            <dd>{{regular_price}}{{sale_price}}</dd>
-            <dt>{{weight_title}}</dt>
-            <dd>{{weight}}</dd>
-            <dt>{{quantity_title}}</dt>
-            <dd>{{stock_quantity}}</dd>
-            <dt>{{sku_title}}</dt>
-            <dd>{{sku}}</dd>
-        </dl>
+        <h4 class="description">{{description}}</h4>
+        <div class="meta-block">
+            <dl class="metadata">
+                <dt>{{price_title}}</dt>
+                <dd>{{regular_price}}{{sale_price}}</dd>
+            </dl>
+            <div class="two-column-grid">
+                <dl class="metadata">
+                    <dt>{{weight_title}}</dt>
+                    <dd>{{weight}}</dd>
+                </dl>
+                <dl class="metadata">
+                    <dt>{{quantity_title}}</dt>
+                    <dd>{{stock_quantity}}</dd>
+                </dl>
+            </div>
+            <dl class="metadata">
+                <dt>{{sku_title}}</dt>
+                <dd>{{sku}}</dd>
+            </dl>
+        </div>
     </div>
 
 </article>
