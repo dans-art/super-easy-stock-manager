@@ -42,7 +42,7 @@ class Super_Easy_Stock_Manager extends Super_Easy_Stock_Manager_Helper
         if ($use_style) {
             add_action('wp_head', function () {
                 $style = (WP_DEBUG === true) ? 'sesm-main.css' : 'sesm-main.min.css';
-                wp_enqueue_style('sesm-main-style', SESM_MAIN_URL . '/style/' . $style);
+                wp_enqueue_style('sesm-main-style', SESM_MAIN_URL . 'style/' . $style);
                 wp_enqueue_style('sesm-fa', 'https://use.fontawesome.com/releases/v6.2.0/css/all.css');
             }, 10);
         }
