@@ -101,6 +101,8 @@ class Super_Easy_Stock_Manager_Ajax
      * change_txt => "The stock has been increased / decreased..."
      * direction => "increase" or "decrease"
      * save_status => $sku
+     * from_quant => The quantity before the change
+     * to_quant => The quantity after the change
      *
      * @param object $product - WC Product Object
      * 
@@ -287,7 +289,6 @@ class Super_Easy_Stock_Manager_Ajax
      * Retuns a json string with error message "No value set!" or a custom message if $msg is set
      * 
      * @param string $msg - Error message
-     * 
      * @return string json fromated string
      */
     public function errorJson($msg = '')

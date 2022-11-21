@@ -36,11 +36,11 @@ class sesmMain {
         this.field_names.iconclass = "";
     }
 
-    is_mobile(){
-        if(jQuery(window).width() > 500){
+    is_mobile() {
+        if (jQuery(window).width() > 500) {
             return false;
         }
-        jQuery("#sesm_sku_input").attr('placeholder', __('Input SKU','sesm'));
+        jQuery("#sesm_sku_input").attr('placeholder', __('Input SKU', 'sesm'));
     }
 
     /**
@@ -87,6 +87,14 @@ class sesmMain {
             jQuery("#remove_quant_btn").click(function () {
                 sesm_scripts.changeQuantity(!1);
             });
+
+        /**
+         * On resize
+         */
+        jQuery(window).resize(() => {
+            sesm_scripts.move_selection_indicator(0);
+            sesm_scripts.is_mobile();
+        });
     }
     /**
      * Shows the buttons
@@ -98,13 +106,13 @@ class sesmMain {
     /**
      * Moves the indicator of the tool below the button
      */
-    move_selection_indicator() {
+    move_selection_indicator(animation_duration = 200) {
         const active_position = jQuery('#sesm_buttons .button-active').offset().left;
         const first_button_position = jQuery('#sesm_buttons button:first-child').offset().left;
         jQuery('#selection-indicator').animate({
             left: active_position - first_button_position + (jQuery('#sesm_buttons .button-active').width() / 2)
         },
-            200);
+            animation_duration);
     }
 
     /**

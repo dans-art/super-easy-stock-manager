@@ -29,21 +29,14 @@ class Super_Easy_Stock_Manager_Helper
 
 
     /**
-
      * Loads the translation of the plugin.
-
      * Located at: plugins/super-easy-stock-manager/languages/
-
      *
-
      * @return void
-
      */
 
     public function sesmLoadTextdomain()
-
     {
-
         load_textdomain('sesm', SESM_MAIN_DIR . '/languages/sesm-' . determine_locale() . '.mo');
     }
 

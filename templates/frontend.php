@@ -36,12 +36,8 @@
                     <input id="sesm_price_sale" class="sesm_input update_price sale" type="text" placeholder="<?php echo __("Price sale", "sesm"); ?>" />
                 </div>
             </div>
-
-
         </div>
-
     </section>
     <section id="sesm_history">
-
     </section>
 </div>

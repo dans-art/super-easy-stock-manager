@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Super Easy Stock Manager!\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-31 20:56+0000\n"
-"PO-Revision-Date: 2022-11-21 09:53+0000\n"
+"PO-Revision-Date: 2022-11-20 22:55+0000\n"
 "Last-Translator: Daniel Spycher\n"
 "Language-Team: Deutsch\n"
 "Language: de_DE\n"
@@ -19,7 +19,7 @@ msgstr ""
 msgid "Add quantity"
 msgstr "Anzahl hinzufügen"
 
-#: include/classes/sesm-ajax.php:232
+#: include/classes/sesm-ajax.php:230
 msgid ""
 "Could not load the Product. Please update the lookup tables. <br/>"
 "(Woocommerce -> Status -> Tools -> Rebuild Lookup Tables)"
@@ -39,7 +39,7 @@ msgstr "Beschreibung"
 msgid "Enter quantity to add or remove"
 msgstr "Menge zum hinzufügen oder entfernen eingeben"
 
-#: include/classes/sesm-ajax.php:297
+#: include/classes/sesm-ajax.php:296
 msgid "Error"
 msgstr "Fehler"
 
@@ -51,7 +51,7 @@ msgstr "Fehler:"
 msgid "http://dev.dans-art.ch"
 msgstr "http://dev.dans-art.ch"
 
-#: include/classes/sesm-ajax.php:218
+#: include/classes/sesm-ajax.php:216
 msgid "Info"
 msgstr "Info"
 
@@ -59,15 +59,15 @@ msgstr "Info"
 msgid "Input SKU"
 msgstr "Artikelnummer eingeben"
 
-#: include/classes/sesm-ajax.php:224
+#: include/classes/sesm-ajax.php:222
 msgid "No SKU provided"
 msgstr "Keine Artikelnummer übergeben."
 
-#: include/classes/sesm-ajax.php:299
+#: include/classes/sesm-ajax.php:298
 msgid "No value set!"
 msgstr "Keinen Wert gesetzt!"
 
-#: include/classes/sesm-ajax.php:192
+#: include/classes/sesm-ajax.php:190
 msgid "Old and new prices are the same, nothing has been changed"
 msgstr "Alter und neuer Preis haben sich nicht geändert."
 
@@ -87,12 +87,12 @@ msgstr "Regulärer Preis"
 msgid "Price sale"
 msgstr "Angebots Preis"
 
-#: include/classes/sesm-ajax.php:234
+#: include/classes/sesm-ajax.php:232
 #, php-format
 msgid "Product not found for SKU: %s"
 msgstr "Kein Produkt für die Artikelnummer \"%s\" gefunden"
 
-#: include/classes/sesm-ajax.php:275
+#: include/classes/sesm-ajax.php:273
 msgid "Product with Variations"
 msgstr "Produkt mit Varianten"
 
@@ -100,7 +100,7 @@ msgstr "Produkt mit Varianten"
 msgid "Quantity"
 msgstr "Anzahl"
 
-#: include/classes/sesm-ajax.php:178
+#: include/classes/sesm-ajax.php:176
 msgid "Sale price has to be smaller than the regular price!"
 msgstr "Der Angebotspreis muss kleiner sein, als der normale Preis"
 
@@ -108,7 +108,7 @@ msgstr "Der Angebotspreis muss kleiner sein, als der normale Preis"
 msgid "Scan a barcode or add a SKU number and press enter"
 msgstr "Scanne einen Barcode oder gib die Artikelnummer ein und drücke Enter"
 
-#: include/classes/sesm-ajax.php:271
+#: include/classes/sesm-ajax.php:269
 msgid "Simple Product"
 msgstr "Einfaches Produkt"
 
@@ -116,7 +116,7 @@ msgstr "Einfaches Produkt"
 msgid "SKU"
 msgstr "Artikelnummer"
 
-#: scripts/sesm-app.js:217
+#: scripts/sesm-app.js:213
 msgid "Stock management got activated"
 msgstr "Lagerverwaltung wurde aktiviert"
 
@@ -129,21 +129,21 @@ msgstr "Sehr einfache Lagerverwaltung!"
 msgid "Super Easy Stock Manager"
 msgstr "Super einfache Lagerverwaltung"
 
-#: include/classes/sesm-ajax.php:136
+#: include/classes/sesm-ajax.php:134
 #, php-format
 msgid "The stock has been decreased by %d to %d"
 msgstr "Der Lagerbestand wurde um %d reduziert auf insgesamt %d Stück."
 
-#: include/classes/sesm-ajax.php:133
+#: include/classes/sesm-ajax.php:131
 #, php-format
 msgid "The stock has been increased by %d to %d"
 msgstr "Der Lagerbestand wurde um %d erhöht auf insgesamt %d Stück."
 
-#: include/classes/sesm-ajax.php:279
+#: include/classes/sesm-ajax.php:277
 msgid "Variation of Product"
 msgstr "Variante eines Produkts"
 
-#: include/classes/sesm-ajax.php:70 include/classes/sesm-ajax.php:177
+#: include/classes/sesm-ajax.php:70 include/classes/sesm-ajax.php:175
 msgid "Warning"
 msgstr "Warnung"
 
@@ -151,22 +151,9 @@ msgstr "Warnung"
 msgid "Weight"
 msgstr "Gewicht"
 
-#: include/classes/sesm.php:82
+#: include/classes/sesm.php:104
 msgid "You are not allowed to edit products!"
 msgstr "Du bist nicht berechtigt, Produkte zu bearbeiten!"
-
-#: include/classes/sesm.php:64
-msgid ""
-"You are not allowed to edit products. Please contact the system "
-"administrator and request the required rights."
-msgstr ""
-"Du hast keine Berechtigung die Produkte zu bearbeiten. Bitte kontaktiere den "
-"System-Administrator, um die benötigten Rechte zu erhalten."
-
-#: include/classes/sesm.php:78
-msgid "You are not logged in. Please sign-in to use this function"
-msgstr ""
-"Du bist nicht eingeloggt. Bitte melde dich an, um diese Funktion zu nutzen."
 
 #: include/classes/sesm-ajax.php:71
 msgid ""

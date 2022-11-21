@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Super Easy Stock Manager!\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-31 20:56+0000\n"
-"PO-Revision-Date: 2020-12-24 00:04+0000\n"
+"PO-Revision-Date: 2020-12-24 15:20+0000\n"
 "Last-Translator: Daniel Spycher\n"
 "Language-Team: Deutsch\n"
 "Language: de_DE\n"
@@ -15,10 +15,17 @@ msgstr ""
 "X-Loco-Version: 2.4.4; wp-5.5.3\n"
 
 #: templates/theme/frontend-content.php:31
-#, fuzzy
 #| msgid "Add Quantity"
 msgid "Add quantity"
 msgstr "Anzahl hinzufügen"
+
+#: include/classes/sesm-ajax.php:211
+msgid ""
+"Could not load the Product. Please update the lookup tables. <br/>"
+"(Woocommerce -> Status -> Tools -> Rebuild Lookup Tables)"
+msgstr ""
+"Konnte das Produkt nicht laden. Bitte erstelle die Nachschlagetabelle neu."
+"<br/>(Woocommerce -> Status -> Werkzeuge -> Produkt Nachschlagetabelle)"
 
 #. Author of the plugin
 msgid "Dan's Art"
@@ -36,9 +43,21 @@ msgstr "Fehler:"
 msgid "http://dev.dans-art.ch"
 msgstr "http://dev.dans-art.ch"
 
-#: include/classes/sesm-ajax.php:50
+#: include/tools/sesm-helper.php:86
+msgid "Logout"
+msgstr "Abmelden"
+
+#: include/classes/sesm-ajax.php:203
+msgid "No SKU provided"
+msgstr "Keine Artikelnummer übergeben."
+
+#: include/classes/sesm-ajax.php:277
 msgid "No value set!"
 msgstr "Keinen Wert gesetzt!"
+
+#: include/classes/sesm-ajax.php:180
+msgid "Old and new prices are the same, nothing has been changed"
+msgstr "Alter und neuer Preis haben sich nicht geändert."
 
 #: templates/theme/frontend-content.php:36
 #: templates/theme/frontend-history-item-update-price.php:7
@@ -48,25 +67,30 @@ msgstr "Regulärer Preis"
 
 #: templates/theme/frontend-content.php:40
 #: templates/theme/frontend-history-item-update-price.php:11
+#: templates/theme/frontend-history-item.php:14
 msgid "Price sale"
 msgstr "Angebots Preis"
 
-#: include/classes/sesm-ajax.php:137
+#: include/classes/sesm-ajax.php:213
 #, php-format
 msgid "Product not found for SKU: %s"
 msgstr "Kein Produkt für die Artikelnummer \"%s\" gefunden"
+
+#: include/classes/sesm-ajax.php:253
+msgid "Product with Variations"
+msgstr "Produkt mit Varianten"
 
 #: templates/theme/frontend-history-item.php:6
 msgid "Quantity"
 msgstr "Anzahl"
 
-#: templates/theme/frontend-history-item.php:14
-msgid "Sale price"
-msgstr ""
-
-#: include/classes/sesm-ajax.php:74
+#: include/classes/sesm-ajax.php:153
 msgid "Sale price has to be smaller than the regular price!"
-msgstr ""
+msgstr "Der Angebotspreis muss kleiner sein, als der normale Preis"
+
+#: include/classes/sesm-ajax.php:249
+msgid "Simple Product"
+msgstr "Einfaches Produkt"
 
 #: templates/theme/frontend-content.php:19
 msgid "SKU"
@@ -74,24 +98,35 @@ msgstr "Artikelnummer"
 
 #. Description of the plugin
 msgid "Stock Management with ease!"
-msgstr ""
+msgstr "Sehr einfache Lagerverwaltung!"
 
 #. Name of the plugin
+#: templates/theme/frontend-head.php:1 templates/theme/frontend.php:12
 msgid "Super Easy Stock Manager"
-msgstr ""
+msgstr "Super einfache Lagerverwaltung"
 
-#: include/classes/sesm-ajax.php:110
+#: include/classes/sesm-ajax.php:112
 #, php-format
 msgid "The stock has been decreased by %d to %d"
-msgstr ""
+msgstr "Der Lagerbestand wurde um %d reduziert auf insgesamt %d Stück."
 
-#: include/classes/sesm-ajax.php:107
+#: include/classes/sesm-ajax.php:109
 #, php-format
 msgid "The stock has been increased by %d to %d"
-msgstr ""
+msgstr "Der Lagerbestand wurde um %d erhöht auf insgesamt %d Stück."
 
-#: include/classes/sesm-ajax.php:57
+#: include/classes/sesm-ajax.php:257
+msgid "Variation of Product"
+msgstr "Variante eines Produkts"
+
+#: include/classes/sesm.php:41 include/tools/sesm-helper.php:85
+msgid "You are not allowed to edit products!"
+msgstr "Du bist nicht berechtigt, Produkte zu bearbeiten!"
+
+#: include/classes/sesm-ajax.php:53
 msgid ""
 "You can't change the values of that product, because it has variations. "
 "Please change the value of the variation itself."
 msgstr ""
+"Du kannst die Werte dieses Produktes nicht verändern, da es Varianten hat. "
+"Bitte ändere die Werte der Varianten selbst."
