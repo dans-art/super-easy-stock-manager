@@ -9,8 +9,7 @@ Stable tag: 1.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Adds a new checkbox to the orders page to add a new customer / user.
-It creates a new user based of the billing data. If no e-mail is provided, it will create a fake email ( [firstname.secondname]@your-site.com ).
+A simple plugin, intended to use with a barcode scanner.
 
 
 == Description ==

@@ -9,6 +9,8 @@
     async load_default_templates(){
         this.load_template('item','item.html','templates/frontend/');
         this.load_template('error','error.html','templates/frontend/');
+        this.load_template('updatestock','item-update-stock.html','templates/frontend/');
+        this.load_template('updateprice','item-update-price.html','templates/frontend/');
     }
 
       /**
@@ -20,12 +22,13 @@
      */
        async load_template(template_id, file_name, path) {
         try {
-            await this.get_template(template_id, file_name, path).then(function (content) {
-                this.loaded_templates[template_id] = content;
-                return true;
+            const loaded_content = await this.get_template(template_id, file_name, path).then(function (content) {
+                return content;
             });
+            this.loaded_templates[template_id] = loaded_content;
         } catch (error) {
             console.error('failed to load template: '+file_name);
+            console.error(error);
         }
         return false;
     }

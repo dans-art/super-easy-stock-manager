@@ -1,50 +1,43 @@
-<section id="sesm_buttons" style="display: none;">
-    <span data-do="get_product">
-        <span class="sesm_icon"><i class="fas fa-question"></i></span>
-        <span class="sesm_icon_line"></span>
-    </span>
-    <span data-do="add_quantities">
-        <span class="sesm_icon"><i class="fas fa-box-open"></i></span>
-        <span class="sesm_icon_line"></span>
-    </span>
-    <span data-do="update_price">
-        <span class="sesm_icon"><i class="far fa-money-bill-alt"></i></span>
-        <span class="sesm_icon_line"></span>
-    </span>
-</section>
-<section id="sesm_input">
-    <div>
-        <input id="sesm_sku_input" style="display: none;" type="text" />
-        <div id="sesm_sku_input_loader" class="input_loading"></div>
-        <label for="sesm_sku_input" style="display: none;"><?php echo __("SKU", "sesm"); ?></label>
-    </div>
-    <div class="sesm_options">
-        <div class="quant_flex_group sesm_input add_quantities" style="display: none;">
-            <button id="remove_quant_btn" class="options_button">
-                <i class="fas fa-minus"></i>
-            </button>
-            <input id="sesm_quant" type="text" class="sesm_input add_quantities" value="1" />
-            <button id="add_quant_btn" class="options_button">
-                <i class="fas fa-plus"></i>
-            </button>
+<div id="sesm_container">
+    <section id="sesm_buttons" style="display: none;">
+        <button data-do="get_product">
+            <span class="sesm_icon"><i class="fas fa-question"></i></span>
+            <span class="sesm_icon_line"></span>
+            <span id="selection-indicator"></span>
+        </button>
+        <button data-do="add_quantities">
+            <span class="sesm_icon"><i class="fas fa-box-open"></i></span>
+        </button>
+        <button data-do="update_price">
+            <span class="sesm_icon"><i class="far fa-money-bill-alt"></i></span>
+        </button>
+    </section>
+    <section id="sesm_input">
+        <div>
+            <input id="sesm_sku_input" style="display: none;" type="text" placeholder="<?php echo __("Scan a barcode or add a SKU number and press enter", "sesm"); ?>" />
+            <div id="sesm_sku_input_loader" class="input_loading"></div>
         </div>
-        <label for="sesm_quant" class="sesm_label add_quantities" style="display: none;"><?php echo __("Add quantity", "sesm"); ?></label>
-
-        <div class="price_flex_group">
-            <div>
-                <input id="sesm_price_reg" class="sesm_input update_price" style="display: none;" type="text" />
-                <label for="sesm_price_reg" class="sesm_label update_price" style="display: none;"><?php echo __("Price regular", "sesm"); ?></label>
+        <div class="sesm_options">
+            <div class="quant_flex_group sesm_input add_quantities" style="display: none;">
+                <button id="remove_quant_btn" class="options_button">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <input id="sesm_quant" type="text" class="sesm_input add_quantities" value="1" placeholder="<?php echo __("Enter quantity to add or remove", "sesm"); ?>" />
+                <button id="add_quant_btn" class="options_button">
+                    <i class="fas fa-plus"></i>
+                </button>
             </div>
-            <div>
-                <input id="sesm_price_sale" class="sesm_input update_price sale" style="display: none;" type="text" />
-                <label for="sesm_price_sale" class="sesm_label update_price" style="display: none;"><?php echo __("Price sale", "sesm"); ?></label>
+
+            <div class="price_flex_group" style="display: none;">
+                <div>
+                    <input id="sesm_price_reg" class="sesm_input update_price" type="text" placeholder="<?php echo __("Price regular", "sesm"); ?>" />
+                </div>
+                <div>
+                    <input id="sesm_price_sale" class="sesm_input update_price sale" type="text" placeholder="<?php echo __("Price sale", "sesm"); ?>" />
+                </div>
             </div>
         </div>
-
-
-    </div>
-
-</section>
-<section id="sesm_history">
-
-</section>
+    </section>
+    <section id="sesm_history">
+    </section>
+</div>

@@ -7,45 +7,28 @@
  * Author URI: http://dev.dans-art.ch
  *
  */
-
 class Super_Easy_Stock_Manager extends Super_Easy_Stock_Manager_Helper
-
 {
 
-
     /**
-
      * Adds the Ajax Functions
-
      * Enqueues Scripts
-
      */
-
-     public $template_handler = null;
-
+    public $template_handler = null;
     public function __construct()
-
     {
         //Set paths for the template handler
-        $this -> template_handler = new DaTemplateHandlerClass;
-        $this -> template_handler -> set_paths(SESM_MAIN_DIR . 'templates', 'sesm/templates');
-
+        $this->template_handler = new DaTemplateHandlerClass;
+        $this->template_handler->set_paths(SESM_MAIN_DIR . 'templates', 'sesm/templates');
         $this->addActions();
         $this->add_shortcodes();
     }
-
     /**
-
      * Loads the Frontend Template
-
      *
-
      * @return void
-
      */
-
     public function getFrontend($use_style = true)
-
     {
         if ($use_style) {
             add_action('wp_head', function () {
@@ -61,19 +44,14 @@ class Super_Easy_Stock_Manager extends Super_Easy_Stock_Manager_Helper
             echo "window.wp_site_url = \"" . site_URL() . "\"; ";
             echo "window.sesm_plugin_root = \"" . SESM_MAIN_URL . "\"";
             echo "</script>";
-
+        }, 10);
+        add_action('wp_enqueue_scripts', function () {
             $script = (WP_DEBUG === true) ? 'sesm-app.js' : 'sesm-app.min.js';
-            wp_enqueue_script('sesm-main-script', SESM_MAIN_URL . '/scripts/' . $script, ['jquery'], true);
+            wp_enqueue_script('sesm-main-script', SESM_MAIN_URL . 'scripts/' . $script, ['jquery', 'wp-i18n'], '1.1', true);
             wp_set_script_translations('sesm-main-script', 'sesm', SESM_MAIN_DIR . "languages");
         }, 10);
-
-        return $this -> template_handler -> load_template_to_var('frontend');
-
-        //$tmp = $this->getTemplate('frontend');
-
-        //return $this->loadTemplate($tmp);
+        return $this->template_handler->load_template_to_var('frontend');
     }
-
     /**
      * Executes the main shortcode
      * @todo add capability check
@@ -82,60 +60,42 @@ class Super_Easy_Stock_Manager extends Super_Easy_Stock_Manager_Helper
      */
     public function do_shortcode_sesm()
     {
+        if(!current_user_can( 'edit_products' )){
+            return __('You are not allowed to edit products. Please contact the system administrator and request the required rights.','sesm');
+        }
         return $this->getFrontend(true);
     }
 
-
     /**
-
      * Main Method for handling the Ajax Calls
-
      *
-
      * @return string echoes the output of the ajax function
-
      */
-
     public function sesmAjax()
-
     {
-
-        if (!current_user_can('edit_products')) {
-
-            echo json_encode(array('template' => 'error', 'error' => __('You are not allowed to edit products!', 'sesm')));
-
+        $ajax = new Super_Easy_Stock_Manager_Ajax();
+        if (!is_user_logged_in()) {
+            echo $ajax -> errorJson(__('You are not logged in. Please sign-in to use this function', 'sesm'));
             exit();
         }
-
-        $ajax = new Super_Easy_Stock_Manager_Ajax();
-
+        if (!current_user_can('edit_products')) {
+            echo $ajax -> errorJson(__('You are not allowed to edit products!', 'sesm'));
+            exit();
+        }
         $do =  isset($_REQUEST['do']) ? $_REQUEST['do'] : 'get_product';
-
         $sku = isset($_REQUEST['sku']) ? $_REQUEST['sku'] : '';
-
         $sku = htmlspecialchars($sku);
-
         switch ($do) {
-
             case 'get_product':
-
                 echo $ajax->getProduct($sku);
-
                 break;
-
             case 'add_quantities':
-
                 echo $ajax->updateProduct('stock', $sku);
-
                 break;
-
             case 'update_price':
-
                 echo $ajax->updateProduct('price', $sku);
-
                 break;
         }
-
         exit();
     }
 }

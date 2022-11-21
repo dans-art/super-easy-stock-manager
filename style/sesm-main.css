@@ -1,314 +1,351 @@
-/*
-  Plugin: Super Easy Stock Manager
-  Author: dansart
- */
-/* Fonts
-   ========================================================================== */
-/* Breakpoints
-   ========================================================================== */
-/* Colors
-   ========================================================================== */
-/* ==========================================================================
-   #PAGE
-   ========================================================================== */
-/**
- * Simple page-level setup.
- *
- */
-html {
-  font-family: "Open Sans", sans-serif;
-  background-color: #5A5A5A; }
-
-body {
-  margin: 3rem 1rem 0.5rem 1rem; }
-
-#sesm_history.active {
-  background-color: #fff;
-  padding: 1.5rem;
-  max-width: 800px;
-  margin: 0 auto; }
-  #sesm_history.active article {
-    border: 1px solid #707070;
-    border-radius: 5px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    display: flex; }
-    #sesm_history.active article .title {
-      font-weight: bold;
-      margin-bottom: 0.5rem; }
-      #sesm_history.active article .title span {
-        font-weight: normal; }
-    #sesm_history.active article .icon {
-      border: 1px solid #707070;
-      border-radius: 5px;
-      width: 2rem;
-      height: 2rem;
-      margin-right: 1rem;
-      text-align: center; }
-    #sesm_history.active article .icon i {
-      padding-top: 0.5rem; }
-    #sesm_history.active article .history_flex {
-      display: flex; }
-      #sesm_history.active article .history_flex div:first-child {
-        width: 10rem; }
-    #sesm_history.active article .hide {
-      display: none; }
-  #sesm_history.active article.update .change:before {
-    font-family: "Font Awesome 5 Free";
-    font-weight: 400;
-    margin-right: 0.5rem; }
-  #sesm_history.active article.update .change.increase:before {
-    content: "\f0fe"; }
-  #sesm_history.active article.update .change.decrease:before {
-    content: '\f146'; }
-
-/* ==========================================================================
-   #HEADINGS
-   ========================================================================== */
-/**
- * Simple default styles for headings 1 through 6. Anything more opinionated
- * than simple font-size changes should likely be applied via classes (see:
- * http://csswizardry.com/2016/02/managing-typography-on-large-apps/).
- */
-h1 {
-  text-align: center;
-  width: 100%;
-  border: 1px solid #707070;
-  background-color: #fff;
-  font-weight: normal;
-  padding: 1.5rem 0; }
-
-/* ==========================================================================
-   #IMAGES
-   ========================================================================== */
-/**
- * 1. Fluid images for responsive purposes.
- * 2. Offset `alt` text from surrounding copy.
- * 3. Setting `vertical-align` removes the whitespace that appears under `img`
- *    elements when they are dropped into a page as-is. Safer alternative to
- *    using `display: block;`.
- */
-#sesm_history .image {
-  height: 5rem;
-  border: 1px solid #707070;
-  border-radius: 5px;
-  width: 5rem;
-  margin-left: auto; }
-#sesm_history img.attachment-thumbnail.size-thumbnail,
-#sesm_history img.woocommerce-placeholder.wp-post-image {
-  width: 100%;
-  height: 100%;
-  border-radius: 5px; }
-
-/* ==========================================================================
-   #Form Elements
-   ========================================================================== */
-/**
- */
-#sesm_input input {
-  width: 100%;
-  font-size: 1.5rem;
-  padding: 1rem;
-  text-align: center; }
-
-label {
-  color: #fff;
-  text-align: center;
-  width: 100%;
-  display: block;
-  padding: 1rem;
-  font-size: 1.5rem; }
-
-.input_loading.active {
-  width: 50%;
-  height: 0.5rem;
-  background-color: #5fd47c;
-  animation-name: loading_bar;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  position: relative;
-  top: -0.5rem; }
-
-/* ==========================================================================
-   #HEADER
-   ========================================================================== */
-/* ==========================================================================
-   #BUTTONS
-   ========================================================================== */
-/**
- * This is an example component. Extend inuitcss by building your own components
- * that make up your UI. Component classes are prefixed with a `c-`.
- */
-/**
- * 1. Allow us to style box model properties.
- * 2. Line different sized buttons up a little nicer.
- * 3. Make buttons inherit font styles (often necessary when styling `input`s as
- *    buttons).
- * 4. Reset/normalize some styles.
- * 5. Force all button-styled elements to appear clickable.
- */
-.c-btn {
-  display: inline-block;
-  /* [1] */
-  vertical-align: middle;
-  /* [2] */
-  font: inherit;
-  /* [3] */
-  text-align: center;
-  /* [4] */
-  margin: 0;
-  /* [4] */
-  cursor: pointer;
-  /* [5] */
-  padding: 0.5rem 1rem;
-  transition: all 300ms ease-in-out;
-  border-radius: 3px; }
-
-/* Style variants
-   ========================================================================== */
-.c-btn--primary {
-  background-color: #5A5A5A; }
-  .c-btn--primary, .c-btn--primary:hover, .c-btn--primary:active, .c-btn--primary:focus {
-    text-decoration: none;
-    /* [4] */
-    color: #fff; }
-  .c-btn--primary:hover, .c-btn--primary:focus {
-    background-color: #C8C8C8; }
-
-/* Size variants
-   ========================================================================== */
-.c-btn--small {
-  padding: 0.25rem 0.5rem; }
-
-.c-btn--large {
-  padding: 0.75rem 1.5rem; }
-
-#sesm_buttons {
-  display: flex;
-  justify-content: center; }
-  #sesm_buttons > span {
-    width: 6rem;
-    height: 6rem;
-    background-color: #C8C8C8;
-    color: #fff;
-    cursor: pointer;
-    border: 1px solid #707070;
-    border-radius: 5px;
-    margin: 1rem; }
-  #sesm_buttons > span:hover {
-    background-color: #fff;
-    color: #5A5A5A; }
-  #sesm_buttons > span.current {
-    background-color: #fff;
-    color: #5A5A5A; }
-  #sesm_buttons .sesm_icon {
-    font-size: 3rem;
-    padding: 1.3rem 0;
-    display: block;
-    width: 100%;
-    text-align: center; }
-  #sesm_buttons .current .sesm_icon_line {
-    display: block;
-    background-color: #fff;
-    width: 1rem;
-    height: 1.6rem;
-    left: 2.5rem;
-    position: relative; }
-
-.options_button {
-  width: 5rem;
-  height: 4rem;
-  margin: 0 1rem;
-  color: #fff;
-  cursor: pointer;
-  border-radius: 5px; }
-  .options_button i {
-    font-size: 1.5rem;
-    color: #5A5A5A; }
-
-/* ==========================================================================
-   #BOX-SIZING
-   ========================================================================== */
-/**
- * More sensible default box-sizing:
- * css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice
- */
-/* ==========================================================================
-   #RESET
-   ========================================================================== */
-/**
- * A very simple reset that sits on top of Normalize.css.
- */
-/* ==========================================================================
-   #Animations
-   ========================================================================== */
-/**
- */
-@keyframes loading_bar {
-  0% {
-    width: 0%;
-    margin-left: 0%; }
-  50% {
-    width: 100%;
-    margin-left: 0%; }
-  100% {
-    width: 0%;
-    margin-left: 100%; } }
-@media only screen and (max-width: 660px) {
-  #sesm_history article {
-    flex-wrap: wrap; }
-    #sesm_history article .image {
-      margin: auto; } }
-/* ==========================================================================
-   #LAYOUT
-   ========================================================================== */
-/* Simple flexbox layout system */
-section#sesm_input {
-  max-width: 800px;
-  margin: 0 auto; }
-
-.quant_flex_group,
-.price_flex_group {
-  display: flex;
-  width: 100%;
-  margin: 0 auto;
-  justify-content: center; }
-
-.price_flex_group div {
-  margin: 0 1rem; }
-
-.o-layout {
-  display: block; }
-  @media (min-width: 768px) {
-    .o-layout {
-      display: flex; } }
-
-.o-layout__item {
-  flex: 1; }
-
-.o-layout--guttered {
-  justify-content: space-between; }
-  .o-layout--guttered > .o-layout__item {
-    flex: none; }
-
-@media (min-width: 768px) {
-  .o-layout--2 > .o-layout__item {
-    width: 49%; } }
-
-@media (min-width: 768px) {
-  .o-layout--3 > .o-layout__item {
-    width: 32%; } }
-
-@media (min-width: 768px) {
-  .o-layout--4 > .o-layout__item {
-    width: 24%; } }
-
-/*
-@import 'generic/*';
-@import 'elements/*';
-@import 'vendor/*';
-@import 'components/*';
-@import 'utilities/*';
-*/
-
-/*# sourceMappingURL=sesm-main.css.map */
+/*
+  Plugin: Super Easy Stock Manager
+  Author: dansart
+
+*/
+body {
+  --sesm-button-color: rgb(255, 182, 0);
+  --sesm-button-text-color: rgb(0, 0, 0);
+  --sesm-button-border: rgb(0 0 0);
+  --sesm-box-border: rgb(189, 189, 189);
+  --sesm-background: rgba(255, 183, 0, 0.20);
+  --sesm-border-radius: 5px;
+  --sesm-error-color: rgb(255, 0, 0);
+}
+
+@keyframes bounce {
+  0% {
+    width: 0%;
+    left: 0;
+  }
+  25% {
+    width: 100%;
+    left: 0;
+  }
+  50% {
+    width: 0%;
+    left: 100%;
+  }
+  75% {
+    width: 100%;
+    left: 0%;
+  }
+  100% {
+    width: 0%;
+    left: 0%;
+  }
+}
+
+#sesm_container {
+  padding: 1rem;
+}
+
+#sesm_buttons {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  column-gap: 3em;
+  justify-content: center;
+  padding-bottom: 1.5rem;
+}
+
+#sesm_buttons > button {
+  font-size: 3rem;
+  width: 6.5rem;
+  height: 6.5rem;
+  border-radius: 50%;
+  background-color: var(--sesm-button-color);
+  border: solid 1px var(--sesm-button-border);
+  position: relative;
+  cursor: pointer;
+}
+
+#sesm_buttons #selection-indicator {
+  display: none;
+  width: 0.2rem;
+  height: 2rem;
+  position: absolute;
+  background-color: var(--sesm-button-border);
+  left: 2.9rem;
+  top: 6.2rem;
+  z-index: -1;
+}
+
+#sesm_input .sesm_options {
+  width: 80%;
+  margin: 0 auto;
+}
+
+#sesm_input .sesm_options > div {
+  margin-bottom: 1rem;
+}
+
+#sesm_input .price_flex_group > div {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: 50%;
+}
+
+#sesm_input .price_flex_group {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+#sesm_input input {
+  width: 99%;
+  height: 2rem;
+  border-radius: var(--sesm-border-radius);
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+#sesm_input input:focus-visible {
+  outline-color: var(--sesm-button-color);
+  outline-style: solid;
+  outline-width: 0.2rem;
+  outline-offset: -3px;
+}
+
+#sesm_input #sesm_sku_input {
+  margin-bottom: 1rem;
+}
+
+#sesm_input #sesm_sku_input_loader.active {
+  display: block;
+  background-color: var(--sesm-button-color);
+  height: 0.5rem;
+  width: 0%;
+  left: 0%;
+  position: relative;
+  top: -1.3rem;
+  animation: bounce 3s;
+}
+
+#sesm_input .quant_flex_group {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+#sesm_input .quant_flex_group .options_button {
+  font-size: 1rem;
+  width: 3em;
+  border-radius: var(--sesm-border-radius);
+  background-color: var(--sesm-button-color);
+  border: solid 1px var(--sesm-button-border);
+}
+
+#sesm_input .sesm_label.add_quantities {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+#sesm_history {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1em;
+}
+
+#sesm_history dl {
+  margin: 0;
+}
+
+#sesm_history dt {
+  font-weight: bold;
+}
+
+#sesm_history .content > dl:first-child() {
+  margin-bottom: 0;
+}
+
+#sesm_history .content > dl:last-child() {
+  margin-top: 0;
+}
+
+#sesm_history dd {
+  margin-left: 0;
+}
+
+#sesm_history .content .two-column-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+#sesm_history .content .two-column-grid dl:last-child {
+  text-align: right;
+}
+
+#sesm_history h2 {
+  font-size: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+#sesm_history h3 {
+  margin-top: 0.2rem;
+  margin-bottom: 0.1rem;
+  font-size: 1rem;
+}
+
+#sesm_history h4 {
+  font-size: 1.1rem;
+}
+
+#sesm_history h4.attr {
+  font-size: 1rem;
+  min-height: 3.5rem;
+}
+
+#sesm_history article {
+  padding: 0 1.3rem;
+  max-width: 100%;
+  position: relative;
+  border: 1px solid var(--sesm-box-border);
+  border-radius: var(--sesm-border-radius);
+}
+
+#sesm_history article::after {
+  content: "";
+  background-color: var(--sesm-background);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  border-radius: var(--sesm-border-radius);
+  overflow: hidden;
+  opacity: 0.5;
+}
+
+#sesm_history article.item {
+  opacity: 0;
+  height: 0%;
+}
+
+#sesm_history article.item .image-con {
+  height: 5rem;
+  border-radius: var(--sesm-border-radius);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.3rem;
+}
+
+#sesm_history article.item .image-con img {
+  height: 100%;
+  width: auto;
+  border-radius: var(--sesm-border-radius);
+}
+
+#sesm_history article.item .strikethrough {
+  text-decoration: line-through;
+  padding-right: 0.5rem;
+}
+
+#sesm_history article.item.update .text-con {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  width: 100%;
+  border-radius: var(--sesm-border-radius);
+  border: 1px solid var(--sesm-button-border);
+  height: 5rem;
+  margin-top: 1.3rem;
+}
+
+#sesm_history article.item.update.price .big-text {
+  font-size: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+}
+
+#sesm_history article.item.update.stock .big-text {
+  font-size: 1.5rem;
+}
+
+#sesm_history article.item.update.price .big-text .content-long,
+#sesm_history article.item.update.stock .big-text .content-long {
+  font-size: 1.2rem;
+}
+
+#sesm_history article.item.update .big-text .single {
+  display: flex;
+  flex-direction: column;
+}
+
+#sesm_history article.item.update .big-text .single .strikethrough {
+  padding-right: 0;
+}
+
+#sesm_history article.item.error .text-con {
+  width: 90%;
+  border-radius: var(--sesm-border-radius);
+  border: 1px solid var(--sesm-button-border);
+  height: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 5%;
+}
+
+#sesm_history article.item.error .title {
+  font-size: 2rem;
+}
+
+#sesm_history article .content {
+  min-height: 19rem;
+}
+
+#sesm_history .icon {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+  padding: 0.5rem;
+  height: 2rem;
+  width: 2rem;
+  font-size: 2rem;
+  border-radius: var(--sesm-border-radius);
+  background-color: var(--sesm-button-color);
+}
+
+@media screen and (max-width: 500px) {
+  #sesm_history {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  #sesm_buttons {
+    gap: 1.5rem;
+  }
+  #sesm_buttons > button {
+    width: 4rem;
+    height: 4rem;
+    font-size: 2rem;
+  }
+  #sesm_input .sesm_options {
+    width: 100%;
+  }
+  #sesm_buttons #selection-indicator {
+    left: 1.7rem;
+    top: 3.5rem;
+  }
+}
+
+@media screen and (min-width: 501px) and (max-width: 850px) {
+  #sesm_history {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+/*# sourceMappingURL=sesm-main.css.map */
