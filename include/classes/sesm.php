@@ -22,7 +22,32 @@ class Super_Easy_Stock_Manager extends Super_Easy_Stock_Manager_Helper
         $this->template_handler->set_paths(SESM_MAIN_DIR . 'templates', 'sesm/templates');
         $this->addActions();
         $this->add_shortcodes();
+        $this -> enqueue_script_n_styles();
     }
+      /**
+     * Enqueues the scripts and styles for the super easy stock manager
+     *
+     * @param bool $use_style
+     * @return void
+     */
+    public function enqueue_script_n_styles($use_style = true)
+    {
+        //Add the scripts
+        add_action('wp_enqueue_scripts', function () {
+            $script = (WP_DEBUG === true) ? 'sesm-app.js' : 'sesm-app.min.js';
+            wp_enqueue_script('sesm-main-script', SESM_MAIN_URL . 'scripts/' . $script, ['jquery', 'wp-i18n'], '1.2', true);
+            wp_set_script_translations('sesm-main-script', 'sesm', SESM_MAIN_DIR . "languages");
+        }, 10);
+        //Add the styles
+        if ($use_style) {
+            add_action('wp_head', function () {
+                $style = 'sesm-main.min.css';
+                wp_enqueue_style('sesm-main-style', SESM_MAIN_URL . 'style/' . $style);
+                wp_enqueue_style('sesm-fa', 'https://use.fontawesome.com/releases/v6.2.0/css/all.css');
+            }, 10);
+        }
+    }
+
     /**
      * Loads the Frontend Template
      *
@@ -30,14 +55,7 @@ class Super_Easy_Stock_Manager extends Super_Easy_Stock_Manager_Helper
      */
     public function getFrontend($use_style = true)
     {
-        if ($use_style) {
-            add_action('wp_head', function () {
-                $style = (WP_DEBUG === true) ? 'sesm-main.css' : 'sesm-main.min.css';
-                wp_enqueue_style('sesm-main-style', SESM_MAIN_URL . '/style/' . $style);
-                wp_enqueue_style('sesm-fa', 'https://use.fontawesome.com/releases/v6.2.0/css/all.css');
-            }, 10);
-        }
-        //Include the scripts
+        //Include the footer scripts
         add_action('wp_footer', function () {
             //Add variables for JS
             echo "<script type=\"text/javascript\">";
@@ -45,11 +63,7 @@ class Super_Easy_Stock_Manager extends Super_Easy_Stock_Manager_Helper
             echo "window.sesm_plugin_root = \"" . SESM_MAIN_URL . "\"";
             echo "</script>";
         }, 10);
-        add_action('wp_enqueue_scripts', function () {
-            $script = (WP_DEBUG === true) ? 'sesm-app.js' : 'sesm-app.min.js';
-            wp_enqueue_script('sesm-main-script', SESM_MAIN_URL . 'scripts/' . $script, ['jquery', 'wp-i18n'], '1.1', true);
-            wp_set_script_translations('sesm-main-script', 'sesm', SESM_MAIN_DIR . "languages");
-        }, 10);
+
         return $this->template_handler->load_template_to_var('frontend');
     }
     /**
