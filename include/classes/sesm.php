@@ -36,6 +36,7 @@ class Super_Easy_Stock_Manager extends Super_Easy_Stock_Manager_Helper
         add_action('wp_enqueue_scripts', function () {
             $script = (WP_DEBUG === true) ? 'sesm-app.js' : 'sesm-app.min.js';
             wp_enqueue_script('sesm-main-script', SESM_MAIN_URL . 'scripts/' . $script, ['jquery', 'wp-i18n'], '1.2', true);
+            wp_enqueue_script('sesm-scanner-script', SESM_MAIN_URL . 'include/lib/html5-qrcode.min.js',[], '1.2', true);
             wp_set_script_translations('sesm-main-script', 'sesm', SESM_MAIN_DIR . "languages");
         }, 10);
         //Add the styles
