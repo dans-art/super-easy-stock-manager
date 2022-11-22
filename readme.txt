@@ -48,3 +48,6 @@ Can I style the frontend?
 
 == Changelog ==
 = [1.2] 2022-11-22 =
+- Style fixes. Added support for various themes
+- Added checks for the input value
+- Removed old code
