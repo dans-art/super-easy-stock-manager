@@ -2,7 +2,7 @@
 Contributors: dansart
 Contributors URL: <http://dev.dans-art.ch>
 Donate link: https://paypal.me/dansart13
-Tags: woocommerce, customer, client, user, automatic, create user, auto add, backend, order, orders page
+Tags: woocommerce, stock, management, manager, price, quantity, info
 Requires at least: 5.5.3
 Tested up to: 5.5.3
 Requires PHP: 7.4
@@ -35,7 +35,7 @@ If you like the Plugin, please leave some Stars or spend me a coffee. Thanks!
 1. The frontend
 
 == Upgrade Notice ==
-Upload the plugin files to the /wp-content/plugins/add-customer-for-woocommerce directory, or update the plugin through the WordPress plugins screen directly.
+Upload the plugin files to the /wp-content/plugins/super-easy-stock-manager directory, or update the plugin through the WordPress plugins screen directly.
 
 == Frequently Asked Questions ==
 Are other shop systems than WooCommerce supported?
