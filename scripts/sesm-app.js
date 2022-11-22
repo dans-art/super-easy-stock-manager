@@ -56,10 +56,10 @@ class sesmMain {
             jQuery("#sesm_buttons button.button-active").removeClass("button-active");
 
             //Show the fields again, focus and set class
-            jQuery("#sesm_sku_input").show();
+            jQuery("#sesm_sku_input").slideDown('fast');
+            jQuery("#sesm_container #selection-indicator").slideDown('fast');
             jQuery("#sesm_sku_input").focus();
             jQuery(this).addClass("button-active");
-            jQuery("#sesm_buttons #selection-indicator").show();
 
             sesm_scripts.move_selection_indicator();
 
@@ -75,17 +75,17 @@ class sesmMain {
             }
 
         });
-        jQuery(document).on("keyup", function (s) {
+        jQuery(document).on("keyup", async function (s) {
             if (s.which == 13) {
-                sesm_scripts.ajax.do_ajax();
-                jQuery("#sesm_sku_input").val("")
+                const ajax_result = await sesm_scripts.ajax.do_ajax();
+                sesm_scripts.addToHistory(jQuery.parseJSON(ajax_result));
             }
         }),
             jQuery("#add_quant_btn").click(function () {
-                sesm_scripts.changeQuantity(!0);
+                sesm_scripts.changeQuantity(true);
             }),
             jQuery("#remove_quant_btn").click(function () {
-                sesm_scripts.changeQuantity(!1);
+                sesm_scripts.changeQuantity(false);
             });
 
         /**
@@ -100,17 +100,24 @@ class sesmMain {
      * Shows the buttons
      */
     activate_sesm() {
-        jQuery('#sesm_buttons').show('slow');
+        jQuery('#sesm_buttons').slideDown('slow');
     }
 
     /**
      * Moves the indicator of the tool below the button
      */
     move_selection_indicator(animation_duration = 200) {
+        if (jQuery('#sesm_buttons .button-active').length === 0) {
+            return;
+        }
         const active_position = jQuery('#sesm_buttons .button-active').offset().left;
-        const first_button_position = jQuery('#sesm_buttons button:first-child').offset().left;
+        const active_position_top = jQuery('#sesm_buttons .button-active').offset().top;
+        if (jQuery('#selection-indicator').offset().top === 0) {
+            animation_duration = 0; //Move instantly if not in position yet
+        }
         jQuery('#selection-indicator').animate({
-            left: active_position - first_button_position + (jQuery('#sesm_buttons .button-active').width() / 2)
+            left: active_position + (jQuery('#sesm_buttons .button-active').width() / 2),
+            top: active_position_top + (jQuery('#sesm_buttons .button-active').height() + 2),
         },
             animation_duration);
     }
@@ -147,8 +154,13 @@ class sesmMain {
         jQuery("#sesm_history article").first().animate({ opacity: 1, height: "100%" }, 500);
     }
 
-    get_template_by_state(state) {
-        switch (state) {
+    /**
+     * Loads the template according to the template given. The Template must be loaded first by SesmTemplate.load_default_template()
+     * @param {string} template The template. Can be get, error, updateStock or updatePrice
+     * @returns The template
+     */
+    get_template_by_state(template) {
+        switch (template) {
             case 'error':
                 return sesm_scripts.template.loaded_templates.error;
             case 'updateStock':
@@ -162,6 +174,12 @@ class sesmMain {
         }
 
     }
+
+    /**
+     * Gets the fontawesome class name by template name
+     * 
+     * @param {string} template The template. Can be get, error, updateStock or updatePrice
+     */
     set_icon_class(template) {
         let classname = '';
         switch (template) {
@@ -180,6 +198,12 @@ class sesmMain {
         this.field_names.iconclass = classname;
     }
 
+    /**
+     * Formats the product attributes
+     * 
+     * @param {object} json_data The data from the ajax request as object
+     * @returns {string} The attributes
+     */
     format_attributes(json_data) {
         if (this.empty(json_data.attributes)) {
             return "";
@@ -232,13 +256,22 @@ class sesmMain {
         }
     }
 
-    changeQuantity(s) {
-        if (this.empty(jQuery("#sesm_quant").val())) {
-            jQuery("#sesm_quant").val(0);
+    /**
+     * Increases or decreases the quantity
+     * 
+     * @param {bool} add If one should be added or removed
+     */
+    changeQuantity(add) {
+        var quant = (!this.empty(jQuery('#sesm_quant').val())) ? parseInt(jQuery('#sesm_quant').val()) : 0;
+        var newQuant = 0;
+        if (add === true) {
+            newQuant = ((quant + 1) == 0) ? 1 : quant + 1;
+        } else {
+            newQuant = ((quant - 1) == 0) ? -1 : quant - 1;
         }
-        var e = parseInt(jQuery("#sesm_quant").val()),
-            a = 0;
-        (a = !0 === s ? (e + 1 == 0 ? 1 : e + 1) : e - 1 == 0 ? -1 : e - 1), jQuery("#sesm_quant").val(a), jQuery("#sesm_sku_input").focus();
+        newQuant = (!Number.isInteger(newQuant)) ? 0 : newQuant;
+        jQuery('#sesm_quant').val(newQuant);
+        jQuery('#sesm_sku_input').focus();
     }
 
     //Helper functions
@@ -264,66 +297,3 @@ const { __, _x, _n, _nx } = wp.i18n; //Map the functions to the wp translation s
 
 let sesm_scripts = new sesmMain;
 sesm_scripts.construct();
-
-/*function changeQuantity(s) {
-    var e = parseInt(jQuery("#sesm_quant").val()),
-        a = 0;
-    (a = !0 === s ? (e + 1 == 0 ? 1 : e + 1) : e - 1 == 0 ? -1 : e - 1), jQuery("#sesm_quant").val(a), jQuery("#sesm_sku_input").focus();
-}
-function fire() {
-    var s = jQuery("#sesm_sku_input").val(),
-        e = jQuery("#sesm_quant").val(),
-        a = jQuery(".sesm_input.update_price").val(),
-        t = jQuery(".sesm_input.update_price.sale").val();
-    jQuery("#sesm_sku_input_loader").addClass("active");
-    var n = { action: "sesm-ajax", do: sesm_do, sku: s, quantity: e, price: a, price_sale: t };
-    $.post(wp_site_url + "/wp-admin/admin-ajax.php", n, function (s) {
-        addToHistory($.parseJSON(s)), jQuery("#sesm_sku_input_loader").removeClass("active");
-    });
-}
-function addToHistory(s) {
-    var e = historyTemplate[s.template];
-    $.each(s, function (s, a) {
-        (a = colorValues(s, a)), (e = e.replaceAll("${" + s + "}", a));
-    }),
-        jQuery("#sesm_history").addClass("active"),
-        jQuery("#sesm_history").prepend(e);
-}
-function colorValues(s, e) {
-    switch (s) {
-        case "stock_quantity":
-        case "regular_price":
-        case "sale_price":
-            var a = parseInt(e);
-            return a < 1 ? "<span class='red'>" + a + "</span>" : e;
-        default:
-            return e;
-    }
-}
-import * as tools from "./modules/tools.js";
-var sesm_do = "";
-jQuery(document).ready(function () {
-    jQuery("#sesm_buttons span").click(function () {
-        (sesm_do = jQuery(this).data("do")),
-            jQuery("#sesm_input input").hide(),
-            jQuery("#sesm_input label").hide(),
-            jQuery("#sesm_input .quant_flex_group").hide(),
-            jQuery("#sesm_sku_input").show(),
-            jQuery("[for=sesm_sku_input]").show(),
-            jQuery("#sesm_sku_input").focus(),
-            jQuery(".sesm_input." + sesm_do).show(),
-            jQuery(".sesm_label." + sesm_do).show(),
-            jQuery("#sesm_buttons span.current").removeClass("current"),
-            jQuery(this).addClass("current");
-    });
-}),
-    jQuery(document).on("keyup", function (s) {
-        13 == s.which && (sesmAjax(), jQuery("#sesm_sku_input").val(""));
-    }),
-    jQuery("#add_quant_btn").click(function () {
-        changeQuantity(!0);
-    }),
-    jQuery("#remove_quant_btn").click(function () {
-        changeQuantity(!1);
-    });
-*/

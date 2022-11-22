@@ -3,7 +3,6 @@
         <button data-do="get_product">
             <span class="sesm_icon"><i class="fas fa-question"></i></span>
             <span class="sesm_icon_line"></span>
-            <span id="selection-indicator"></span>
         </button>
         <button data-do="add_quantities">
             <span class="sesm_icon"><i class="fas fa-box-open"></i></span>
@@ -40,4 +39,5 @@
     </section>
     <section id="sesm_history">
     </section>
+    <div id="selection-indicator"></div>
 </div>
