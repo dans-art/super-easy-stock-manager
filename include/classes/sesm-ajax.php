@@ -45,7 +45,7 @@ class Super_Easy_Stock_Manager_Ajax
             $result['currency'] = get_woocommerce_currency();
             $result['regular_price'] = $product->get_regular_price() ?: "-";
             $result['sale_price'] = $product->get_sale_price() ?: false;
-            $result['description'] = substr($product->get_short_description(), 0, 50);
+            $result['description'] = substr($product->get_short_description(), 0, 250);
             $result['image'] = $product->get_image('thumbnail');
             $result['weight'] = $product->get_weight() ?: 0;
             $result['attributes'] = wc_get_formatted_variation($product, true);

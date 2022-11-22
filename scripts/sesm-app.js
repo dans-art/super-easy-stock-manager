@@ -78,7 +78,11 @@ class sesmMain {
         jQuery(document).on("keyup", async function (s) {
             if (s.which == 13) {
                 const ajax_result = await sesm_scripts.ajax.do_ajax();
-                sesm_scripts.addToHistory(jQuery.parseJSON(ajax_result));
+                if(!sesm_scripts.empty(ajax_result)){
+                    sesm_scripts.addToHistory(jQuery.parseJSON(ajax_result));
+                }else{
+                    console.log('Failed to add to history: '+ ajax_result);
+                }
             }
         }),
             jQuery("#add_quant_btn").click(function () {
