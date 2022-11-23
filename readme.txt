@@ -6,7 +6,7 @@ Tags: woocommerce, stock, management, manager, price, quantity, info
 Requires at least: 5.5.3
 Tested up to: 5.5.3
 Requires PHP: 7.4
-Stable tag: 1.2
+Stable tag: 1.3
 WC requires at least: 4.7.0
 WC tested up to: 7.0.1
 License: GPLv3 or later
@@ -18,7 +18,7 @@ This plugin makes managing your products as easy as possible.
 A Stock Manager that is built for speed!
 No unnecessary stuff, just the basics and super fast!
 Just select the quantity to add or remove, or the price to set, scan the product's barcode, and you are good to go!
-This plugin is designed to be used with an barcode scanner.
+This plugin is designed to be used with an barcode scanner on desktop. On mobile, there is a mobile scan functionality available.
 
 Required Plugins: WooCommerce 4.7.0 or higher
 
@@ -47,6 +47,12 @@ Can I style the frontend?
 
 
 == Changelog ==
+= [1.3] 2022-11-23 =
+- Style fixes
+- Added Mobile QR/Barcode scanner
+- Cleaned code
+- Various small improvements
+
 = [1.2] 2022-11-22 =
 - Style fixes. Added support for various themes
 - Added checks for the input value
