@@ -194,6 +194,9 @@ class sesmMain {
      * Slides up the scan container
      */
     show_scan_container() {
+        if(jQuery("#mobile-scan-container").css('display') === 'flex'){
+            return;
+        }
         jQuery("#mobile-scan-container").css('display', 'flex');
         jQuery("#mobile-scan-container").css('bottom', -jQuery("#mobile-scan-container").height());
         jQuery("#mobile-scan-container").animate({ 'bottom': 0 }, 200);
