@@ -28,13 +28,11 @@ body { --sesm-button-color: rgb(255, 182, 0); --sesm-button-text-color: rgb(0, 0
 
 #sesm_container #mobile-scan-container #scanner-container { position: absolute !important; left: 0; display: block; width: 100%; bottom: var(--sesm-scan-container-height); background-color: var(--sesm-button-color); padding: 2%; border: none !important; /* Style of the camera interface*/ }
 
-#sesm_container #mobile-scan-container #scanner-container #scanner-container__dashboard_section_csr { height: 2.5em; }
-
-#sesm_container #mobile-scan-container #scanner-container #scanner-container__dashboard_section_csr #html5-qrcode-button-camera-stop { display: none !important; }
+#sesm_container #mobile-scan-container #scanner-container #scanner-container__dashboard_section_csr { height: 2.5em; color: transparent; /* Workaround to hide the camera count*/ }
 
 #sesm_container #mobile-scan-container #scanner-container #html5-qrcode-anchor-scan-type-change { display: none !important; }
 
-#sesm_container #mobile-scan-container #scanner-container #html5-qrcode-button-camera-start { position: absolute; right: 4%; width: 45%; height: 3em; border-radius: 2em; background-color: var(--sesm-button-color); border: solid 1px var(--sesm-button-border); color: var(--sesm-button-text-color); font-size: 1.2em; }
+#sesm_container #mobile-scan-container #scanner-container #html5-qrcode-button-camera-start, #sesm_container #mobile-scan-container #scanner-container #html5-qrcode-button-camera-stop { position: absolute; right: 4%; width: 45%; height: 3em; border-radius: 2em; background-color: var(--sesm-button-color); border: solid 1px var(--sesm-button-border); color: var(--sesm-button-text-color); font-size: 1.2em; }
 
 #sesm_container #mobile-scan-container #scanner-container #html5-qrcode-select-camera { position: absolute; left: 4%; width: 45%; height: 3em; border-radius: 2em; background-color: var(--sesm-button-color); border: solid 1px var(--sesm-button-border); color: var(--sesm-button-text-color); font-size: 1.2em; padding-left: 1em; }
 

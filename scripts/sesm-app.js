@@ -38,12 +38,18 @@ class sesmMain {
         this.field_names.sku_title = __('SKU', 'sesm');
         this.field_names.iconclass = "";
     }
-
+    /**
+     * Checks if the device is a mobile device or not.
+     * @returns true if mobile, otherwise false
+     */
     is_mobile() {
-        if (jQuery(window).width() > 500) {
-            return false;
+        if (jQuery(window).width() < 500) {
+            return true;
         }
-        return true;
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -61,11 +67,14 @@ class sesmMain {
             //Show the fields again, focus and set class
             jQuery("#sesm_sku_input").slideDown('fast');
             jQuery("#sesm_container #selection-indicator").slideDown('fast');
-            jQuery("#sesm_sku_input").focus();
             jQuery(this).addClass("button-active");
 
-            //Maybe show the mobile scan button
-            if (sesm_scripts.is_mobile()) {
+            //Auto focus if device is a mobile device. 
+            //@todo: Add option to enable or disable autofocus 
+            if(!sesm_scripts.is_mobile){
+                jQuery("#sesm_sku_input").focus();
+            }else{
+                //Is mobile
                 sesm_scripts.show_scan_container();
             }
 
@@ -103,7 +112,7 @@ class sesmMain {
                 });
 
             sesm_scripts.scanner.render(sesm_scripts.onScanSuccess, sesm_scripts.onScanFailure);
-
+            
         });
 
         jQuery('#scan-button-active').click(() => {

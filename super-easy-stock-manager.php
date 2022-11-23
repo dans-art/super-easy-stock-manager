@@ -24,6 +24,7 @@
  *
  * @todo: Check if woocommerce is installed
  * @todo: Add read only function for visitors?
+ * @todo: Add options menu in backend -> About the plugin, how to setup and Donation
  * 
  */
 

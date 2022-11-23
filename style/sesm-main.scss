@@ -107,10 +107,7 @@ body {
             /* Style of the camera interface*/
             #scanner-container__dashboard_section_csr {
                 height: 2.5em;
-
-                #html5-qrcode-button-camera-stop{
-                    display: none !important;
-                }
+                color: transparent; /* Workaround to hide the camera count*/
 
             }
 
@@ -118,7 +115,8 @@ body {
                 display: none !important;
             }
 
-            #html5-qrcode-button-camera-start{
+            #html5-qrcode-button-camera-start,
+            #html5-qrcode-button-camera-stop{
                 position: absolute;
                 right: 4%;
                 width: 45%;
