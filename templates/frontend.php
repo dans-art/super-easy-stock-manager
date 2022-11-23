@@ -11,6 +11,7 @@
             <span class="sesm_icon"><i class="far fa-money-bill-alt"></i></span>
         </button>
     </section>
+    <div id="selection-indicator"></div>
     <section id="sesm_input">
         <div>
             <input id="sesm_sku_input" style="display: none;" type="text" placeholder="<?php echo __("Scan a barcode or add a SKU number and press enter", "sesm"); ?>" />
@@ -39,7 +40,6 @@
     </section>
     <section id="sesm_history">
     </section>
-    <div id="selection-indicator"></div>
     <div id="mobile-scan-container">
         <button id="scan-button" class="scan-button-style">
             <i class="fa-solid fa-camera"></i>

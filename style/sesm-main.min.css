@@ -3,7 +3,7 @@
   Author: dansart
 
 */
-body { --sesm-button-color: rgb(255, 182, 0); --sesm-button-text-color: rgb(0, 0, 0); --sesm-button-text-color-disabled: rgb(117, 117, 117); --sesm-button-border: rgb(0 0 0); --sesm-box-border: rgb(189, 189, 189); --sesm-background: rgba(255, 183, 0, 0.20); --sesm-border-radius: 5px; --sesm-error-color: rgb(255, 0, 0); --sesm-scan-container-height: 5em; }
+body { --sesm-button-color: rgb(255, 182, 0); --sesm-button-text-color: rgb(0, 0, 0); --sesm-button-text-color-disabled: rgb(117, 117, 117); --sesm-button-border: rgb(0 0 0); --sesm-box-border: rgb(189, 189, 189); --sesm-background: rgba(255, 183, 0, 0.20); --sesm-border-radius: 5px; --sesm-error-color: rgb(255, 0, 0); --sesm-scan-container-height: 80px; }
 
 @keyframes bounce { 0% { width: 0%;
     left: 0; }
@@ -16,9 +16,9 @@ body { --sesm-button-color: rgb(255, 182, 0); --sesm-button-text-color: rgb(0, 0
   100% { width: 0%;
     left: 0%; } }
 
-#sesm_container { padding: 1em; font-size: 16px; color: var(--sesm-button-text-color); }
+#sesm_container { padding: 1em; font-size: 16px; color: var(--sesm-button-text-color); position: relative; }
 
-#sesm_container #selection-indicator { display: none; width: 4px; height: 1.55em; position: absolute; background-color: var(--sesm-button-border); left: 0; top: 0; }
+#sesm_container #selection-indicator { display: block; width: 4px; height: 1.55em; background-color: var(--sesm-button-border); left: 0; top: 0; opacity: 0; position: relative; }
 
 #sesm_container #mobile-scan-container { width: 100%; height: var(--sesm-scan-container-height); position: fixed; bottom: 0; left: 0; display: flex; justify-content: center; align-items: center; background-color: var(--sesm-button-color); display: none; }
 
@@ -38,9 +38,9 @@ body { --sesm-button-color: rgb(255, 182, 0); --sesm-button-text-color: rgb(0, 0
 
 #sesm_container #mobile-scan-container #scanner-container #html5-qrcode-select-camera:disabled { color: var(--sesm-button-text-color-disabled); border: solid 1px var(--sesm-button-text-color-disabled); }
 
-#sesm_buttons { display: grid; grid-template-columns: auto auto auto; column-gap: 3em; justify-content: center; padding-bottom: 1.5em; }
+#sesm_buttons { display: grid; grid-template-columns: auto auto auto; column-gap: 3em; justify-content: center; padding-bottom: 0; }
 
-#sesm_buttons > button { font-size: 2em; width: 3em; height: 3em; border-radius: 50%; background-color: var(--sesm-button-color); border: solid 1px var(--sesm-button-border); position: relative; cursor: pointer; padding: 0; }
+#sesm_buttons > button { font-size: 2em; width: 3em; height: 3em; border-radius: 50%; background-color: var(--sesm-button-color); border: solid 2px var(--sesm-button-border); position: relative; cursor: pointer; padding: 0; }
 
 #sesm_input .sesm_options { width: 80%; margin: 0 auto; }
 
@@ -82,13 +82,17 @@ body { --sesm-button-color: rgb(255, 182, 0); --sesm-button-text-color: rgb(0, 0
 
 #sesm_history .content .two-column-grid dl:last-child { text-align: right; }
 
-#sesm_history .content h2 { font-size: 1.5em; font-weight: bold; margin-top: 0; margin-bottom: 0; color: var(--sesm-button-text-color); word-break: break-word; }
+#sesm_history .content { min-height: 19em; display: flex; flex-direction: column; justify-content: space-between; }
+
+#sesm_history .content h2 { font-size: 1.5em; height: 3em; font-weight: bold; margin-top: 0; margin-bottom: 0; color: var(--sesm-button-text-color); word-break: break-word; }
 
 #sesm_history .content h3 { margin-top: 0.2em; margin-bottom: 0.1em; font-size: 1em; font-weight: normal; color: var(--sesm-button-text-color); word-break: break-word; }
 
 #sesm_history .content h4 { font-size: 1.1em; color: var(--sesm-button-text-color); word-break: break-word; }
 
-#sesm_history .content h4.attr { font-size: 1em; min-height: 3.5em; font-weight: normal; }
+#sesm_history .content h4.attr { font-size: 1em; font-weight: normal; margin: 0; }
+
+#sesm_history .content h4.description { margin: 0; }
 
 #sesm_history article { padding: 0 1.3em; max-width: 100%; position: relative; border: 1px solid var(--sesm-box-border); border-radius: var(--sesm-border-radius); background-color: var(--sesm-background); }
 
@@ -106,17 +110,15 @@ body { --sesm-button-color: rgb(255, 182, 0); --sesm-button-text-color: rgb(0, 0
 
 #sesm_history article.item.update.stock .big-text { font-size: 1.5em; }
 
-#sesm_history article.item.update.price .big-text .content-long, #sesm_history article.item.update.stock .big-text .content-long { font-size: 1.2em; }
+#sesm_history article.item.update.price .big-text .content-long, #sesm_history article.item.update.stock .big-text .content-long { font-size: 0.8em; }
 
-#sesm_history article.item.update .big-text .single { display: flex; flex-direction: column; }
+#sesm_history article.item.update.price .big-text .single, #sesm_history article.item.update.stock .big-text .single { display: flex; flex-direction: column; font-size: 1.2em; }
 
-#sesm_history article.item.update .big-text .single .strikethrough { padding-right: 0; }
+#sesm_history article.item.update.price .big-text .single .strikethrough, #sesm_history article.item.update.stock .big-text .single .strikethrough { padding-right: 0; }
 
 #sesm_history article.item.error .text-con { width: 90%; border-radius: var(--sesm-border-radius); border: 1px solid var(--sesm-button-border); height: 5em; display: flex; justify-content: center; align-items: center; margin-bottom: 1em; margin-left: 5%; margin-right: 5%; margin-top: 1em; }
 
 #sesm_history article.item.error .title { font-size: 2em; }
-
-#sesm_history article .content { min-height: 19em; }
 
 #sesm_history .icon { display: flex; justify-content: center; align-items: center; position: absolute; right: 0.2em; top: 0.2em; padding: 0.25em; height: 2em; width: 2em; font-size: 2em; border-radius: var(--sesm-border-radius); background-color: var(--sesm-button-color); height: 1.5em; width: 1.5em; }
 
@@ -124,11 +126,11 @@ body { --sesm-button-color: rgb(255, 182, 0); --sesm-button-text-color: rgb(0, 0
 
 @media screen and (max-width: 500px) { #sesm_history { display: grid; grid-template-columns: 1fr; }
   #sesm_buttons { gap: 1.5em; }
-  #sesm_buttons > button { width: 2em; height: 2em; font-size: 2em; }
+  #sesm_buttons > button { width: 2em; height: 2em; font-size: 2em; border-width: 1px; }
   #sesm_input input { height: 2em; }
   #sesm_input .sesm_options { width: 100%; }
   #sesm_input .sesm_options .quant_flex_group .options_button { min-width: 2.5em; min-height: 2.5em; }
-  #sesm_buttons #selection-indicator { left: 1.7em; top: 3.5em; } }
+  #sesm_container #selection-indicator { height: 1em; } }
 
 @media screen and (min-width: 501px) and (max-width: 850px) { #sesm_history { display: grid; grid-template-columns: 1fr 1fr; } }
 /*# sourceMappingURL=sesm-main.min.css.map */
