@@ -82,13 +82,17 @@ body { --sesm-button-color: rgb(255, 182, 0); --sesm-button-text-color: rgb(0, 0
 
 #sesm_history .content .two-column-grid dl:last-child { text-align: right; }
 
+#sesm_history .content { min-height: 19em; display: flex; flex-direction: column; justify-content: space-between; }
+
 #sesm_history .content h2 { font-size: 1.5em; height: 3em; font-weight: bold; margin-top: 0; margin-bottom: 0; color: var(--sesm-button-text-color); word-break: break-word; }
 
 #sesm_history .content h3 { margin-top: 0.2em; margin-bottom: 0.1em; font-size: 1em; font-weight: normal; color: var(--sesm-button-text-color); word-break: break-word; }
 
 #sesm_history .content h4 { font-size: 1.1em; color: var(--sesm-button-text-color); word-break: break-word; }
 
-#sesm_history .content h4.attr { font-size: 1em; min-height: 3.5em; font-weight: normal; }
+#sesm_history .content h4.attr { font-size: 1em; font-weight: normal; margin: 0; }
+
+#sesm_history .content h4.description { margin: 0; }
 
 #sesm_history article { padding: 0 1.3em; max-width: 100%; position: relative; border: 1px solid var(--sesm-box-border); border-radius: var(--sesm-border-radius); background-color: var(--sesm-background); }
 
@@ -106,17 +110,15 @@ body { --sesm-button-color: rgb(255, 182, 0); --sesm-button-text-color: rgb(0, 0
 
 #sesm_history article.item.update.stock .big-text { font-size: 1.5em; }
 
-#sesm_history article.item.update.price .big-text .content-long, #sesm_history article.item.update.stock .big-text .content-long { font-size: 1.2em; }
+#sesm_history article.item.update.price .big-text .content-long, #sesm_history article.item.update.stock .big-text .content-long { font-size: 0.8em; }
 
-#sesm_history article.item.update .big-text .single { display: flex; flex-direction: column; }
+#sesm_history article.item.update.price .big-text .single, #sesm_history article.item.update.stock .big-text .single { display: flex; flex-direction: column; font-size: 1.2em; }
 
-#sesm_history article.item.update .big-text .single .strikethrough { padding-right: 0; }
+#sesm_history article.item.update.price .big-text .single .strikethrough, #sesm_history article.item.update.stock .big-text .single .strikethrough { padding-right: 0; }
 
 #sesm_history article.item.error .text-con { width: 90%; border-radius: var(--sesm-border-radius); border: 1px solid var(--sesm-button-border); height: 5em; display: flex; justify-content: center; align-items: center; margin-bottom: 1em; margin-left: 5%; margin-right: 5%; margin-top: 1em; }
 
 #sesm_history article.item.error .title { font-size: 2em; }
-
-#sesm_history article .content { min-height: 19em; }
 
 #sesm_history .icon { display: flex; justify-content: center; align-items: center; position: absolute; right: 0.2em; top: 0.2em; padding: 0.25em; height: 2em; width: 2em; font-size: 2em; border-radius: var(--sesm-border-radius); background-color: var(--sesm-button-color); height: 1.5em; width: 1.5em; }
 
