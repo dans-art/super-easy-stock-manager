@@ -8,11 +8,13 @@ body {
 
     --sesm-button-color: rgb(255, 182, 0);
     --sesm-button-text-color: rgb(0, 0, 0);
+    --sesm-button-text-color-disabled: rgb(117, 117, 117);
     --sesm-button-border: rgb(0 0 0);
     --sesm-box-border: rgb(189, 189, 189);
     --sesm-background: rgba(255, 183, 0, 0.20);
     --sesm-border-radius: 5px;
     --sesm-error-color: rgb(255, 0, 0);
+    --sesm-scan-container-height: 5em;
 }
 
 @keyframes bounce {
@@ -56,6 +58,96 @@ body {
         background-color: var(--sesm-button-border);
         left: 0;
         top: 0;
+    }
+
+    #mobile-scan-container {
+        width: 100%;
+        height: var(--sesm-scan-container-height);
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--sesm-button-color);
+        display: none;
+
+        #scan-button {}
+
+        #scan-button-active {
+            display: none;
+        }
+
+        .scan-button-style {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+            border: 1px solid var(--sesm-button-border);
+            cursor: pointer;
+            width: 4em;
+            height: 1.5em;
+            font-size: 2em;
+            gap: 0.25em;
+            background-color: var(--sesm-button-color);
+            border-radius: 1em;
+        }
+
+        #scanner-container {
+            position: absolute !important;
+            left: 0;
+            display: block;
+            width: 100%;
+            bottom: var(--sesm-scan-container-height);
+            background-color: var(--sesm-button-color);
+            padding: 2%;
+            //border: 0.5em solid var(--sesm-button-color) !important;
+            border: none !important;
+
+            /* Style of the camera interface*/
+            #scanner-container__dashboard_section_csr {
+                height: 2.5em;
+                color: transparent; /* Workaround to hide the camera count*/
+
+            }
+
+            #html5-qrcode-anchor-scan-type-change {
+                display: none !important;
+            }
+
+            #html5-qrcode-button-camera-start,
+            #html5-qrcode-button-camera-stop{
+                position: absolute;
+                right: 4%;
+                width: 45%;
+                height: 3em;
+                border-radius: 2em;
+                background-color: var(--sesm-button-color);
+                border: solid 1px var(--sesm-button-border);
+                color: var(--sesm-button-text-color);
+                font-size: 1.2em;
+            }
+
+            #html5-qrcode-select-camera {
+                position: absolute;
+                left: 4%;
+                width: 45%;
+                height: 3em;
+                border-radius: 2em;
+                background-color: var(--sesm-button-color);
+                border: solid 1px var(--sesm-button-border);
+                color: var(--sesm-button-text-color);
+                font-size: 1.2em;
+                padding-left: 1em;
+
+                &:disabled{
+                    color: var(--sesm-button-text-color-disabled);
+                    border: solid 1px var(--sesm-button-text-color-disabled);
+                }
+            }
+
+        }
+
     }
 }
 
@@ -136,6 +228,7 @@ body {
         position: relative;
         top: -1.3em;
         animation: bounce 3s;
+        animation-iteration-count: 100;
     }
 
 
@@ -213,6 +306,7 @@ body {
             margin-top: 0;
             margin-bottom: 0;
             color: var(--sesm-button-text-color);
+            word-break: break-word;
         }
 
         h3 {
@@ -221,11 +315,13 @@ body {
             font-size: 1em;
             font-weight: normal;
             color: var(--sesm-button-text-color);
+            word-break: break-word;
         }
 
         h4 {
             font-size: 1.1em;
             color: var(--sesm-button-text-color);
+            word-break: break-word;
         }
 
         h4.attr {
@@ -358,6 +454,7 @@ body {
     }
 
 
+
 }
 
 @media screen and (max-width: 500px) {
@@ -384,11 +481,11 @@ body {
         width: 100%;
 
         .quant_flex_group {
-    
+
             .options_button {
                 min-width: 2.5em;
                 min-height: 2.5em;
-  
+
             }
         }
     }

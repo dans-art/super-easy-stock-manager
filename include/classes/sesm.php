@@ -35,14 +35,17 @@ class Super_Easy_Stock_Manager extends Super_Easy_Stock_Manager_Helper
         //Add the scripts
         add_action('wp_enqueue_scripts', function () {
             $script = (WP_DEBUG === true) ? 'sesm-app.js' : 'sesm-app.min.js';
-            wp_enqueue_script('sesm-main-script', SESM_MAIN_URL . 'scripts/' . $script, ['jquery', 'wp-i18n'], '1.2', true);
+            $version = $this -> load_version();
+            wp_enqueue_script('sesm-main-script', SESM_MAIN_URL . 'scripts/' . $script, ['jquery', 'wp-i18n'], $version, true);
+            wp_enqueue_script('sesm-scanner-script', SESM_MAIN_URL . 'include/lib/html5-qrcode.min.js',[], $version, true);
             wp_set_script_translations('sesm-main-script', 'sesm', SESM_MAIN_DIR . "languages");
         }, 10);
         //Add the styles
         if ($use_style) {
             add_action('wp_head', function () {
                 $style = 'sesm-main.min.css';
-                wp_enqueue_style('sesm-main-style', SESM_MAIN_URL . 'style/' . $style);
+                $version = $this -> load_version();
+                wp_enqueue_style('sesm-main-style', SESM_MAIN_URL . 'style/' . $style, [], $version);
                 wp_enqueue_style('sesm-fa', 'https://use.fontawesome.com/releases/v6.2.0/css/all.css');
             }, 10);
         }

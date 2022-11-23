@@ -2,6 +2,7 @@ class sesmMain {
 
     sesm_do = '';
     field_names = {};
+    scanner = {};
 
     construct() {
         jQuery(document).ready(async function () {
@@ -12,6 +13,8 @@ class sesmMain {
             await import('./modules/template.js').then((module) => {
                 sesm_scripts.template = new module.SesmTemplate;
             });
+
+
 
             //Load the templates
             await sesm_scripts.template.load_default_templates();
@@ -35,12 +38,18 @@ class sesmMain {
         this.field_names.sku_title = __('SKU', 'sesm');
         this.field_names.iconclass = "";
     }
-
+    /**
+     * Checks if the device is a mobile device or not.
+     * @returns true if mobile, otherwise false
+     */
     is_mobile() {
-        if (jQuery(window).width() > 500) {
-            return false;
+        if (jQuery(window).width() < 500) {
+            return true;
         }
-        jQuery("#sesm_sku_input").attr('placeholder', __('Input SKU', 'sesm'));
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -58,8 +67,16 @@ class sesmMain {
             //Show the fields again, focus and set class
             jQuery("#sesm_sku_input").slideDown('fast');
             jQuery("#sesm_container #selection-indicator").slideDown('fast');
-            jQuery("#sesm_sku_input").focus();
             jQuery(this).addClass("button-active");
+
+            //Auto focus if device is a mobile device. 
+            //@todo: Add option to enable or disable autofocus 
+            if(!sesm_scripts.is_mobile){
+                jQuery("#sesm_sku_input").focus();
+            }else{
+                //Is mobile
+                sesm_scripts.show_scan_container();
+            }
 
             sesm_scripts.move_selection_indicator();
 
@@ -75,10 +92,42 @@ class sesmMain {
             }
 
         });
+
+        jQuery('#scan-button').click(() => {
+
+            //Hide and show button
+            jQuery('#scan-button').hide();
+            jQuery('#scan-button-active').show();
+
+            //Open scan application
+            sesm_scripts.scanner = new Html5QrcodeScanner(
+                "scanner-container",
+                {
+                    fps: 10,
+                    qrbox: { width: 250, height: 250 },
+                    useBarCodeDetectorIfSupported: true,
+                    rememberLastUsedCamera: true,
+                    showTorchButtonIfSupported: true,
+                    defaultZoomValueIfSupported: 2
+                });
+
+            sesm_scripts.scanner.render(sesm_scripts.onScanSuccess, sesm_scripts.onScanFailure);
+            
+        });
+
+        jQuery('#scan-button-active').click(() => {
+
+            //Hide and show button
+            jQuery('#scan-button').show();
+            jQuery('#scan-button-active').hide();
+
+            sesm_scripts.scanner.clear();
+
+        });
+
         jQuery(document).on("keyup", async function (s) {
             if (s.which == 13) {
-                const ajax_result = await sesm_scripts.ajax.do_ajax();
-                sesm_scripts.addToHistory(jQuery.parseJSON(ajax_result));
+                sesm_scripts.fire_ajax();
             }
         }),
             jQuery("#add_quant_btn").click(function () {
@@ -93,9 +142,66 @@ class sesmMain {
          */
         jQuery(window).resize(() => {
             sesm_scripts.move_selection_indicator(0);
-            sesm_scripts.is_mobile();
+            if (sesm_scripts.is_mobile()) {
+                jQuery("#sesm_sku_input").attr('placeholder', __('Input SKU', 'sesm'));
+            }
         });
     }
+
+    /**
+     * Action to start the ajax action.
+     * Happens on enter press or on barcode scan success.
+     */
+    async fire_ajax() {
+        const ajax_result = await sesm_scripts.ajax.do_ajax();
+        if (!sesm_scripts.empty(ajax_result)) {
+            sesm_scripts.addToHistory(jQuery.parseJSON(ajax_result));
+        } else {
+            console.log('Failed to add to history: ' + ajax_result);
+        }
+    }
+
+    /**
+     * Callback when a code was found
+     * 
+     * @param {string} code The code
+     * @returns void
+     */
+    onScanSuccess(code) {
+        if (sesm_scripts.empty(code)) {
+            return false;
+        }
+        jQuery('#sesm_sku_input').val(code);
+        sesm_scripts.scanner.clear();
+        //Hide and show button
+        jQuery('#scan-button').show();
+        jQuery('#scan-button-active').hide();
+        //Fire the ajax 
+        sesm_scripts.fire_ajax();
+        console.log(code);
+    }
+
+    /**
+     * Callback when a error happened during barcode scanning
+     * @param {string} message Error message
+     * 
+     */
+    onScanFailure(message) {
+        console.log(message);
+    }
+
+    /**
+     * Slides up the scan container
+     */
+    show_scan_container() {
+        if(jQuery("#mobile-scan-container").css('display') === 'flex'){
+            return;
+        }
+        jQuery("#mobile-scan-container").css('display', 'flex');
+        jQuery("#mobile-scan-container").css('bottom', -jQuery("#mobile-scan-container").height());
+        jQuery("#mobile-scan-container").animate({ 'bottom': 0 }, 200);
+    }
+
     /**
      * Shows the buttons
      */

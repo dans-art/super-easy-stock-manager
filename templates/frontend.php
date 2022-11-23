@@ -40,4 +40,14 @@
     <section id="sesm_history">
     </section>
     <div id="selection-indicator"></div>
+    <div id="mobile-scan-container">
+        <button id="scan-button" class="scan-button-style">
+            <i class="fa-solid fa-camera"></i>
+            <i class="fa-solid fa-barcode"></i>
+        </button>
+        <button id="scan-button-active" class="scan-button-style">
+            <i class="fa-solid fa-times"></i>
+        </button>
+        <div id="scanner-container" width="100%" height="5em"></div>
+    </div>
 </div>

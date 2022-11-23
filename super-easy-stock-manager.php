@@ -3,8 +3,8 @@
 /**
  * Plugin Name: Super Easy Stock Manager
  * Description: Stock Management with ease!
- * Version: 1.2
- * Stable tag: 1.2
+ * Version: 1.3
+ * Stable tag: 1.3
  * Author: Dan's Art
  * Author URI: http://dev.dans-art.ch
  * Donate link: https://paypal.me/dansart13
@@ -24,6 +24,7 @@
  *
  * @todo: Check if woocommerce is installed
  * @todo: Add read only function for visitors?
+ * @todo: Add options menu in backend -> About the plugin, how to setup and Donation
  * 
  */
 
