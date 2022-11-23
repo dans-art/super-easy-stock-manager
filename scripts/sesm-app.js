@@ -71,11 +71,11 @@ class sesmMain {
 
             //Auto focus if device is a mobile device. 
             //@todo: Add option to enable or disable autofocus 
-            if(!sesm_scripts.is_mobile){
-                jQuery("#sesm_sku_input").focus();
-            }else{
+            if(sesm_scripts.is_mobile()){
                 //Is mobile
                 sesm_scripts.show_scan_container();
+            }else{
+                jQuery("#sesm_sku_input").focus();
             }
 
             sesm_scripts.move_selection_indicator();
@@ -216,14 +216,18 @@ class sesmMain {
         if (jQuery('#sesm_buttons .button-active').length === 0) {
             return;
         }
-        const active_position = jQuery('#sesm_buttons .button-active').offset().left;
-        const active_position_top = jQuery('#sesm_buttons .button-active').offset().top;
-        if (jQuery('#selection-indicator').offset().top === 0) {
+        const active_position = jQuery('#sesm_buttons .button-active')[0].offsetLeft;
+        const active_center = jQuery('#sesm_buttons .button-active').width() / 2;
+       
+        const padding = Number.parseInt(jQuery('#sesm_container').css('padding-left'));
+        const final_left = active_position - padding + active_center; 
+
+        if (jQuery('#selection-indicator')[0].offsetLeft === padding) {
             animation_duration = 0; //Move instantly if not in position yet
+            jQuery('#selection-indicator').animate({opacity: 1}, animation_duration);
         }
         jQuery('#selection-indicator').animate({
-            left: active_position + (jQuery('#sesm_buttons .button-active').width() / 2),
-            top: active_position_top + (jQuery('#sesm_buttons .button-active').height() + 2),
+            left: final_left,
         },
             animation_duration);
     }
