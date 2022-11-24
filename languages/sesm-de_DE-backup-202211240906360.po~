@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Super Easy Stock Manager!\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-31 20:56+0000\n"
-"PO-Revision-Date: 2020-12-24 15:20+0000\n"
+"PO-Revision-Date: 2022-11-21 09:53+0000\n"
 "Last-Translator: Daniel Spycher\n"
 "Language-Team: Deutsch\n"
 "Language: de_DE\n"
@@ -14,12 +14,12 @@ msgstr ""
 "X-Generator: Loco https://localise.biz/\n"
 "X-Loco-Version: 2.4.4; wp-5.5.3\n"
 
-#: templates/theme/frontend-content.php:31
+#: templates/theme/frontend-content.php:61
 #| msgid "Add Quantity"
 msgid "Add quantity"
 msgstr "Anzahl hinzufügen"
 
-#: include/classes/sesm-ajax.php:211
+#: include/classes/sesm-ajax.php:232
 msgid ""
 "Could not load the Product. Please update the lookup tables. <br/>"
 "(Woocommerce -> Status -> Tools -> Rebuild Lookup Tables)"
@@ -31,11 +31,19 @@ msgstr ""
 msgid "Dan's Art"
 msgstr "Dan's Art"
 
-#: templates/theme/frontend-history-item.php:18
+#: templates/theme/frontend-history-item.php:35
 msgid "Description"
 msgstr "Beschreibung"
 
-#: templates/theme/frontend-history-item-error.php:4
+#: templates/frontend.php:25
+msgid "Enter quantity to add or remove"
+msgstr "Menge zum hinzufügen oder entfernen eingeben"
+
+#: include/classes/sesm-ajax.php:297
+msgid "Error"
+msgstr "Fehler"
+
+#: templates/theme/frontend-history-item-error.php:7
 msgid "Error:"
 msgstr "Fehler:"
 
@@ -43,87 +51,124 @@ msgstr "Fehler:"
 msgid "http://dev.dans-art.ch"
 msgstr "http://dev.dans-art.ch"
 
-#: include/tools/sesm-helper.php:86
-msgid "Logout"
-msgstr "Abmelden"
+#: include/classes/sesm-ajax.php:218
+msgid "Info"
+msgstr "Info"
 
-#: include/classes/sesm-ajax.php:203
+#: scripts/sesm-app.js:43
+msgid "Input SKU"
+msgstr "Artikelnummer eingeben"
+
+#: include/classes/sesm-ajax.php:224
 msgid "No SKU provided"
 msgstr "Keine Artikelnummer übergeben."
 
-#: include/classes/sesm-ajax.php:277
+#: include/classes/sesm-ajax.php:299
 msgid "No value set!"
 msgstr "Keinen Wert gesetzt!"
 
-#: include/classes/sesm-ajax.php:180
+#: include/classes/sesm-ajax.php:192
 msgid "Old and new prices are the same, nothing has been changed"
 msgstr "Alter und neuer Preis haben sich nicht geändert."
 
-#: templates/theme/frontend-content.php:36
-#: templates/theme/frontend-history-item-update-price.php:7
-#: templates/theme/frontend-history-item.php:10
+#: scripts/sesm-app.js:32
+msgid "Price"
+msgstr "Preis"
+
+#: templates/frontend.php:33 templates/theme/frontend-content.php:71
+#: templates/theme/frontend-history-item-update-price.php:13
+#: templates/theme/frontend-history-item.php:19
 msgid "Price regular"
 msgstr "Regulärer Preis"
 
-#: templates/theme/frontend-content.php:40
-#: templates/theme/frontend-history-item-update-price.php:11
-#: templates/theme/frontend-history-item.php:14
+#: templates/frontend.php:36 templates/theme/frontend-content.php:79
+#: templates/theme/frontend-history-item-update-price.php:21
+#: templates/theme/frontend-history-item.php:27
 msgid "Price sale"
 msgstr "Angebots Preis"
 
-#: include/classes/sesm-ajax.php:213
+#: include/classes/sesm-ajax.php:234
 #, php-format
 msgid "Product not found for SKU: %s"
 msgstr "Kein Produkt für die Artikelnummer \"%s\" gefunden"
 
-#: include/classes/sesm-ajax.php:253
+#: include/classes/sesm-ajax.php:275
 msgid "Product with Variations"
 msgstr "Produkt mit Varianten"
 
-#: templates/theme/frontend-history-item.php:6
+#: templates/theme/frontend-history-item.php:11 scripts/sesm-app.js:34
 msgid "Quantity"
 msgstr "Anzahl"
 
-#: include/classes/sesm-ajax.php:153
+#: include/classes/sesm-ajax.php:178
 msgid "Sale price has to be smaller than the regular price!"
 msgstr "Der Angebotspreis muss kleiner sein, als der normale Preis"
 
-#: include/classes/sesm-ajax.php:249
+#: templates/frontend.php:17
+msgid "Scan a barcode or add a SKU number and press enter"
+msgstr "Scanne einen Barcode oder gib die Artikelnummer ein und drücke Enter"
+
+#: include/classes/sesm-ajax.php:271
 msgid "Simple Product"
 msgstr "Einfaches Produkt"
 
-#: templates/theme/frontend-content.php:19
+#: templates/theme/frontend-content.php:37 scripts/sesm-app.js:35
 msgid "SKU"
 msgstr "Artikelnummer"
+
+#: scripts/sesm-app.js:217
+msgid "Stock management got activated"
+msgstr "Lagerverwaltung wurde aktiviert"
 
 #. Description of the plugin
 msgid "Stock Management with ease!"
 msgstr "Sehr einfache Lagerverwaltung!"
 
 #. Name of the plugin
-#: templates/theme/frontend-head.php:1 templates/theme/frontend.php:12
+#: templates/theme/frontend-head.php:1
 msgid "Super Easy Stock Manager"
 msgstr "Super einfache Lagerverwaltung"
 
-#: include/classes/sesm-ajax.php:112
+#: include/classes/sesm-ajax.php:136
 #, php-format
 msgid "The stock has been decreased by %d to %d"
 msgstr "Der Lagerbestand wurde um %d reduziert auf insgesamt %d Stück."
 
-#: include/classes/sesm-ajax.php:109
+#: include/classes/sesm-ajax.php:133
 #, php-format
 msgid "The stock has been increased by %d to %d"
 msgstr "Der Lagerbestand wurde um %d erhöht auf insgesamt %d Stück."
 
-#: include/classes/sesm-ajax.php:257
+#: include/classes/sesm-ajax.php:279
 msgid "Variation of Product"
 msgstr "Variante eines Produkts"
 
-#: include/classes/sesm.php:41 include/tools/sesm-helper.php:85
+#: include/classes/sesm-ajax.php:70 include/classes/sesm-ajax.php:177
+msgid "Warning"
+msgstr "Warnung"
+
+#: scripts/sesm-app.js:33
+msgid "Weight"
+msgstr "Gewicht"
+
+#: include/classes/sesm.php:82
 msgid "You are not allowed to edit products!"
 msgstr "Du bist nicht berechtigt, Produkte zu bearbeiten!"
 
-#: include/classes/sesm-ajax.php:53
+#: include/classes/sesm.php:64
+msgid ""
+"You are not allowed to edit products. Please contact the system "
+"administrator and request the required rights."
+msgstr ""
+"Du hast keine Berechtigung die Produkte zu bearbeiten. Bitte kontaktiere den "
+"System-Administrator, um die benötigten Rechte zu erhalten."
+
+#: include/classes/sesm.php:78
+msgid "You are not logged in. Please sign-in to use this function"
+msgstr ""
+"Du bist nicht eingeloggt. Bitte melde dich an, um diese Funktion zu nutzen."
+
+#: include/classes/sesm-ajax.php:71
 msgid ""
 "You can't change the values of that product, because it has variations. "
 "Please change the value of the variation itself."
