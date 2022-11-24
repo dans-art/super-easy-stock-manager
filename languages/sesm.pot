@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Super Easy Stock Manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-21 09:51+0000\n"
+"POT-Creation-Date: 2022-11-24 09:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -54,7 +54,7 @@ msgstr ""
 msgid "Info"
 msgstr ""
 
-#: scripts/sesm-app.js:43
+#: scripts/sesm-app.js:146
 msgid "Input SKU"
 msgstr ""
 
@@ -70,7 +70,7 @@ msgstr ""
 msgid "Old and new prices are the same, nothing has been changed"
 msgstr ""
 
-#: scripts/sesm-app.js:32
+#: scripts/sesm-app.js:35
 msgid "Price"
 msgstr ""
 
@@ -95,7 +95,7 @@ msgstr ""
 msgid "Product with Variations"
 msgstr ""
 
-#: templates/theme/frontend-history-item.php:11 scripts/sesm-app.js:34
+#: templates/theme/frontend-history-item.php:11 scripts/sesm-app.js:37
 msgid "Quantity"
 msgstr ""
 
@@ -111,11 +111,11 @@ msgstr ""
 msgid "Simple Product"
 msgstr ""
 
-#: templates/theme/frontend-content.php:37 scripts/sesm-app.js:35
+#: templates/theme/frontend-content.php:37 scripts/sesm-app.js:38
 msgid "SKU"
 msgstr ""
 
-#: scripts/sesm-app.js:217
+#: scripts/sesm-app.js:351
 msgid "Stock management got activated"
 msgstr ""
 
@@ -146,21 +146,27 @@ msgstr ""
 msgid "Warning"
 msgstr ""
 
-#: scripts/sesm-app.js:33
+#: scripts/sesm-app.js:36
 msgid "Weight"
 msgstr ""
 
-#: include/classes/sesm.php:82
+#: include/classes/sesm.php:84 include/classes/sesm.php:102
+msgid ""
+"WooCommerce seems not to be installed. Please install or activate "
+"WooCommerce to use this plugin"
+msgstr ""
+
+#: include/classes/sesm.php:106
 msgid "You are not allowed to edit products!"
 msgstr ""
 
-#: include/classes/sesm.php:64
+#: include/classes/sesm.php:81
 msgid ""
 "You are not allowed to edit products. Please contact the system "
 "administrator and request the required rights."
 msgstr ""
 
-#: include/classes/sesm.php:78
+#: include/classes/sesm.php:98
 msgid "You are not logged in. Please sign-in to use this function"
 msgstr ""
 

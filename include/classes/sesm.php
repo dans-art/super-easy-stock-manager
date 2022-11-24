@@ -80,6 +80,9 @@ class Super_Easy_Stock_Manager extends Super_Easy_Stock_Manager_Helper
         if(!current_user_can( 'edit_products' )){
             return __('You are not allowed to edit products. Please contact the system administrator and request the required rights.','sesm');
         }
+        if(!function_exists('wc_get_product_id_by_sku')){
+            return __('WooCommerce seems not to be installed. Please Install or activate WooCommerce to use this plugin','sesm');
+        }
         return $this->getFrontend(true);
     }
 
@@ -93,6 +96,10 @@ class Super_Easy_Stock_Manager extends Super_Easy_Stock_Manager_Helper
         $ajax = new Super_Easy_Stock_Manager_Ajax();
         if (!is_user_logged_in()) {
             echo $ajax -> errorJson(__('You are not logged in. Please sign-in to use this function', 'sesm'));
+            exit();
+        }
+        if(!function_exists('wc_get_product_id_by_sku')){
+            echo $ajax -> errorJson(__('WooCommerce seems not to be installed. Please Install or activate WooCommerce to use this plugin','sesm'));
             exit();
         }
         if (!current_user_can('edit_products')) {
