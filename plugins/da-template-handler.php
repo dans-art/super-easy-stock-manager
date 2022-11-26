@@ -120,7 +120,7 @@ if (!class_exists('DaTemplateHandlerClass')) {
                 return $output_string;
             }
 
-            return sprintf(__('Template "%s" not found!', 'plek'), (empty($path) ? $template_name : $path));
+            return sprintf(__('Template "%s" not found!', 'da-template-handler'), (empty($path) ? $template_name : $path));
         }
     }
 }

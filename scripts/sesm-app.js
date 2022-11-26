@@ -32,10 +32,10 @@ class sesmMain {
     }
 
     load_field_names() {
-        this.field_names.price_title = __('Price', 'sesm');
-        this.field_names.weight_title = __('Weight', 'sesm');
-        this.field_names.quantity_title = __('Quantity', 'sesm');
-        this.field_names.sku_title = __('SKU', 'sesm');
+        this.field_names.price_title = __('Price', 'super-easy-stock-manager');
+        this.field_names.weight_title = __('Weight', 'super-easy-stock-manager');
+        this.field_names.quantity_title = __('Quantity', 'super-easy-stock-manager');
+        this.field_names.sku_title = __('SKU', 'super-easy-stock-manager');
         this.field_names.iconclass = "";
     }
     /**
@@ -71,10 +71,10 @@ class sesmMain {
 
             //Auto focus if device is a mobile device. 
             //@todo: Add option to enable or disable autofocus 
-            if(sesm_scripts.is_mobile()){
+            if (sesm_scripts.is_mobile()) {
                 //Is mobile
                 sesm_scripts.show_scan_container();
-            }else{
+            } else {
                 jQuery("#sesm_sku_input").focus();
             }
 
@@ -112,7 +112,7 @@ class sesmMain {
                 });
 
             sesm_scripts.scanner.render(sesm_scripts.onScanSuccess, sesm_scripts.onScanFailure);
-            
+
         });
 
         jQuery('#scan-button-active').click(() => {
@@ -138,12 +138,24 @@ class sesmMain {
             });
 
         /**
+         * On value change, validate the input
+         */
+        jQuery('#sesm_container input').keyup((e) => {
+            const value = e.currentTarget.value;
+            const id = e.currentTarget.id;
+            if (!sesm_scripts.validate_input(value, id)) {
+                sesm_scripts.show_input_error(id);
+            } else {
+                sesm_scripts.remove_input_errors('#input-error-' + id);
+            }
+        });
+        /**
          * On resize
          */
         jQuery(window).resize(() => {
             sesm_scripts.move_selection_indicator(0);
             if (sesm_scripts.is_mobile()) {
-                jQuery("#sesm_sku_input").attr('placeholder', __('Input SKU', 'sesm'));
+                jQuery("#sesm_sku_input").attr('placeholder', __('Input SKU', 'super-easy-stock-manager'));
             }
         });
     }
@@ -194,7 +206,7 @@ class sesmMain {
      * Slides up the scan container
      */
     show_scan_container() {
-        if(jQuery("#mobile-scan-container").css('display') === 'flex'){
+        if (jQuery("#mobile-scan-container").css('display') === 'flex') {
             return;
         }
         jQuery("#mobile-scan-container").css('display', 'flex');
@@ -218,13 +230,13 @@ class sesmMain {
         }
         const active_position = jQuery('#sesm_buttons .button-active')[0].offsetLeft;
         const active_center = jQuery('#sesm_buttons .button-active').width() / 2;
-       
+
         const padding = Number.parseInt(jQuery('#sesm_container').css('padding-left'));
-        const final_left = active_position - padding + active_center; 
+        const final_left = active_position - padding + active_center;
 
         if (jQuery('#selection-indicator')[0].offsetLeft === padding) {
             animation_duration = 0; //Move instantly if not in position yet
-            jQuery('#selection-indicator').animate({opacity: 1}, animation_duration);
+            jQuery('#selection-indicator').animate({ opacity: 1 }, animation_duration);
         }
         jQuery('#selection-indicator').animate({
             left: final_left,
@@ -240,7 +252,7 @@ class sesmMain {
         var template = this.get_template_by_state(json_data.template);
 
         if (this.empty(template)) {
-            jQuery("#sesm_history").prepend(__(`Template "${json_data.template}" not loaded`, 'sesm'));
+            jQuery("#sesm_history").prepend(__(`Template "${json_data.template}" not loaded`, 'super-easy-stock-manager'));
         }
 
         this.set_icon_class(json_data.template);
@@ -348,7 +360,7 @@ class sesmMain {
             case "sale_price":
                 return (!json_data.sale_price) ? "" : value + ' ' + json_data.currency;
             case "manage_stock":
-                return (value !== false) ? '' : __('Stock management got activated', 'sesm');
+                return (value !== false) ? '' : __('Stock management got activated', 'super-easy-stock-manager');
 
             case "to_regular":
                 //Calculate the length of the string to set the font size
@@ -382,6 +394,76 @@ class sesmMain {
         newQuant = (!Number.isInteger(newQuant)) ? 0 : newQuant;
         jQuery('#sesm_quant').val(newQuant);
         jQuery('#sesm_sku_input').focus();
+    }
+
+    /**
+     * Validate the input. This runs on input change
+     * 
+     * @param {string} value The input value
+     * @param {string} type The type or ID of the input
+     * @returns {bool} True if valid, false if not
+     */
+    validate_input(value, type) {
+        let regex = '';
+        let allow_empty = true;
+        switch (type) {
+            case 'sesm_quant':
+                regex = /^[0-9\.,]{1,}$/g;
+                break;
+            case 'sesm_price_reg':
+            case 'sesm_price_sale':
+                regex = /^[0-9\.,]{1,}$/g;
+                break;
+            default:
+                break;
+        }
+
+        if (sesm_scripts.empty(regex)) {
+            return (allow_empty) ? true : false;
+        }
+        if (regex.exec(value) !== null) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Shows the input error tooltip
+     * @param {string} id ID of the input field
+     */
+    show_input_error(id) {
+        let message = '';
+        switch (id) {
+            case 'sesm_quant':
+                message = __('The Quantity contains invalid characters. Only 0-9, comma (,) and period (.) are allowed', 'super-easy-stock-manager');
+                break;
+            case 'sesm_price_reg':
+            case 'sesm_price_sale':
+                message = __('The Price contains invalid characters. Only 0-9, comma (,) and period (.) are allowed', 'super-easy-stock-manager');
+                break;
+
+            default:
+                break;
+        }
+        if (sesm_scripts.empty(message)) {
+            return false;
+        }
+        const tooltip = sesm_scripts.template.apply_template(sesm_scripts.template.loaded_templates.errortooltip, { error: message, id: id });
+        if (jQuery('#input-error-' + id).length === 0) {
+            jQuery('#' + id).before(tooltip);
+        }
+        return;
+    }
+    /**
+     * Removes all the input error tooltips or the 
+     */
+
+    /**
+     * Removes the tooltip
+     * @param {string} item The CSS selector 
+     */
+    remove_input_errors(item = '.input-error-field') {
+        jQuery('#sesm_container ' + item).remove();
     }
 
     //Helper functions

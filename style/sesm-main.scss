@@ -15,6 +15,7 @@ body {
     --sesm-border-radius: 5px;
     --sesm-error-color: rgb(255, 0, 0);
     --sesm-scan-container-height: 80px;
+    --sesm-white: white;
 }
 
 * {}
@@ -185,6 +186,38 @@ body {
         &>div {
             margin-bottom: 1em;
         }
+
+        .input-error-field {
+            position: absolute;
+            width: 100%;
+            bottom: 4em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            .error-message{                
+                background-color: var(--sesm-white);
+                border: 2px solid var(--sesm-error-color);
+                padding: 1em;
+                border-radius: var(--sesm-border-radius);
+                text-align: center;
+                width: 80%;
+            }
+
+
+            &::after {
+                content: "";
+                background-color: var(--sesm-error-color);
+                rotate: 45deg;
+                width: 1em;
+                height: 1em;
+                display: block;
+                position: absolute;
+                bottom: -0.5em;
+                z-index: -1;
+                left: 50%;
+            }
+        }
     }
 
 
@@ -193,6 +226,7 @@ body {
         flex-direction: column;
         text-align: center;
         width: 50%;
+        position: relative;
     }
 
 
@@ -200,6 +234,7 @@ body {
         display: flex;
         gap: 1em;
         justify-content: space-between;
+        position: relative;
     }
 
     input {
@@ -241,6 +276,7 @@ body {
         display: flex;
         justify-content: space-between;
         gap: 0.5em;
+        position: relative;
 
         .options_button {
             font-size: 1em;
@@ -341,7 +377,7 @@ body {
             margin: 0;
         }
 
-        h4.description{
+        h4.description {
             margin: 0;
         }
     }
