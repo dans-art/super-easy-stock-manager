@@ -194,6 +194,8 @@ body {
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 1em;
+            color: black;
             
             .error-message{                
                 background-color: var(--sesm-white);

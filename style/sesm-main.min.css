@@ -46,7 +46,7 @@ body { --sesm-button-color: rgb(255, 182, 0); --sesm-button-text-color: rgb(0, 0
 
 #sesm_input .sesm_options > div { margin-bottom: 1em; }
 
-#sesm_input .sesm_options .input-error-field { position: absolute; width: 100%; bottom: 4em; display: flex; align-items: center; justify-content: center; }
+#sesm_input .sesm_options .input-error-field { position: absolute; width: 100%; bottom: 4em; display: flex; align-items: center; justify-content: center; font-size: 1em; color: black; }
 
 #sesm_input .sesm_options .input-error-field .error-message { background-color: var(--sesm-white); border: 2px solid var(--sesm-error-color); padding: 1em; border-radius: var(--sesm-border-radius); text-align: center; width: 80%; }
 

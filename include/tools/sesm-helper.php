@@ -21,7 +21,7 @@ class Super_Easy_Stock_Manager_Helper
      */
     public function sesmLoadTextdomain()
     {
-        load_textdomain('super-easy-stock-manager', SESM_MAIN_DIR . '/languages/sesm-' . determine_locale() . '.mo');
+        load_textdomain('super-easy-stock-manager', SESM_MAIN_DIR . '/languages/super-easy-stock-manager-' . determine_locale() . '.mo');
     }
 
     /**
