@@ -1,3 +1,15 @@
+<?php
+
+/**
+ * The main template for the frontend of the super-easy-stock-manager
+ * Author: Dan's Art
+ * Version: 1.3.1
+ */
+
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly
+}
+?>
 <div id="sesm_container">
     <section id="sesm_buttons" style="display: none;">
         <button data-do="get_product">
@@ -14,7 +26,7 @@
     <div id="selection-indicator"></div>
     <section id="sesm_input">
         <div>
-            <input id="sesm_sku_input" style="display: none;" type="text" placeholder="<?php echo __("Scan a barcode or add a SKU number and press enter", "sesm"); ?>" />
+            <input id="sesm_sku_input" style="display: none;" type="text" placeholder="<?php echo __("Scan a barcode or add a SKU number and press enter", "super-easy-stock-manager"); ?>" />
             <div id="sesm_sku_input_loader" class="input_loading"></div>
         </div>
         <div class="sesm_options">
@@ -22,7 +34,7 @@
                 <button id="remove_quant_btn" class="options_button">
                     <i class="fas fa-minus"></i>
                 </button>
-                <input id="sesm_quant" type="text" class="sesm_input add_quantities" value="1" placeholder="<?php echo __("Enter quantity to add or remove", "sesm"); ?>" />
+                <input id="sesm_quant" type="text" class="sesm_input add_quantities" value="1" placeholder="<?php echo __("Enter quantity to add or remove", "super-easy-stock-manager"); ?>" />
                 <button id="add_quant_btn" class="options_button">
                     <i class="fas fa-plus"></i>
                 </button>
@@ -30,10 +42,10 @@
 
             <div class="price_flex_group" style="display: none;">
                 <div>
-                    <input id="sesm_price_reg" class="sesm_input update_price" type="text" placeholder="<?php echo __("Price regular", "sesm"); ?>" />
+                    <input id="sesm_price_reg" class="sesm_input update_price" type="text" placeholder="<?php echo __("Price regular", "super-easy-stock-manager"); ?>" />
                 </div>
                 <div>
-                    <input id="sesm_price_sale" class="sesm_input update_price sale" type="text" placeholder="<?php echo __("Price sale", "sesm"); ?>" />
+                    <input id="sesm_price_sale" class="sesm_input update_price sale" type="text" placeholder="<?php echo __("Price sale", "super-easy-stock-manager"); ?>" />
                 </div>
             </div>
         </div>

@@ -22,9 +22,9 @@ class Super_Easy_Stock_Manager extends Super_Easy_Stock_Manager_Helper
         $this->template_handler->set_paths(SESM_MAIN_DIR . 'templates', 'sesm/templates');
         $this->addActions();
         $this->add_shortcodes();
-        $this -> enqueue_script_n_styles();
+        $this->enqueue_script_n_styles();
     }
-      /**
+    /**
      * Enqueues the scripts and styles for the super easy stock manager
      *
      * @param bool $use_style
@@ -35,16 +35,16 @@ class Super_Easy_Stock_Manager extends Super_Easy_Stock_Manager_Helper
         //Add the scripts
         add_action('wp_enqueue_scripts', function () {
             $script = (WP_DEBUG === true) ? 'sesm-app.js' : 'sesm-app.min.js';
-            $version = $this -> load_version();
+            $version = $this->load_version();
             wp_enqueue_script('sesm-main-script', SESM_MAIN_URL . 'scripts/' . $script, ['jquery', 'wp-i18n'], $version, true);
-            wp_enqueue_script('sesm-scanner-script', SESM_MAIN_URL . 'include/lib/html5-qrcode.min.js',[], $version, true);
-            wp_set_script_translations('sesm-main-script', 'sesm', SESM_MAIN_DIR . "languages");
+            wp_enqueue_script('sesm-scanner-script', SESM_MAIN_URL . 'include/lib/html5-qrcode.min.js', [], $version, true);
+            wp_set_script_translations('sesm-main-script', 'super-easy-stock-manager', SESM_MAIN_DIR . "languages");
         }, 10);
         //Add the styles
         if ($use_style) {
             add_action('wp_head', function () {
                 $style = 'sesm-main.min.css';
-                $version = $this -> load_version();
+                $version = $this->load_version();
                 wp_enqueue_style('sesm-main-style', SESM_MAIN_URL . 'style/' . $style, [], $version);
                 wp_enqueue_style('sesm-fa', 'https://use.fontawesome.com/releases/v6.2.0/css/all.css');
             }, 10);
@@ -77,11 +77,11 @@ class Super_Easy_Stock_Manager extends Super_Easy_Stock_Manager_Helper
      */
     public function do_shortcode_sesm()
     {
-        if(!current_user_can( 'edit_products' )){
-            return __('You are not allowed to edit products. Please contact the system administrator and request the required rights.','sesm');
+        if (!current_user_can('edit_products')) {
+            return __('You are not allowed to edit products. Please contact the system administrator and request the required rights.', 'super-easy-stock-manager');
         }
-        if(!function_exists('wc_get_product_id_by_sku')){
-            return __('WooCommerce seems not to be installed. Please Install or activate WooCommerce to use this plugin','sesm');
+        if (!function_exists('wc_get_product_id_by_sku')) {
+            return __('WooCommerce seems not to be installed. Please Install or activate WooCommerce to use this plugin', 'super-easy-stock-manager');
         }
         return $this->getFrontend(true);
     }
@@ -95,19 +95,19 @@ class Super_Easy_Stock_Manager extends Super_Easy_Stock_Manager_Helper
     {
         $ajax = new Super_Easy_Stock_Manager_Ajax();
         if (!is_user_logged_in()) {
-            echo $ajax -> errorJson(__('You are not logged in. Please sign-in to use this function', 'sesm'));
+            echo $ajax->errorJson(__('You are not logged in. Please sign-in to use this function', 'super-easy-stock-manager'));
             exit();
         }
-        if(!function_exists('wc_get_product_id_by_sku')){
-            echo $ajax -> errorJson(__('WooCommerce seems not to be installed. Please Install or activate WooCommerce to use this plugin','sesm'));
+        if (!function_exists('wc_get_product_id_by_sku')) {
+            echo $ajax->errorJson(__('WooCommerce seems not to be installed. Please Install or activate WooCommerce to use this plugin', 'super-easy-stock-manager'));
             exit();
         }
         if (!current_user_can('edit_products')) {
-            echo $ajax -> errorJson(__('You are not allowed to edit products!', 'sesm'));
+            echo $ajax->errorJson(__('You are not allowed to edit products!', 'super-easy-stock-manager'));
             exit();
         }
-        $do =  isset($_REQUEST['do']) ? $_REQUEST['do'] : 'get_product';
-        $sku = isset($_REQUEST['sku']) ? $_REQUEST['sku'] : '';
+        $do =  isset($_REQUEST['do']) ? sanitize_file_name($_REQUEST['do']) : 'get_product';
+        $sku = isset($_REQUEST['sku']) ? wp_kses($_REQUEST['sku'], []) : '';
         $sku = htmlspecialchars($sku);
         switch ($do) {
             case 'get_product':

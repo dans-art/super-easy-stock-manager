@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin Name: Super Easy Stock Manager
  * Class description: The Ajax functions. Saves Porducts to the database.
@@ -56,7 +57,7 @@ class Super_Easy_Stock_Manager_Ajax
      * Updates a Product
      *
      * @param string $action - Action to do. Valid options: price, stock
-     * @param string $sku    - SKU of a product
+     * @param string $sku - SKU of a product
      * 
      * @return void
      */
@@ -67,8 +68,8 @@ class Super_Easy_Stock_Manager_Ajax
         if (is_object($product)) {
             if ($product->get_type() === 'variable') {
                 $result['template'] = 'error';
-                $result['title'] = __('Warning','sesm');
-                $result['error'] = __('You can\'t change the values of that product, because it has variations. Please change the value of the variation itself.', 'sesm');
+                $result['title'] = __('Warning', 'super-easy-stock-manager');
+                $result['error'] = __('You can\'t change the values of that product, because it has variations. Please change the value of the variation itself.', 'super-easy-stock-manager');
                 return json_encode($result);
             }
             $update = "";
@@ -110,10 +111,15 @@ class Super_Easy_Stock_Manager_Ajax
      */
     public function updateStock($product)
     {
-        $quantity = isset($_REQUEST['quantity']) ? $_REQUEST['quantity'] : '';
+        $quantity = isset($_REQUEST['quantity']) ? wp_kses($_REQUEST['quantity'], []) : '';
+
         if (empty($quantity)) {
             return $this->errorJson();
         }
+        if (!$this->validate_input($quantity, 'float')) {
+            return $this->errorJson(__('Input must be a number', 'super-easy-stock-manager'));
+        }
+        //Convert to float
         settype($quantity, 'float');
 
         $result['manage_stock'] = $product->get_manage_stock();
@@ -130,10 +136,10 @@ class Super_Easy_Stock_Manager_Ajax
         $result['from_quant'] = $old_quant;
         $result['to_quant'] = $new_quant;
         if ($increase) {
-            $result['change_txt'] = sprintf(__('The stock has been increased by %d to %d', 'sesm'), $quant_positive, $new_quant);
+            $result['change_txt'] = sprintf(__('The stock has been increased by %d to %d', 'super-easy-stock-manager'), $quant_positive, $new_quant);
             $result['direction'] = 'increase';
         } else {
-            $result['change_txt'] = sprintf(__('The stock has been decreased by %d to %d', 'sesm'), $quant_positive, $new_quant);
+            $result['change_txt'] = sprintf(__('The stock has been decreased by %d to %d', 'super-easy-stock-manager'), $quant_positive, $new_quant);
             $result['direction'] = 'decrease';
         }
         $product->set_stock_quantity($new_quant);
@@ -163,9 +169,14 @@ class Super_Easy_Stock_Manager_Ajax
     public function updatePrice($product)
     {
         $result = array();
-        $regular_price = isset($_REQUEST['price']) ? $_REQUEST['price'] : '';
-        $sale_price = isset($_REQUEST['price_sale']) ? $_REQUEST['price_sale'] : '';
+        $regular_price = isset($_REQUEST['price']) ? wp_kses($_REQUEST['price'], []) : '';
+        $sale_price = isset($_REQUEST['price_sale']) ? wp_kses($_REQUEST['price_sale'], []) : '';
         $type = $product->get_type();
+
+        if (!$this->validate_input($regular_price, 'float') or !$this->validate_input($sale_price, 'float')) {
+            return $this->errorJson(__('Input must be a number', 'super-easy-stock-manager'));
+        }
+        //Convert to float
         if (!empty($regular_price)) {
             settype($regular_price, 'float');
         }
@@ -174,8 +185,8 @@ class Super_Easy_Stock_Manager_Ajax
         }
         if (($regular_price > 0 and $sale_price > 0) and ($sale_price > $regular_price)) {
             $result['template'] = 'error';
-            $result['title'] = __('Warning','sesm');
-            $result['error'] = __('Sale price has to be smaller than the regular price!', 'sesm');
+            $result['title'] = __('Warning', 'super-easy-stock-manager');
+            $result['error'] = __('Sale price has to be smaller than the regular price!', 'super-easy-stock-manager');
             return json_encode($result);
         }
         if (empty($regular_price) and empty($sale_price)) {
@@ -188,16 +199,16 @@ class Super_Easy_Stock_Manager_Ajax
         $result['to_sale'] = floatval($sale_price) ?: 0;
 
         //If non of the prices has been changed, output error
-        if ($result['from_regular'] === $result['to_regular'] OR $result['from_sale'] === $result['to_sale'] ) {
-            $noChange = __('Old and new prices are the same, nothing has been changed', 'sesm');
+        if ($result['from_regular'] === $result['to_regular'] or $result['from_sale'] === $result['to_sale']) {
+            $noChange = __('Old and new prices are the same, nothing has been changed', 'super-easy-stock-manager');
             $result['notice'] = $noChange;
             return $result;
         }
         //Saves the changes to the product / variation
-        if($result['to_regular']){
+        if ($result['to_regular']) {
             update_post_meta($product->get_id(), '_regular_price', $result['to_regular']);
         }
-        if($result['to_sale']){
+        if ($result['to_sale']) {
             update_post_meta($product->get_id(), '_sale_price', $result['to_sale']);
         }
         //$result['save_status'] = $product->save();
@@ -215,13 +226,12 @@ class Super_Easy_Stock_Manager_Ajax
     public function loadProduct($sku)
     {
         $result = array();
-        $result['title'] = __('Info','sesm');
+        $result['title'] = __('Info', 'super-easy-stock-manager');
 
-        $sku = (int) $sku;
         if (empty($sku)) {
             $result['template'] = 'error';
             $result['sku'] = $sku;
-            $result['error'] = sprintf(__('No SKU provided', 'sesm'), $sku);
+            $result['error'] = sprintf(__('No SKU provided', 'super-easy-stock-manager'), $sku);
             return $result;
         }
         $product_id = wc_get_product_id_by_sku($sku);
@@ -229,9 +239,9 @@ class Super_Easy_Stock_Manager_Ajax
             $result['template'] = 'error';
             $result['sku'] = $sku;
             if ($this->checkSKU($sku)) {
-                $result['error'] = __('Could not load the Product. Please update the lookup tables. <br/>(Woocommerce -> Status -> Tools -> Rebuild Lookup Tables)', 'sesm');
+                $result['error'] = __('Could not load the Product. Please update the lookup tables. <br/>(Woocommerce -> Status -> Tools -> Rebuild Lookup Tables)', 'super-easy-stock-manager');
             } else {
-                $result['error'] = sprintf(__('Product not found for SKU: %s', 'sesm'), $sku);
+                $result['error'] = sprintf(__('Product not found for SKU: %s', 'super-easy-stock-manager'), $sku);
             }
             return $result;
         } else {
@@ -248,7 +258,7 @@ class Super_Easy_Stock_Manager_Ajax
     public function checkSKU($sku)
     {
         global $wpdb;
-        $sku = (int) $sku;
+        $sku = wp_kses( $sku, []);
         $prep = $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta where meta_key ='_sku' and meta_value like '%d'", $sku);
         $getCol = $wpdb->get_col($prep);
         if (isset($getCol[0]) and !empty($getCol[0])) {
@@ -268,15 +278,15 @@ class Super_Easy_Stock_Manager_Ajax
     {
         switch ($type) {
             case 'simple':
-                return __('Simple Product', 'sesm');
+                return __('Simple Product', 'super-easy-stock-manager');
                 break;
 
             case 'variable':
-                return __('Product with Variations', 'sesm');
+                return __('Product with Variations', 'super-easy-stock-manager');
                 break;
 
             case 'variation':
-                return __('Variation of Product', 'sesm');
+                return __('Variation of Product', 'super-easy-stock-manager');
                 break;
 
             default:
@@ -294,9 +304,35 @@ class Super_Easy_Stock_Manager_Ajax
     public function errorJson($msg = '')
     {
         $errorArr = array();
-        $errorArr['title'] = __('Error','sesm');
+        $errorArr['title'] = __('Error', 'super-easy-stock-manager');
         $errorArr['template'] = 'error';
-        $errorArr['error'] = (empty($msg)) ? __('No value set!', 'sesm') : $msg;
+        $errorArr['error'] = (empty($msg)) ? __('No value set!', 'super-easy-stock-manager') : $msg;
         return json_encode($errorArr);
+    }
+
+    /**
+     * Validates the input by type.
+     *
+     * @param string|int|float $input - The input string / number
+     * @param string $type - The type to validate.
+     * @return bool True if valid, false if not
+     */
+    public function validate_input($input, $type = 'string')
+    {
+        switch ($type) {
+            case 'float':
+                $new_input = floatval($input);
+                return ($input == $new_input) ? true : false;
+                break;
+            case 'int':
+                $new_input = intval($input);
+                return ($input == $new_input) ? true : false;
+                break;
+
+            default:
+                //No type given, no validation done
+                return true;
+                break;
+        }
     }
 }

@@ -21,7 +21,7 @@ class Super_Easy_Stock_Manager_Helper
      */
     public function sesmLoadTextdomain()
     {
-        load_textdomain('sesm', SESM_MAIN_DIR . '/languages/sesm-' . determine_locale() . '.mo');
+        load_textdomain('super-easy-stock-manager', SESM_MAIN_DIR . '/languages/super-easy-stock-manager-' . determine_locale() . '.mo');
     }
 
     /**
@@ -39,7 +39,7 @@ class Super_Easy_Stock_Manager_Helper
     }
 
     /**
-     * Gets the Plugin Path. From the current Theme (/notify-me/templates/) or from the Plugin
+     * Gets the Plugin Path. From the current Theme (/THEME/templates/) or from the Plugin
      * Structure is the same for plugin an theme
      *
      * @param  string $name - Name of the template file to load

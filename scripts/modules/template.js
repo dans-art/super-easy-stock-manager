@@ -2,32 +2,33 @@
  * Module to handle the ajax actions
  * 
  */
- class SesmTemplate {
+class SesmTemplate {
 
     loaded_templates = {};
 
-    async load_default_templates(){
-        this.load_template('item','item.html','templates/frontend/');
-        this.load_template('error','error.html','templates/frontend/');
-        this.load_template('updatestock','item-update-stock.html','templates/frontend/');
-        this.load_template('updateprice','item-update-price.html','templates/frontend/');
+    async load_default_templates() {
+        this.load_template('item', 'item.html', 'templates/frontend/');
+        this.load_template('error', 'error.html', 'templates/frontend/');
+        this.load_template('errortooltip', 'error-tooltip.html', 'templates/frontend/');
+        this.load_template('updatestock', 'item-update-stock.html', 'templates/frontend/');
+        this.load_template('updateprice', 'item-update-price.html', 'templates/frontend/');
     }
 
-      /**
-     * Loads a template to the class. Is also called by the get_template method.
-     * @param {string} template_id - The ID of the template. Must be unique, otherwise one template can override the other
-     * @param {string} file_name - The File name of the template with extension
-     * @param {string} path - The path the template is saved in
-     * @returns bool
-     */
-       async load_template(template_id, file_name, path) {
+    /**
+   * Loads a template to the class. Is also called by the get_template method.
+   * @param {string} template_id - The ID of the template. Must be unique, otherwise one template can override the other
+   * @param {string} file_name - The File name of the template with extension
+   * @param {string} path - The path the template is saved in
+   * @returns bool
+   */
+    async load_template(template_id, file_name, path) {
         try {
             const loaded_content = await this.get_template(template_id, file_name, path).then(function (content) {
                 return content;
             });
             this.loaded_templates[template_id] = loaded_content;
         } catch (error) {
-            console.error('failed to load template: '+file_name);
+            console.error('failed to load template: ' + file_name);
             console.error(error);
         }
         return false;
@@ -52,6 +53,24 @@
         );
         this.loaded_templates[template_id] = response;
         return response;
+    }
+
+    /**
+     * Adds the data to the template
+     * 
+     * @param {string} template The template as html string with {{placeholder}}
+     * @param {object} data The data to fill in
+     * @returns String on success, false on error
+     */
+    apply_template(template, data){
+        if(typeof data !== 'object'){
+            return false;
+        }
+        jQuery.each(data, function (key, value) {
+            template = template.replaceAll("{{" + key + "}}", value);
+        });
+
+        return template;
     }
 }
 export { SesmTemplate };

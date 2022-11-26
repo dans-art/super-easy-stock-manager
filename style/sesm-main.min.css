@@ -3,7 +3,7 @@
   Author: dansart
 
 */
-body { --sesm-button-color: rgb(255, 182, 0); --sesm-button-text-color: rgb(0, 0, 0); --sesm-button-text-color-disabled: rgb(117, 117, 117); --sesm-button-border: rgb(0 0 0); --sesm-box-border: rgb(189, 189, 189); --sesm-background: rgba(255, 183, 0, 0.20); --sesm-border-radius: 5px; --sesm-error-color: rgb(255, 0, 0); --sesm-scan-container-height: 80px; }
+body { --sesm-button-color: rgb(255, 182, 0); --sesm-button-text-color: rgb(0, 0, 0); --sesm-button-text-color-disabled: rgb(117, 117, 117); --sesm-button-border: rgb(0 0 0); --sesm-box-border: rgb(189, 189, 189); --sesm-background: rgba(255, 183, 0, 0.20); --sesm-border-radius: 5px; --sesm-error-color: rgb(255, 0, 0); --sesm-scan-container-height: 80px; --sesm-white: white; }
 
 @keyframes bounce { 0% { width: 0%;
     left: 0; }
@@ -46,9 +46,15 @@ body { --sesm-button-color: rgb(255, 182, 0); --sesm-button-text-color: rgb(0, 0
 
 #sesm_input .sesm_options > div { margin-bottom: 1em; }
 
-#sesm_input .price_flex_group > div { display: flex; flex-direction: column; text-align: center; width: 50%; }
+#sesm_input .sesm_options .input-error-field { position: absolute; width: 100%; bottom: 4em; display: flex; align-items: center; justify-content: center; font-size: 1em; color: black; }
 
-#sesm_input .price_flex_group { display: flex; gap: 1em; justify-content: space-between; }
+#sesm_input .sesm_options .input-error-field .error-message { background-color: var(--sesm-white); border: 2px solid var(--sesm-error-color); padding: 1em; border-radius: var(--sesm-border-radius); text-align: center; width: 80%; }
+
+#sesm_input .sesm_options .input-error-field::after { content: ""; background-color: var(--sesm-error-color); rotate: 45deg; width: 1em; height: 1em; display: block; position: absolute; bottom: -0.5em; z-index: -1; left: 50%; }
+
+#sesm_input .price_flex_group > div { display: flex; flex-direction: column; text-align: center; width: 50%; position: relative; }
+
+#sesm_input .price_flex_group { display: flex; gap: 1em; justify-content: space-between; position: relative; }
 
 #sesm_input input { width: 99%; height: 2.5em; border-radius: var(--sesm-border-radius); text-align: center; font-size: 1.2em; border: 1px solid var(--sesm-button-border); box-shadow: inset 1px 2px 7px rgba(0, 0, 0, 0.167); }
 
@@ -58,7 +64,7 @@ body { --sesm-button-color: rgb(255, 182, 0); --sesm-button-text-color: rgb(0, 0
 
 #sesm_input #sesm_sku_input_loader.active { display: block; background-color: var(--sesm-button-color); height: 0.5em; width: 0%; left: 0%; position: relative; top: -1.3em; animation: bounce 3s; animation-iteration-count: 100; }
 
-#sesm_input .quant_flex_group { display: flex; justify-content: space-between; gap: 0.5em; }
+#sesm_input .quant_flex_group { display: flex; justify-content: space-between; gap: 0.5em; position: relative; }
 
 #sesm_input .quant_flex_group .options_button { font-size: 1em; min-width: 3em; min-height: 3em; padding: 0; border-radius: var(--sesm-border-radius); background-color: var(--sesm-button-color); border: solid 1px var(--sesm-button-border); cursor: pointer; }
 

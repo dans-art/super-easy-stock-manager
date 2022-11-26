@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Super Easy Stock Manager!\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-10-31 20:56+0000\n"
-"PO-Revision-Date: 2022-11-24 09:07+0000\n"
+"PO-Revision-Date: 2022-11-26 10:59+0000\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -14,12 +14,7 @@ msgstr ""
 "X-Generator: Loco https://localise.biz/\n"
 "X-Loco-Version: 2.6.3; wp-6.1.1"
 
-#: templates/theme/frontend-content.php:61
-#| msgid "Add Quantity"
-msgid "Add quantity"
-msgstr "Anzahl hinzufügen"
-
-#: include/classes/sesm-ajax.php:232
+#: include/classes/sesm-ajax.php:242
 msgid ""
 "Could not load the Product. Please update the lookup tables. <br/>"
 "(Woocommerce -> Status -> Tools -> Rebuild Lookup Tables)"
@@ -31,43 +26,39 @@ msgstr ""
 msgid "Dan's Art"
 msgstr "Dan's Art"
 
-#: templates/theme/frontend-history-item.php:35
-msgid "Description"
-msgstr "Beschreibung"
-
-#: templates/frontend.php:25
+#: templates/frontend.php:37
 msgid "Enter quantity to add or remove"
 msgstr "Menge zum hinzufügen oder entfernen eingeben"
 
-#: include/classes/sesm-ajax.php:297
+#: include/classes/sesm-ajax.php:307
 msgid "Error"
 msgstr "Fehler"
-
-#: templates/theme/frontend-history-item-error.php:7
-msgid "Error:"
-msgstr "Fehler:"
 
 #. Author URI of the plugin
 msgid "http://dev.dans-art.ch"
 msgstr "http://dev.dans-art.ch"
 
-#: include/classes/sesm-ajax.php:218
+#: include/classes/sesm-ajax.php:229
 msgid "Info"
 msgstr "Info"
 
-#: scripts/sesm-app.js:146
+#: include/classes/sesm-ajax.php:120 include/classes/sesm-ajax.php:177
+msgid "Input must be a number"
+msgstr "Eingabe muss eine Nummer sein"
+
+#: scripts/sesm-app.js:158
 msgid "Input SKU"
 msgstr "Artikelnummer eingeben"
 
-#: include/classes/sesm-ajax.php:224
+#: include/classes/sesm-ajax.php:234
 msgid "No SKU provided"
 msgstr "Keine Artikelnummer übergeben."
 
-#: include/classes/sesm-ajax.php:299
+#: include/classes/sesm-ajax.php:309
 msgid "No value set!"
 msgstr "Keinen Wert gesetzt!"
 
-#: include/classes/sesm-ajax.php:192
+#: include/classes/sesm-ajax.php:203
 msgid "Old and new prices are the same, nothing has been changed"
 msgstr "Alter und neuer Preis haben sich nicht geändert."
 
@@ -75,48 +66,44 @@ msgstr "Alter und neuer Preis haben sich nicht geändert."
 msgid "Price"
 msgstr "Preis"
 
-#: templates/frontend.php:33 templates/theme/frontend-content.php:71
-#: templates/theme/frontend-history-item-update-price.php:13
-#: templates/theme/frontend-history-item.php:19
+#: templates/frontend.php:45
 msgid "Price regular"
 msgstr "Regulärer Preis"
 
-#: templates/frontend.php:36 templates/theme/frontend-content.php:79
-#: templates/theme/frontend-history-item-update-price.php:21
-#: templates/theme/frontend-history-item.php:27
+#: templates/frontend.php:48
 msgid "Price sale"
 msgstr "Angebots Preis"
 
-#: include/classes/sesm-ajax.php:234
+#: include/classes/sesm-ajax.php:244
 #, php-format
 msgid "Product not found for SKU: %s"
 msgstr "Kein Produkt für die Artikelnummer \"%s\" gefunden"
 
-#: include/classes/sesm-ajax.php:275
+#: include/classes/sesm-ajax.php:285
 msgid "Product with Variations"
 msgstr "Produkt mit Varianten"
 
-#: templates/theme/frontend-history-item.php:11 scripts/sesm-app.js:37
+#: scripts/sesm-app.js:37
 msgid "Quantity"
 msgstr "Anzahl"
 
-#: include/classes/sesm-ajax.php:178
+#: include/classes/sesm-ajax.php:189
 msgid "Sale price has to be smaller than the regular price!"
 msgstr "Der Angebotspreis muss kleiner sein, als der normale Preis"
 
-#: templates/frontend.php:17
+#: templates/frontend.php:29
 msgid "Scan a barcode or add a SKU number and press enter"
 msgstr "Scanne einen Barcode oder gib die Artikelnummer ein und drücke Enter"
 
-#: include/classes/sesm-ajax.php:271
+#: include/classes/sesm-ajax.php:281
 msgid "Simple Product"
 msgstr "Einfaches Produkt"
 
-#: templates/theme/frontend-content.php:37 scripts/sesm-app.js:38
+#: scripts/sesm-app.js:38
 msgid "SKU"
 msgstr "Artikelnummer"
 
-#: scripts/sesm-app.js:351
+#: scripts/sesm-app.js:363
 msgid "Stock management got activated"
 msgstr "Lagerverwaltung wurde aktiviert"
 
@@ -125,25 +112,40 @@ msgid "Stock Management with ease!"
 msgstr "Sehr einfache Lagerverwaltung!"
 
 #. Name of the plugin
-#: templates/theme/frontend-head.php:1
 msgid "Super Easy Stock Manager"
 msgstr "Super einfache Lagerverwaltung"
 
-#: include/classes/sesm-ajax.php:136
+#: scripts/sesm-app.js:442
+msgid ""
+"The Price contains invalid characters. Only 0-9, comma (,) and period (.) "
+"are allowed"
+msgstr ""
+"Der Preis enthält ungültige Zeichen. Es sind nur die Zahlen von 0-9, Komma (,"
+") und Punkt (.) erlaubt."
+
+#: scripts/sesm-app.js:438
+msgid ""
+"The Quantity contains invalid characters. Only 0-9, comma (,) and period (.) "
+"are allowed"
+msgstr ""
+"Die Anzahl enthält ungültige Zeichen. Es sind nur die Zahlen von 0-9, Komma "
+"(,) und Punkt (.) erlaubt."
+
+#: include/classes/sesm-ajax.php:142
 #, php-format
 msgid "The stock has been decreased by %d to %d"
 msgstr "Der Lagerbestand wurde um %d reduziert auf insgesamt %d Stück."
 
-#: include/classes/sesm-ajax.php:133
+#: include/classes/sesm-ajax.php:139
 #, php-format
 msgid "The stock has been increased by %d to %d"
 msgstr "Der Lagerbestand wurde um %d erhöht auf insgesamt %d Stück."
 
-#: include/classes/sesm-ajax.php:279
+#: include/classes/sesm-ajax.php:289
 msgid "Variation of Product"
 msgstr "Variante eines Produkts"
 
-#: include/classes/sesm-ajax.php:70 include/classes/sesm-ajax.php:177
+#: include/classes/sesm-ajax.php:71 include/classes/sesm-ajax.php:188
 msgid "Warning"
 msgstr "Warnung"
 
@@ -152,8 +154,11 @@ msgid "Weight"
 msgstr "Gewicht"
 
 #: include/classes/sesm.php:84 include/classes/sesm.php:102
+#| msgid ""
+#| "WooCommerce seems not to be installed. Please install or activate "
+#| "WooCommerce to use this plugin"
 msgid ""
-"WooCommerce seems not to be installed. Please install or activate "
+"WooCommerce seems not to be installed. Please Install or activate "
 "WooCommerce to use this plugin"
 msgstr ""
 "WooCommerce scheint nicht installiert zu sein. Bitte installiere oder "
@@ -176,7 +181,7 @@ msgid "You are not logged in. Please sign-in to use this function"
 msgstr ""
 "Du bist nicht eingeloggt. Bitte melde dich an, um diese Funktion zu nutzen."
 
-#: include/classes/sesm-ajax.php:71
+#: include/classes/sesm-ajax.php:72
 msgid ""
 "You can't change the values of that product, because it has variations. "
 "Please change the value of the variation itself."

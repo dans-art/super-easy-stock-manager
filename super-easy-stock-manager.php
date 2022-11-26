@@ -3,8 +3,8 @@
 /**
  * Plugin Name: Super Easy Stock Manager
  * Description: Stock Management with ease!
- * Version: 1.3.1
- * Stable tag: 1.3.1
+ * Version: 1.3.2
+ * Stable tag: 1.3.2
  * Author: Dan's Art
  * Author URI: http://dev.dans-art.ch
  * Donate link: https://paypal.me/dansart13
@@ -16,9 +16,9 @@
  * Requires PHP: 7.4
  * 
  * Requires at least: 5.4.0
- * Tested up to: 5.9
+ * Tested up to: 6.1.1
  *
- * Text Domain: sesm
+ * Text Domain: super-easy-stock-manager
  * Domain Path: /languages
  * License: GPLv2 or later
  *
