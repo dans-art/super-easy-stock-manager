@@ -2,8 +2,6 @@
 
 /**
  * Template Handler
- * Author: Dan's Art
- * Version: 0.2
  */
 
 if (!defined('ABSPATH')) {
