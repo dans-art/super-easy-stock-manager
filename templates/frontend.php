@@ -2,8 +2,6 @@
 
 /**
  * The main template for the frontend of the super-easy-stock-manager
- * Author: Dan's Art
- * Version: 1.3.1
  */
 
 if (!defined('ABSPATH')) {
