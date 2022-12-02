@@ -196,8 +196,8 @@ body {
             justify-content: center;
             font-size: 1em;
             color: black;
-            
-            .error-message{                
+
+            .error-message {
                 background-color: var(--sesm-white);
                 border: 2px solid var(--sesm-error-color);
                 padding: 1em;
@@ -426,11 +426,12 @@ body {
             justify-content: center;
             text-align: center;
             flex-direction: column;
-            width: 100%;
+            width: 60%;
             border-radius: var(--sesm-border-radius);
             border: 1px solid var(--sesm-button-border);
             height: 5em;
             margin-top: 1.3em;
+            padding: 0 20%;
         }
 
         &.item.update.price .big-text {
@@ -438,6 +439,11 @@ body {
             display: flex;
             flex-direction: column;
             font-weight: bold;
+        }
+
+        &.item.update.price .info-text {
+            font-size: 0.7em;
+            font-weight: normal;
         }
 
         &.item.update.stock .big-text {

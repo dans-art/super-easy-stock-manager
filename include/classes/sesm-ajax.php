@@ -74,7 +74,7 @@ class Super_Easy_Stock_Manager_Ajax
             $update = "";
             switch ($action) {
                 case 'price':
-                    $update = $this->updatePrice($product);
+                    $update = $this->updatePrices($product);
                     break;
                 case 'stock':
                     $update = $this->updateStock($product);
@@ -165,53 +165,106 @@ class Super_Easy_Stock_Manager_Ajax
      * 
      * @return array array with the values for template, new price, old price etc.
      */
-    public function updatePrice($product)
+    public function updatePrices($product)
     {
         $result = array();
         $regular_price = isset($_REQUEST['price']) ? wp_kses($_REQUEST['price'], []) : '';
         $sale_price = isset($_REQUEST['price_sale']) ? wp_kses($_REQUEST['price_sale'], []) : '';
-        $type = $product->get_type();
+        $result['template'] = 'updatePrice';
+        $result['from_regular'] = floatval($product->get_regular_price());
+        $result['from_sale'] = floatval($product->get_sale_price());
+        $result['to_regular'] = floatval($regular_price);
+        $result['to_sale'] = floatval($sale_price);
+        $result['regular_notice'] = '';
+        $result['sale_notice'] = '';
 
-        if (!$this->validate_input($regular_price, 'float') or !$this->validate_input($sale_price, 'float')) {
-            return $this->errorJson(__('Input must be a number', 'super-easy-stock-manager'));
-        }
-        //Convert to float
-        if (!empty($regular_price)) {
-            settype($regular_price, 'float');
-        }
-        if (!empty($sale_price)) {
-            settype($sale_price, 'float');
-        }
-        if (($regular_price > 0 and $sale_price > 0) and ($sale_price > $regular_price)) {
+        //Check if the sale price is smaller than the regular price
+        if (!$this->salePriceIsSmallerThanRegular()) {
             $result['template'] = 'error';
             $result['title'] = __('Warning', 'super-easy-stock-manager');
             $result['error'] = __('Sale price has to be smaller than the regular price!', 'super-easy-stock-manager');
             return json_encode($result);
         }
-        if (empty($regular_price) and empty($sale_price)) {
-            return $this->errorJson();
-        }
-        $result['template'] = 'updatePrice';
-        $result['from_regular'] = floatval($product->get_regular_price()) ?: 0;
-        $result['from_sale'] = floatval($product->get_sale_price()) ?: 0;
-        $result['to_regular'] = floatval($regular_price) ?: 0;
-        $result['to_sale'] = floatval($sale_price) ?: 0;
 
-        //If non of the prices has been changed, output error
-        if ($result['from_regular'] === $result['to_regular'] or $result['from_sale'] === $result['to_sale']) {
+        //try to update the prices
+        $updateRegular = $this->checkAndUpdatePrice($product, 'regular');
+        $updateSale = $this->checkAndUpdatePrice($product, 'sale');
+
+        $result['to_regular'] = $updateRegular;
+        $result['to_sale'] = $updateSale;
+
+        if($regular_price === '0' AND $updateRegular >= 0){
+        $result['regular_notice'] = __('Regular price set to 0', 'super-easy-stock-manager');
+        }
+        if($sale_price == '0' AND $updateSale >= 0){
+        $result['sale_notice'] = __('Sale price set to 0', 'super-easy-stock-manager');
+        }
+
+        //If none of the prices has been changed, output error
+        if ($updateRegular === null and $updateSale === null) {
             $noChange = __('Old and new prices are the same, nothing has been changed', 'super-easy-stock-manager');
-            $result['notice'] = $noChange;
+            $result['regular_notice'] = $noChange;
+            $result['sale_notice'] = '';
             return $result;
         }
-        //Saves the changes to the product / variation
-        if ($result['to_regular']) {
-            update_post_meta($product->get_id(), '_regular_price', $result['to_regular']);
-        }
-        if ($result['to_sale']) {
-            update_post_meta($product->get_id(), '_sale_price', $result['to_sale']);
-        }
-        //$result['save_status'] = $product->save();
+
+
+        $result['save_status'] = $product->save();
         return $result;
+    }
+
+    /**
+     * Checks if the price is valid and updated the product if so
+     *
+     * @param object $product
+     * @param string $type
+     * @return bool|string String on error, true on success, null if nothing updated
+     */
+    public function checkAndUpdatePrice($product, $type)
+    {
+        $field_name = ($type === 'regular') ? 'price' : 'price_sale';
+        $price = isset($_REQUEST[$field_name]) ? wp_kses($_REQUEST[$field_name], []) : ''; //The regular or the sale price
+        $old_price = ($type === 'regular') ? $product->get_regular_price() : $product->get_sale_price();
+        if ($price == '') {
+            return null;
+        }
+
+        //Check if old and new price are the same
+        if ($price === $old_price) {
+            return null;
+        }
+        if (!$this->validate_input($price, 'float')) {
+            return $this->errorJson(__('Input must be a number', 'super-easy-stock-manager'));
+        }
+        //Convert to float
+        settype($price, 'float');
+
+        //Saves the changes to the product / variation
+        if ($type === 'regular') {
+            update_post_meta($product->get_id(), '_regular_price', $price);
+        } else {
+            update_post_meta($product->get_id(), '_sale_price', $price);
+        }
+        return $price;
+    }
+    /**
+     * Check if the sale price is smaller than the regular price
+     *
+     * @return bool 
+     */
+    public function salePriceIsSmallerThanRegular()
+    {
+        $regular_price = isset($_REQUEST['price']) ? wp_kses($_REQUEST['price'], []) : '';
+        $sale_price = isset($_REQUEST['price_sale']) ? wp_kses($_REQUEST['price_sale'], []) : '';
+
+        settype($regular_price, 'float');
+        settype($sale_price, 'float');
+
+        //Check if the sale price is smaller than the regular price
+        if (($regular_price > 0 and $sale_price > 0) and ($sale_price > $regular_price)) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -321,11 +374,11 @@ class Super_Easy_Stock_Manager_Ajax
         switch ($type) {
             case 'float':
                 $new_input = floatval($input);
-                return ($input == $new_input) ? true : false;
+                return ($input == $new_input or $new_input == 0) ? true : false;
                 break;
             case 'int':
                 $new_input = intval($input);
-                return ($input == $new_input) ? true : false;
+                return ($input == $new_input or $new_input == 0) ? true : false;
                 break;
 
             default:

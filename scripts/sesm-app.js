@@ -355,10 +355,6 @@ class SesmMain {
      * @return {string} The modified string
      */
   format_value(fieldName, value, jsonData) {
-    if (fieldName === 'to_regular' || fieldName === 'to_sale') {
-      var priceLength = (jsonData.from_regular + jsonData.to_regular + jsonData.currency).length;
-      var priceLengthSale = (jsonData.from_sale + jsonData.to_sale + jsonData.currency).length;
-    }
     switch (fieldName) {
       case 'stock_quantity':
         const number = parseInt(value);
@@ -375,18 +371,50 @@ class SesmMain {
         return (value !== false) ? '' : __('Stock management got activated', 'super-easy-stock-manager');
 
       case 'to_regular':
-        // Calculate the length of the string to set the font size
-        // Also, set smaller font-size on multi-line
-        const classLongContent = (priceLength + priceLengthSale > 7 || jsonData.to_sale > 0) ? 'content-long' : '';
-        const isSingleRegularClass = (jsonData.to_sale === 0) ? 'single' : '';
-        return (value === 0) ? '' : '<div class="' + classLongContent + ' ' + isSingleRegularClass + '"><span class="from_price strikethrough">' + jsonData.from_regular + ' ' + jsonData.currency + '</span><span class="to_price">' + value + ' ' + jsonData.currency + '</span></div>';
+        return sesmScripts.format_price_change(jsonData.from_regular, jsonData.to_regular, jsonData, fieldName);
       case 'to_sale':
-        const classLongContentSale = (priceLength + priceLengthSale > 7 || jsonData.to_regular > 0) ? 'content-long' : '';
-        const isSingleSaleClass = (jsonData.to_regular === 0) ? 'single' : '';
-        return (value === 0) ? '' : '<div class="' + classLongContentSale + ' ' + isSingleSaleClass + '"><span class="from_price strikethrough">' + jsonData.from_sale + ' ' + jsonData.currency + '</span><span class="to_price">' + value + ' ' + jsonData.currency + '</span></div>';
-
+        return sesmScripts.format_price_change(jsonData.from_sale, jsonData.to_sale, jsonData, fieldName);
       default:
         return value;
+    }
+  }
+  /**
+ * Calculate the length of the string to set the font size
+ * Also, set smaller font-size on multi-line
+ * @param {float} fromPrice The from price
+ * @param {float} toPrice The to price
+ * @param {object} jsonData The data from the ajax request as an object
+ * @param {string} fieldName The name of the field
+ * @return {string}
+ */
+  format_price_change(fromPrice, toPrice, jsonData, fieldName) {
+    const priceLength = (jsonData.from_regular + jsonData.to_regular + jsonData.currency).length;
+    const priceLengthSale = (jsonData.from_sale + jsonData.to_sale + jsonData.currency).length;
+    const priceNotice = (fieldName === 'to_regular') ?jsonData.regular_notice:jsonData.sale_notice;
+
+    if (!sesmScripts.empty(priceNotice)) {
+      return '<div class="info-text">' + priceNotice + '</div>';
+    }
+    // No change
+    if (fromPrice === toPrice) {
+      return '';
+    }
+    // Price is empty or undefined
+    if (sesmScripts.empty(toPrice)) {
+      return '';
+    }
+
+    const classLongContent = (priceLength + priceLengthSale > 7 || jsonData.to_sale > 0) ? 'content-long' : '';
+    const isSingleRegularClass = (jsonData.to_sale === 0) ? 'single' : '';
+    const isSingleSaleClass = (jsonData.to_regular === 0) ? 'single' : '';
+    if (fieldName === 'to_regular') {
+      return '<div class="' + classLongContent + ' ' +
+      isSingleRegularClass + '"><span class="from_price strikethrough">' + fromPrice + ' ' +
+      jsonData.currency + '</span><span class="to_price">' + toPrice + ' ' + jsonData.currency + '</span></div>';
+    } else {
+      return '<div class="' + classLongContent + ' ' +
+      isSingleSaleClass + '"><span class="from_price strikethrough">' + fromPrice+ ' ' +
+      jsonData.currency + '</span><span class="to_price">' + toPrice + ' ' + jsonData.currency + '</span></div>';
     }
   }
 
@@ -430,10 +458,10 @@ class SesmMain {
         break;
     }
 
-    if (sesmScripts.empty(regex)) {
+    if (sesmScripts.empty(value)) {
       return (allowEmpty) ? true : false;
     }
-    if (regex.exec(value) !== null) {
+    if (!sesmScripts.empty(regex) && regex.exec(value) !== null) {
       return true;
     }
     return false;
