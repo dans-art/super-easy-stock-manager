@@ -62,7 +62,7 @@ class Super_Easy_Stock_Manager extends Super_Easy_Stock_Manager_Helper
         add_action('wp_footer', function () {
             //Add variables for JS
             echo "<script type=\"text/javascript\">";
-            echo "window.wp_site_url = \"" . site_URL() . "\"; ";
+            echo "window.wpSiteUrl = \"" . site_URL() . "\"; ";
             echo "window.sesm_plugin_root = \"" . SESM_MAIN_URL . "\"";
             echo "</script>";
         }, 10);
