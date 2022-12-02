@@ -7,7 +7,6 @@
  * Author URI: http://dev.dans-art.ch
  *
  */
-
 class Super_Easy_Stock_Manager_Ajax
 {
     /**
@@ -258,7 +257,7 @@ class Super_Easy_Stock_Manager_Ajax
     public function checkSKU($sku)
     {
         global $wpdb;
-        $sku = wp_kses( $sku, []);
+        $sku = wp_kses($sku, []);
         $prep = $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta where meta_key ='_sku' and meta_value like '%d'", $sku);
         $getCol = $wpdb->get_col($prep);
         if (isset($getCol[0]) and !empty($getCol[0])) {
