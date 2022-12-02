@@ -110,9 +110,11 @@ body { --sesm-button-color: rgb(255, 182, 0); --sesm-button-text-color: rgb(0, 0
 
 #sesm_history article.item .strikethrough { text-decoration: line-through; padding-right: 0.5em; }
 
-#sesm_history article.item.update .text-con { display: flex; align-items: center; justify-content: center; text-align: center; flex-direction: column; width: 100%; border-radius: var(--sesm-border-radius); border: 1px solid var(--sesm-button-border); height: 5em; margin-top: 1.3em; }
+#sesm_history article.item.update .text-con { display: flex; align-items: center; justify-content: center; text-align: center; flex-direction: column; width: 60%; border-radius: var(--sesm-border-radius); border: 1px solid var(--sesm-button-border); height: 5em; margin-top: 1.3em; padding: 0 20%; }
 
 #sesm_history article.item.update.price .big-text { font-size: 1.5em; display: flex; flex-direction: column; font-weight: bold; }
+
+#sesm_history article.item.update.price .info-text { font-size: 0.7em; font-weight: normal; }
 
 #sesm_history article.item.update.stock .big-text { font-size: 1.5em; }
 

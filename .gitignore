@@ -1434,3 +1434,5 @@ eslint/node_modules/.bin/eslint
 eslint/node_modules/.bin/acorn.ps1
 eslint/node_modules/.bin/acorn.cmd
 .vscode/settings.json
+*.po~
+*.pot~
