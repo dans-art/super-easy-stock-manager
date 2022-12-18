@@ -33,7 +33,7 @@ class SesmTemplate {
       });
       this.loaded_templates[templateId] = loadedContent;
     } catch (error) {
-      console.error('failed to load template: ' + path + fileName);
+      console.error('failed to load template: ' + window.sesm_plugin_root + path + fileName);
       console.error(error);
     }
     return false;
