@@ -53,6 +53,7 @@ body {
     font-size: 16px;
     color: var(--sesm-button-text-color);
     position: relative;
+    margin-bottom: 3em;
 
     #selection-indicator {
         display: block;
@@ -105,7 +106,7 @@ body {
             width: 100%;
             bottom: var(--sesm-scan-container-height);
             background-color: var(--sesm-button-color);
-            padding: 2%;
+            //padding: 2%;
             //border: 0.5em solid var(--sesm-button-color) !important;
             border: none !important;
 
@@ -488,6 +489,13 @@ body {
 
     }
 
+    article:not(.error) {
+        .icon i:hover::before {
+            content: "\f044";
+            font-weight: 700;
+        }
+    }
+
     .icon {
         display: flex;
         justify-content: center;
@@ -506,7 +514,9 @@ body {
 
         i {
             font-size: 1em;
+            color: var(--sesm-button-text-color);
         }
+
     }
 
 

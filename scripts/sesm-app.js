@@ -9,6 +9,7 @@ class SesmMain {
   sesm_do = '';
   field_names = {};
   scanner = {};
+  version = '1.3.6';
 
   /**
    * Imports the modules once the document is ready
@@ -231,7 +232,7 @@ class SesmMain {
      * Shows the buttons
      */
   activate_sesm() {
-    jQuery('#sesm_buttons').slideDown('slow');
+    jQuery('#sesm_buttons').slideDown('fast');
   }
 
   /**

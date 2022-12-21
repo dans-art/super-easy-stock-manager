@@ -41,6 +41,7 @@ class SesmTemplate {
 
   /**
      * Loads a template file. If the template is already loaded, it will use the one from the get this.loaded_templates object, if loaded
+     * The file gets loaded with a parameter of v, which is the version of the sesmScript. This is to avoid caching issues when updating the plugein
      * @param {string} templateId - The ID of the template. Must be unique, otherwise one template can override the other
      * @param {string} file - The File name of the template with extension
      * @param {string} subfolder - The path the template is saved in
@@ -51,7 +52,7 @@ class SesmTemplate {
       return this.loaded_templates[templateId];
     }
     const response = await jQuery.get(
-        window.sesm_plugin_root + subfolder + file,
+        window.sesm_plugin_root + subfolder + file + '?v='+sesmScripts.version,
         function(data, textStatus, jqxhr) {
           return data;
         },

@@ -6,7 +6,7 @@ Tags: woocommerce, stock, management, manager, price, quantity, info
 Requires at least: 5.5.3
 Tested up to: 6.1.1
 Requires PHP: 7.4
-Stable tag: 1.3.5
+Stable tag: 1.3.6
 WC requires at least: 4.7.0
 WC tested up to: 7.1.0
 License: GPLv3 or later
@@ -55,8 +55,10 @@ How do I generate barcodes?
 
 
 == Changelog ==
-= [1.3.4] 2022-12-02 =
+= [1.3.6] 2022-12-21 =
 - Added numeric keyboard input for mobile devices
+- Fixed container height on mobile
+- Added link to edit a product
 
 = [1.3.4] 2022-11-29 =
 - Fixed: Cached product price was not updated
