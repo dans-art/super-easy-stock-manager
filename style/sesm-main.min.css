@@ -16,7 +16,7 @@ body { --sesm-button-color: rgb(255, 182, 0); --sesm-button-text-color: rgb(0, 0
   100% { width: 0%;
     left: 0%; } }
 
-#sesm_container { padding: 1em; font-size: 16px; color: var(--sesm-button-text-color); position: relative; }
+#sesm_container { padding: 1em; font-size: 16px; color: var(--sesm-button-text-color); position: relative; margin-bottom: 3em; }
 
 #sesm_container #selection-indicator { display: block; width: 4px; height: 1.55em; background-color: var(--sesm-button-border); left: 0; top: 0; opacity: 0; position: relative; }
 
@@ -26,7 +26,7 @@ body { --sesm-button-color: rgb(255, 182, 0); --sesm-button-text-color: rgb(0, 0
 
 #sesm_container #mobile-scan-container .scan-button-style { display: flex; justify-content: center; align-items: center; flex-direction: row; border: 1px solid var(--sesm-button-border); cursor: pointer; width: 4em; height: 1.5em; font-size: 2em; gap: 0.25em; background-color: var(--sesm-button-color); border-radius: 1em; }
 
-#sesm_container #mobile-scan-container #scanner-container { position: absolute !important; left: 0; display: block; width: 100%; bottom: var(--sesm-scan-container-height); background-color: var(--sesm-button-color); padding: 2%; border: none !important; /* Style of the camera interface*/ }
+#sesm_container #mobile-scan-container #scanner-container { position: absolute !important; left: 0; display: block; width: 100%; bottom: var(--sesm-scan-container-height); background-color: var(--sesm-button-color); border: none !important; /* Style of the camera interface*/ }
 
 #sesm_container #mobile-scan-container #scanner-container #scanner-container__dashboard_section_csr { height: 2.5em; color: transparent; /* Workaround to hide the camera count*/ }
 
@@ -128,9 +128,11 @@ body { --sesm-button-color: rgb(255, 182, 0); --sesm-button-text-color: rgb(0, 0
 
 #sesm_history article.item.error .title { font-size: 2em; }
 
+#sesm_history article:not(.error) .icon i:hover::before { content: "\f044"; font-weight: 700; }
+
 #sesm_history .icon { display: flex; justify-content: center; align-items: center; position: absolute; right: 0.2em; top: 0.2em; padding: 0.25em; height: 2em; width: 2em; font-size: 2em; border-radius: var(--sesm-border-radius); background-color: var(--sesm-button-color); height: 1.5em; width: 1.5em; }
 
-#sesm_history .icon i { font-size: 1em; }
+#sesm_history .icon i { font-size: 1em; color: var(--sesm-button-text-color); }
 
 @media screen and (max-width: 500px) { #sesm_history { display: grid; grid-template-columns: 1fr; }
   #sesm_buttons { gap: 1.5em; }

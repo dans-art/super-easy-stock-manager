@@ -37,6 +37,7 @@ class Super_Easy_Stock_Manager_Ajax
     {
         $result = [];
         if (is_object($product)) {
+            $product_parent_id = ($product->get_parent_id()) ?: $product->get_id();
             $type = $product->get_type();
             $result['post_type'] = $this->getProductType($type);
             $result['title'] = $product->get_name();
@@ -49,6 +50,7 @@ class Super_Easy_Stock_Manager_Ajax
             $result['image'] = $product->get_image('thumbnail');
             $result['weight'] = $product->get_weight() ?: 0;
             $result['attributes'] = wc_get_formatted_variation($product, true);
+            $result['product_url'] = get_edit_post_link($product_parent_id);
         }
         return $result;
     }
@@ -193,11 +195,11 @@ class Super_Easy_Stock_Manager_Ajax
         $result['to_regular'] = $updateRegular;
         $result['to_sale'] = $updateSale;
 
-        if($regular_price === '0' AND $updateRegular >= 0){
-        $result['regular_notice'] = __('Regular price set to 0', 'super-easy-stock-manager');
+        if ($regular_price === '0' and $updateRegular >= 0) {
+            $result['regular_notice'] = __('Regular price set to 0', 'super-easy-stock-manager');
         }
-        if($sale_price == '0' AND $updateSale >= 0){
-        $result['sale_notice'] = __('Sale price set to 0', 'super-easy-stock-manager');
+        if ($sale_price == '0' and $updateSale >= 0) {
+            $result['sale_notice'] = __('Sale price set to 0', 'super-easy-stock-manager');
         }
 
         //If none of the prices has been changed, output error

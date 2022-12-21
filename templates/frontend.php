@@ -32,7 +32,7 @@ if (!defined('ABSPATH')) {
                 <button id="remove_quant_btn" class="options_button">
                     <i class="fas fa-minus"></i>
                 </button>
-                <input id="sesm_quant" type="text" class="sesm_input add_quantities" value="1" placeholder="<?php echo __("Enter quantity to add or remove", "super-easy-stock-manager"); ?>" />
+                <input id="sesm_quant" type="text" inputmode="decimal" class="sesm_input add_quantities" value="1" placeholder="<?php echo __("Enter quantity to add or remove", "super-easy-stock-manager"); ?>" />
                 <button id="add_quant_btn" class="options_button">
                     <i class="fas fa-plus"></i>
                 </button>
@@ -40,10 +40,10 @@ if (!defined('ABSPATH')) {
 
             <div class="price_flex_group" style="display: none;">
                 <div>
-                    <input id="sesm_price_reg" class="sesm_input update_price" type="text" placeholder="<?php echo __("Price regular", "super-easy-stock-manager"); ?>" />
+                    <input id="sesm_price_reg" class="sesm_input update_price" type="text" inputmode="decimal" placeholder="<?php echo __("Price regular", "super-easy-stock-manager"); ?>" />
                 </div>
                 <div>
-                    <input id="sesm_price_sale" class="sesm_input update_price sale" type="text" placeholder="<?php echo __("Price sale", "super-easy-stock-manager"); ?>" />
+                    <input id="sesm_price_sale" class="sesm_input update_price sale" type="text" inputmode="decimal" placeholder="<?php echo __("Price sale", "super-easy-stock-manager"); ?>" />
                 </div>
             </div>
         </div>
