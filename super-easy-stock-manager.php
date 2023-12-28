@@ -3,8 +3,8 @@
 /**
  * Plugin Name: Super Easy Stock Manager
  * Description: Stock Management with ease!
- * Version: 1.3.6
- * Stable tag: 1.3.6
+ * Version: 1.4
+ * Stable tag: 1.4
  * Author: Dan's Art
  * Author URI: http://dev.dans-art.ch
  * Donate link: https://paypal.me/dansart13

@@ -16,7 +16,7 @@ class SesmMain {
    * Loads event listener and activates sesm
    */
   construct() {
-    jQuery(document).ready(async function() {
+    jQuery(document).ready(async function () {
       // Check if the container for the plugin exists. If not, it skips the rest
       if (jQuery('#sesm_container').length !== 1) {
         return false;
@@ -39,7 +39,19 @@ class SesmMain {
       sesmScripts.add_event_listener();
       sesmScripts.activate_sesm();
 
-      sesmScripts.is_mobile();
+
+      if (!sesmScripts.is_mobile()) {
+        // Re-focus to the input field every 2 seconds
+        let autofocus = setInterval(function () {
+          if (
+            document.activeElement.id !== 'sesm_quant' &&
+            document.activeElement.id !== 'sesm_price_reg' &&
+            document.activeElement.id !== 'sesm_price_sale'
+          ) {
+            jQuery('#sesm_sku_input').focus();
+          }
+        }, 2000);
+      }
     });
   }
 
@@ -71,7 +83,7 @@ class SesmMain {
      * Adds the event listeners
      */
   add_event_listener() {
-    jQuery('#sesm_buttons button').click(function(item) {
+    jQuery('#sesm_buttons button').click(function (item) {
       sesmScripts.sesm_do = jQuery(item.currentTarget).data('do');
 
       // reset all
@@ -114,15 +126,15 @@ class SesmMain {
 
       // Open scan application
       sesmScripts.scanner = new Html5QrcodeScanner(
-          'scanner-container',
-          {
-            fps: 10,
-            qrbox: {width: 250, height: 250},
-            useBarCodeDetectorIfSupported: true,
-            rememberLastUsedCamera: true,
-            showTorchButtonIfSupported: true,
-            defaultZoomValueIfSupported: 2,
-          });
+        'scanner-container',
+        {
+          fps: 10,
+          qrbox: { width: 250, height: 250 },
+          useBarCodeDetectorIfSupported: true,
+          rememberLastUsedCamera: true,
+          showTorchButtonIfSupported: true,
+          defaultZoomValueIfSupported: 2,
+        });
 
       sesmScripts.scanner.render(sesmScripts.onScanSuccess, sesmScripts.onScanFailure);
     });
@@ -135,17 +147,17 @@ class SesmMain {
       sesmScripts.scanner.clear();
     });
 
-    jQuery(document).on('keyup', async function(s) {
+    jQuery(document).on('keyup', async function (s) {
       if (s.which == 13) {
         sesmScripts.fire_ajax();
       }
     }),
-    jQuery('#add_quant_btn').click(function() {
-      sesmScripts.changeQuantity(true);
-    }),
-    jQuery('#remove_quant_btn').click(function() {
-      sesmScripts.changeQuantity(false);
-    });
+      jQuery('#add_quant_btn').click(function () {
+        sesmScripts.changeQuantity(true);
+      }),
+      jQuery('#remove_quant_btn').click(function () {
+        sesmScripts.changeQuantity(false);
+      });
 
     /**
        * On value change, validate the input
@@ -225,7 +237,7 @@ class SesmMain {
     }
     jQuery('#mobile-scan-container').css('display', 'flex');
     jQuery('#mobile-scan-container').css('bottom', -jQuery('#mobile-scan-container').height());
-    jQuery('#mobile-scan-container').animate({'bottom': 0}, 200);
+    jQuery('#mobile-scan-container').animate({ 'bottom': 0 }, 200);
   }
 
   /**
@@ -252,12 +264,12 @@ class SesmMain {
 
     if (jQuery('#selection-indicator')[0].offsetLeft === padding) {
       animationDuration = 0; // Move instantly if not in position yet
-      jQuery('#selection-indicator').animate({opacity: 1}, animationDuration);
+      jQuery('#selection-indicator').animate({ opacity: 1 }, animationDuration);
     }
     jQuery('#selection-indicator').animate({
       left: finalLeft,
     },
-    animationDuration);
+      animationDuration);
   }
 
   /**
@@ -277,19 +289,19 @@ class SesmMain {
       jsonData.attributes = attr;
     }
 
-    jQuery.each(jsonData, function(key, value) {
+    jQuery.each(jsonData, function (key, value) {
       value = sesmScripts.format_value(key, value, jsonData);
       template = template.replaceAll('{{' + key + '}}', value);
     });
 
-    jQuery.each(this.field_names, function(key, value) {
+    jQuery.each(this.field_names, function (key, value) {
       value = sesmScripts.format_value(key, value);
       template = template.replaceAll('{{' + key + '}}', value);
     });
 
     jQuery('#sesm_history').addClass('active');
     jQuery('#sesm_history').prepend(template);
-    jQuery('#sesm_history article').first().animate({opacity: 1, height: '100%'}, 500);
+    jQuery('#sesm_history article').first().animate({ opacity: 1, height: '100%' }, 500);
   }
 
   /**
@@ -362,10 +374,6 @@ class SesmMain {
         return number < 1 ? '<span class=\'red\'>' + number + '</span>' : value;
       case 'regular_price':
         return (!jsonData.sale_price) ? value + ' ' + jsonData.currency : '<span class="strikethrough">' + value + ' ' + jsonData.currency + '</span>';
-
-      case 'weight':
-        return value + ' kg';
-
       case 'sale_price':
         return (!jsonData.sale_price) ? '' : value + ' ' + jsonData.currency;
       case 'manage_stock':
@@ -375,6 +383,10 @@ class SesmMain {
         return sesmScripts.format_price_change(jsonData.from_regular, jsonData.to_regular, jsonData, fieldName);
       case 'to_sale':
         return sesmScripts.format_price_change(jsonData.from_sale, jsonData.to_sale, jsonData, fieldName);
+      case 'product_variations':
+        const list = sesmScripts.format_product_variations(jsonData.product_variations);
+        const title = __('Other variants of this product', 'super-easy-stock-manager');
+        return (!this.empty(list)) ? `<details><summary>${title}</summary><ul>${list}</ul></details>` : '';
       default:
         return value;
     }
@@ -391,7 +403,7 @@ class SesmMain {
   format_price_change(fromPrice, toPrice, jsonData, fieldName) {
     const priceLength = (jsonData.from_regular + jsonData.to_regular + jsonData.currency).length;
     const priceLengthSale = (jsonData.from_sale + jsonData.to_sale + jsonData.currency).length;
-    const priceNotice = (fieldName === 'to_regular') ?jsonData.regular_notice:jsonData.sale_notice;
+    const priceNotice = (fieldName === 'to_regular') ? jsonData.regular_notice : jsonData.sale_notice;
 
     if (!sesmScripts.empty(priceNotice)) {
       return '<div class="info-text">' + priceNotice + '</div>';
@@ -410,13 +422,30 @@ class SesmMain {
     const isSingleSaleClass = (jsonData.to_regular === 0) ? 'single' : '';
     if (fieldName === 'to_regular') {
       return '<div class="' + classLongContent + ' ' +
-      isSingleRegularClass + '"><span class="from_price strikethrough">' + fromPrice + ' ' +
-      jsonData.currency + '</span><span class="to_price">' + toPrice + ' ' + jsonData.currency + '</span></div>';
+        isSingleRegularClass + '"><span class="from_price strikethrough">' + fromPrice + ' ' +
+        jsonData.currency + '</span><span class="to_price">' + toPrice + ' ' + jsonData.currency + '</span></div>';
     } else {
       return '<div class="' + classLongContent + ' ' +
-      isSingleSaleClass + '"><span class="from_price strikethrough">' + fromPrice+ ' ' +
-      jsonData.currency + '</span><span class="to_price">' + toPrice + ' ' + jsonData.currency + '</span></div>';
+        isSingleSaleClass + '"><span class="from_price strikethrough">' + fromPrice + ' ' +
+        jsonData.currency + '</span><span class="to_price">' + toPrice + ' ' + jsonData.currency + '</span></div>';
     }
+  }
+
+  /**
+   *
+   * @param {object} variations The variations as an object
+   * @return {string}
+   */
+  format_product_variations(variations) {
+    let variationsList = '';
+    for (let key in variations) {
+      if (variations.hasOwnProperty(key)) { // Check if the property is part of the object and not its prototype chain
+        const attributes = sesmScripts.format_attributes(variations[key]);
+        const stock = variations[key].stock;
+        variationsList += `<li><span>${attributes}</span><span>${stock}</span></li>`;
+      }
+    }
+    return variationsList;
   }
 
   /**
@@ -490,7 +519,7 @@ class SesmMain {
     if (sesmScripts.empty(message)) {
       return false;
     }
-    const tooltip = sesmScripts.template.apply_template(sesmScripts.template.loaded_templates.errortooltip, {error: message, id: id});
+    const tooltip = sesmScripts.template.apply_template(sesmScripts.template.loaded_templates.errortooltip, { error: message, id: id });
     if (jQuery('#input-error-' + id).length === 0) {
       jQuery('#' + id).before(tooltip);
     }
@@ -527,7 +556,7 @@ class SesmMain {
     return false;
   }
 }
-const {__, _x, _n, _nx} = wp.i18n; // Map the functions to the wp translation script
+const { __, _x, _n, _nx } = wp.i18n; // Map the functions to the wp translation script
 
 const sesmScripts = new SesmMain;
 sesmScripts.construct();
