@@ -1,0 +1,146 @@
+/*
+  Plugin: Super Easy Stock Manager
+  Author: dansart
+
+*/
+body { --sesm-button-color: rgb(255, 182, 0); --sesm-button-text-color: rgb(0, 0, 0); --sesm-button-text-color-disabled: rgb(117, 117, 117); --sesm-button-border: rgb(0 0 0); --sesm-box-border: rgb(189, 189, 189); --sesm-background: rgba(255, 183, 0, 0.20); --sesm-border-radius: 5px; --sesm-error-color: rgb(255, 0, 0); --sesm-scan-container-height: 80px; --sesm-white: white; }
+
+@keyframes bounce { 0% { width: 0%;
+    left: 0; }
+  25% { width: 100%;
+    left: 0; }
+  50% { width: 0%;
+    left: 100%; }
+  75% { width: 100%;
+    left: 0%; }
+  100% { width: 0%;
+    left: 0%; } }
+
+#sesm_container { padding: 1em; font-size: 16px; color: var(--sesm-button-text-color); position: relative; margin-bottom: 3em; }
+
+#sesm_container #selection-indicator { display: block; width: 4px; height: 1.55em; background-color: var(--sesm-button-border); left: 0; top: 0; opacity: 0; position: relative; }
+
+#sesm_container #mobile-scan-container { width: 100%; height: var(--sesm-scan-container-height); position: fixed; bottom: 0; left: 0; display: flex; justify-content: center; align-items: center; background-color: var(--sesm-button-color); display: none; }
+
+#sesm_container #mobile-scan-container #scan-button-active { display: none; }
+
+#sesm_container #mobile-scan-container .scan-button-style { display: flex; justify-content: center; align-items: center; flex-direction: row; border: 1px solid var(--sesm-button-border); cursor: pointer; width: 4em; height: 1.5em; font-size: 2em; gap: 0.25em; background-color: var(--sesm-button-color); border-radius: 1em; }
+
+#sesm_container #mobile-scan-container #scanner-container { position: absolute !important; left: 0; display: block; width: 100%; bottom: var(--sesm-scan-container-height); background-color: var(--sesm-button-color); border: none !important; /* Style of the camera interface*/ }
+
+#sesm_container #mobile-scan-container #scanner-container #scanner-container__dashboard_section_csr { height: 2.5em; color: transparent; /* Workaround to hide the camera count*/ }
+
+#sesm_container #mobile-scan-container #scanner-container #html5-qrcode-anchor-scan-type-change { display: none !important; }
+
+#sesm_container #mobile-scan-container #scanner-container #html5-qrcode-button-camera-start, #sesm_container #mobile-scan-container #scanner-container #html5-qrcode-button-camera-stop { position: absolute; right: 4%; width: 45%; height: 3em; border-radius: 2em; background-color: var(--sesm-button-color); border: solid 1px var(--sesm-button-border); color: var(--sesm-button-text-color); font-size: 1.2em; }
+
+#sesm_container #mobile-scan-container #scanner-container #html5-qrcode-select-camera { position: absolute; left: 4%; width: 45%; height: 3em; border-radius: 2em; background-color: var(--sesm-button-color); border: solid 1px var(--sesm-button-border); color: var(--sesm-button-text-color); font-size: 1.2em; padding-left: 1em; }
+
+#sesm_container #mobile-scan-container #scanner-container #html5-qrcode-select-camera:disabled { color: var(--sesm-button-text-color-disabled); border: solid 1px var(--sesm-button-text-color-disabled); }
+
+#sesm_buttons { display: grid; grid-template-columns: auto auto auto; column-gap: 3em; justify-content: center; padding-bottom: 0; }
+
+#sesm_buttons > button { font-size: 2em; width: 3em; height: 3em; border-radius: 50%; background-color: var(--sesm-button-color); border: solid 2px var(--sesm-button-border); position: relative; cursor: pointer; padding: 0; }
+
+#sesm_input .sesm_options { width: 80%; margin: 0 auto; }
+
+#sesm_input .sesm_options > div { margin-bottom: 1em; }
+
+#sesm_input .sesm_options .input-error-field { position: absolute; width: 100%; bottom: 4em; display: flex; align-items: center; justify-content: center; font-size: 1em; color: black; }
+
+#sesm_input .sesm_options .input-error-field .error-message { background-color: var(--sesm-white); border: 2px solid var(--sesm-error-color); padding: 1em; border-radius: var(--sesm-border-radius); text-align: center; width: 80%; }
+
+#sesm_input .sesm_options .input-error-field::after { content: ""; background-color: var(--sesm-error-color); rotate: 45deg; width: 1em; height: 1em; display: block; position: absolute; bottom: -0.5em; z-index: -1; left: 50%; }
+
+#sesm_input .price_flex_group > div { display: flex; flex-direction: column; text-align: center; width: 50%; position: relative; }
+
+#sesm_input .price_flex_group { display: flex; gap: 1em; justify-content: space-between; position: relative; }
+
+#sesm_input input { width: 99%; height: 2.5em; border-radius: var(--sesm-border-radius); text-align: center; font-size: 1.2em; border: 1px solid var(--sesm-button-border); box-shadow: inset 1px 2px 7px rgba(0, 0, 0, 0.167); }
+
+#sesm_input input:focus-visible { outline-color: var(--sesm-button-color); outline-style: solid; outline-width: 0.2em; outline-offset: -3px; }
+
+#sesm_input #sesm_sku_input { margin-bottom: 1em; width: 100%; }
+
+#sesm_input #sesm_sku_input_loader.active { display: block; background-color: var(--sesm-button-color); height: 0.5em; width: 0%; left: 0%; position: relative; top: -1.3em; animation: bounce 3s; animation-iteration-count: 100; }
+
+#sesm_input .quant_flex_group { display: flex; justify-content: space-between; gap: 0.5em; position: relative; }
+
+#sesm_input .quant_flex_group .options_button { font-size: 1em; min-width: 3em; min-height: 3em; padding: 0; border-radius: var(--sesm-border-radius); background-color: var(--sesm-button-color); border: solid 1px var(--sesm-button-border); cursor: pointer; }
+
+#sesm_input .sesm_label.add_quantities { display: block; width: 100%; text-align: center; }
+
+#sesm_history { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1em; }
+
+#sesm_history dl { margin: 0; display: flex; flex-direction: column; }
+
+#sesm_history dt { font-weight: bold; }
+
+#sesm_history .content > dl:first-child() { margin-bottom: 0; }
+
+#sesm_history .content > dl:last-child() { margin-top: 0; }
+
+#sesm_history dd { margin: 0; }
+
+#sesm_history .meta-block > * { margin-bottom: 0.25em; }
+
+#sesm_history .content .two-column-grid { display: grid; grid-template-columns: 1fr 1fr; }
+
+#sesm_history .content .two-column-grid dl:last-child { text-align: right; }
+
+#sesm_history .content { min-height: 19em; display: flex; flex-direction: column; justify-content: space-between; }
+
+#sesm_history .content h2 { font-size: 1.5em; height: 3em; font-weight: bold; margin-top: 0; margin-bottom: 0; color: var(--sesm-button-text-color); word-break: break-word; }
+
+#sesm_history .content h3 { margin-top: 0.2em; margin-bottom: 0.1em; font-size: 1em; font-weight: normal; color: var(--sesm-button-text-color); word-break: break-word; }
+
+#sesm_history .content h4 { font-size: 1.1em; color: var(--sesm-button-text-color); word-break: break-word; }
+
+#sesm_history .content h4.attr { font-size: 1em; font-weight: normal; margin: 0; }
+
+#sesm_history .content h4.description { margin: 0; }
+
+#sesm_history article { padding: 0 1.3em; max-width: 100%; position: relative; border: 1px solid var(--sesm-box-border); border-radius: var(--sesm-border-radius); background-color: var(--sesm-background); }
+
+#sesm_history article.item { opacity: 0; height: 0%; }
+
+#sesm_history article.item .image-con { height: 5em; border-radius: var(--sesm-border-radius); overflow: hidden; display: flex; align-items: center; justify-content: center; margin-top: 1.3em; }
+
+#sesm_history article.item .image-con img { height: 100%; width: auto; border-radius: var(--sesm-border-radius); }
+
+#sesm_history article.item .strikethrough { text-decoration: line-through; padding-right: 0.5em; }
+
+#sesm_history article.item.update .text-con { display: flex; align-items: center; justify-content: center; text-align: center; flex-direction: column; width: 60%; border-radius: var(--sesm-border-radius); border: 1px solid var(--sesm-button-border); height: 5em; margin-top: 1.3em; padding: 0 20%; }
+
+#sesm_history article.item.update.price .big-text { font-size: 1.5em; display: flex; flex-direction: column; font-weight: bold; }
+
+#sesm_history article.item.update.price .info-text { font-size: 0.7em; font-weight: normal; }
+
+#sesm_history article.item.update.stock .big-text { font-size: 1.5em; }
+
+#sesm_history article.item.update.price .big-text .content-long, #sesm_history article.item.update.stock .big-text .content-long { font-size: 0.8em; }
+
+#sesm_history article.item.update.price .big-text .single, #sesm_history article.item.update.stock .big-text .single { display: flex; flex-direction: column; font-size: 1.2em; }
+
+#sesm_history article.item.update.price .big-text .single .strikethrough, #sesm_history article.item.update.stock .big-text .single .strikethrough { padding-right: 0; }
+
+#sesm_history article.item.error .text-con { width: 90%; border-radius: var(--sesm-border-radius); border: 1px solid var(--sesm-button-border); height: 5em; display: flex; justify-content: center; align-items: center; margin-bottom: 1em; margin-left: 5%; margin-right: 5%; margin-top: 1em; }
+
+#sesm_history article.item.error .title { font-size: 2em; }
+
+#sesm_history article:not(.error) .icon i:hover::before { content: "\f044"; font-weight: 700; }
+
+#sesm_history .icon { display: flex; justify-content: center; align-items: center; position: absolute; right: 0.2em; top: 0.2em; padding: 0.25em; height: 2em; width: 2em; font-size: 2em; border-radius: var(--sesm-border-radius); background-color: var(--sesm-button-color); height: 1.5em; width: 1.5em; }
+
+#sesm_history .icon i { font-size: 1em; color: var(--sesm-button-text-color); }
+
+@media screen and (max-width: 500px) { #sesm_history { display: grid; grid-template-columns: 1fr; }
+  #sesm_buttons { gap: 1.5em; }
+  #sesm_buttons > button { width: 2em; height: 2em; font-size: 2em; border-width: 1px; }
+  #sesm_input input { height: 2em; }
+  #sesm_input .sesm_options { width: 100%; }
+  #sesm_input .sesm_options .quant_flex_group .options_button { min-width: 2.5em; min-height: 2.5em; }
+  #sesm_container #selection-indicator { height: 1em; } }
+
+@media screen and (min-width: 501px) and (max-width: 850px) { #sesm_history { display: grid; grid-template-columns: 1fr 1fr; } }
+/*# sourceMappingURL=sesm-main.min.css.map */

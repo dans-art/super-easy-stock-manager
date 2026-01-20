@@ -43,7 +43,7 @@ class Super_Easy_Stock_Manager extends Super_Easy_Stock_Manager_Helper
         }, 10);
         //Add the styles
         if ($use_style) {
-            add_action('wp_head', function () {
+            add_action('wp_enqueue_scripts', function () {
                 $style = 'sesm-main.css';
                 $version = $this->load_version();
                 wp_enqueue_style('sesm-main-style', SESM_MAIN_URL . 'style/' . $style, [], $version);
