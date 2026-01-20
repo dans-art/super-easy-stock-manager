@@ -37,6 +37,7 @@ class Super_Easy_Stock_Manager_Ajax
     {
         $result = [];
         if (is_object($product)) {
+            $product_parent_id = ($product->get_parent_id()) ?: $product->get_id();
             $type = $product->get_type();
             $result['post_type'] = $this->getProductType($type);
             $result['title'] = $product->get_name();
@@ -47,8 +48,10 @@ class Super_Easy_Stock_Manager_Ajax
             $result['sale_price'] = $product->get_sale_price() ?: false;
             $result['description'] = substr($product->get_short_description(), 0, 250);
             $result['image'] = $product->get_image('thumbnail');
-            $result['weight'] = $product->get_weight() ?: 0;
+            $result['weight'] = wc_format_weight( $product->get_weight());
             $result['attributes'] = wc_get_formatted_variation($product, true);
+            $result['product_url'] = get_edit_post_link($product_parent_id);
+            $result['product_variations'] = $this->load_product_variations($product);
         }
         return $result;
     }
@@ -123,25 +126,17 @@ class Super_Easy_Stock_Manager_Ajax
 
         $result['manage_stock'] = $product->get_manage_stock();
         $result['template'] = 'updateStock';
-        $old_quant = $product->get_stock_quantity();
+
         $manage_stock = $product->get_manage_stock();
         if ($manage_stock !== true) {
             $product->set_manage_stock(true);
             $old_quant = 0;
         }
-        $increase = ($quantity > 0) ? true : false;
         $quant_positive = abs($quantity);
-        $new_quant = ($increase) ? $old_quant + $quant_positive : $old_quant - $quant_positive;
-        $result['from_quant'] = $old_quant;
-        $result['to_quant'] = $new_quant;
-        if ($increase) {
-            $result['change_txt'] = sprintf(__('The stock has been increased by %d to %d', 'super-easy-stock-manager'), $quant_positive, $new_quant);
-            $result['direction'] = 'increase';
-        } else {
-            $result['change_txt'] = sprintf(__('The stock has been decreased by %d to %d', 'super-easy-stock-manager'), $quant_positive, $new_quant);
-            $result['direction'] = 'decrease';
-        }
-        $product->set_stock_quantity($new_quant);
+
+        $result['change_txt'] = sprintf(__('The stock has set to %d', 'super-easy-stock-manager'), $quant_positive);
+
+        $product->set_stock_quantity($quant_positive);
         //Saves the changes to the product / variation
         $result['save_status'] = $product->save();
         return $result;
@@ -193,11 +188,11 @@ class Super_Easy_Stock_Manager_Ajax
         $result['to_regular'] = $updateRegular;
         $result['to_sale'] = $updateSale;
 
-        if($regular_price === '0' AND $updateRegular >= 0){
-        $result['regular_notice'] = __('Regular price set to 0', 'super-easy-stock-manager');
+        if ($regular_price === '0' and $updateRegular >= 0) {
+            $result['regular_notice'] = __('Regular price set to 0', 'super-easy-stock-manager');
         }
-        if($sale_price == '0' AND $updateSale >= 0){
-        $result['sale_notice'] = __('Sale price set to 0', 'super-easy-stock-manager');
+        if ($sale_price == '0' and $updateSale >= 0) {
+            $result['sale_notice'] = __('Sale price set to 0', 'super-easy-stock-manager');
         }
 
         //If none of the prices has been changed, output error
@@ -299,6 +294,33 @@ class Super_Easy_Stock_Manager_Ajax
         } else {
             return wc_get_product($product_id);
         }
+    }
+
+    /**
+     * Loads the siblings of a product variation.
+     *
+     * @param WC_Product $product
+     * @return array The Product variations with quantity and attributes
+     */
+    public function load_product_variations($product)
+    {
+        $children_arr = [];
+        if($product -> get_type() === 'variation'){
+            $parent_id = $product -> get_parent_id();
+            $parent = wc_get_product($parent_id);
+            $children = $parent -> get_children();
+            foreach($children as $child_id){
+                $child = wc_get_product( $child_id );
+                $attributes = wc_get_formatted_variation($child, true);
+
+                
+                $children_arr[$child -> get_id()] = array(
+                    "stock" => $child -> get_stock_quantity() . '&nbsp;' . __('pcs','super-easy-stock-manager'),
+                    "attributes" => $attributes
+                );
+            }
+        }
+        return $children_arr;
     }
     /**
      * Checks if SKU is found in PostMeta. If true, the user has to update the lookup-tables.

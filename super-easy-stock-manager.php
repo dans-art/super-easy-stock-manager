@@ -3,8 +3,8 @@
 /**
  * Plugin Name: Super Easy Stock Manager
  * Description: Stock Management with ease!
- * Version: 1.3.4
- * Stable tag: 1.3.4
+ * Version: 1.4.1
+ * Stable tag: 1.4.1
  * Author: Dan's Art
  * Author URI: http://dev.dans-art.ch
  * Donate link: https://paypal.me/dansart13
@@ -16,7 +16,10 @@
  * Requires PHP: 7.4
  * 
  * Requires at least: 5.4.0
- * Tested up to: 6.1.1
+ * Tested up to: 6.9
+ * WC requires at least: 4.7.0
+ * WC tested up to: 10.4.3
+ * Requires Plugins: woocommerce
  *
  * Text Domain: super-easy-stock-manager
  * Domain Path: /languages
@@ -43,4 +46,6 @@ require_once('include/classes/sesm-ajax.php');
 define('SESM_MAIN_DIR', plugin_dir_path(__FILE__));
 define('SESM_MAIN_URL', plugin_dir_url(__FILE__));
 
-$sesm = new Super_Easy_Stock_Manager();
+add_action('init', function () {
+    $sesm = new Super_Easy_Stock_Manager();
+});

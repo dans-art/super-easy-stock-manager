@@ -1,6 +1,6 @@
 <article id="item-{{sku}}" class="item">
 
-    <div class="icon"><i class="{{iconclass}}"></i></div>
+    <div class="icon"><a href="{{product_url}}" target="_blank"><i class="{{iconclass}}"></i></a></div>
 
     <div class="image-con">
         {{image}}
@@ -30,6 +30,9 @@
                 <dt>{{sku_title}}</dt>
                 <dd>{{sku}}</dd>
             </dl>
+        </div>
+        <div class="children-block">
+                {{product_variations}}
         </div>
     </div>
 
